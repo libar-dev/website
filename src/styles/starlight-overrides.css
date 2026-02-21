@@ -38,6 +38,9 @@
 	--sl-color-bg-sidebar: #161616;
 	--sl-color-bg-nav: #0c0c0c;
 	--sl-color-hairline-shade: #222222;
+
+	/* Inline code — subtle dark surface (not full black) */
+	--sl-color-bg-inline-code: #1a1a1a;
 }
 
 :root[data-theme='dark'] {
@@ -60,16 +63,9 @@
 	--sl-color-bg-sidebar: #161616;
 	--sl-color-bg-nav: #0c0c0c;
 	--sl-color-hairline-shade: #222222;
-}
 
-/* Inline code — always dark to match code blocks */
-:root,
-:root[data-theme='light'] {
-	--sl-color-bg-inline-code: #111111;
-}
-
-:root[data-theme='light'] code:not(pre code) {
-	color: #d4cdc4;
+	/* Inline code — subtle dark surface */
+	--sl-color-bg-inline-code: #1a1a1a;
 }
 
 :root[data-theme='light'] {
@@ -94,4 +90,67 @@
 	--sl-color-bg-sidebar: #f5f3f0;
 	--sl-color-bg-nav: #ffffff;
 	--sl-color-hairline-shade: #e0ddd8;
+
+	/* Inline code — warm surface tint matching the design palette */
+	--sl-color-bg-inline-code: #eae7e2;
+}
+
+/* ── Inline code in headings — no background chip, just mono font ── */
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) code {
+	background-color: transparent;
+	padding: 0;
+	margin: 0;
+	color: inherit;
+}
+
+/* ── Card overrides — monochromatic Swiss Constructivist ── */
+.card {
+	border-color: var(--sl-color-gray-5);
+	background-color: var(--sl-color-bg);
+}
+:root[data-theme='light'] .card {
+	border-color: #e0ddd8;
+	background-color: #f5f3f0;
+}
+/* Neutralize colorful icon backgrounds (defensive, if icons are added back) */
+.card .icon {
+	border-color: var(--sl-color-gray-4);
+	background-color: transparent;
+}
+
+/* ── Sharp corners — Swiss Constructivist flat design ── */
+
+/* Sidebar active page link (the rounded orange pill) */
+a[aria-current='page'],
+a[aria-current='true'] {
+	border-radius: 0;
+}
+
+/* Pagination prev/next nav cards */
+.pagination-links a {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+/* Search button and dialog */
+[data-open-modal],
+site-search dialog,
+site-search input[type='search'] {
+	border-radius: 0;
+}
+
+/* Tab controls */
+starlight-tabs [role='tab'] {
+	border-radius: 0;
+}
+
+/* Aside / callout boxes */
+.starlight-aside {
+	border-radius: 0;
+}
+
+/* Cards */
+.card {
+	border-radius: 0;
+	box-shadow: none;
 }

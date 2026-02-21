@@ -110,6 +110,7 @@ export default defineConfig({
 				styleOverrides: {
 					borderRadius: '0px',
 					borderColor: '#222222',
+					codeFontSize: '0.8rem',
 					frames: {
 						editorTabBarBackground: '#111111',
 						editorActiveTabBackground: '#0c0c0c',
@@ -119,6 +120,7 @@ export default defineConfig({
 				},
 			},
 			title: '@libar-dev',
+			tableOfContents: false,
 			social: [
 				{
 					icon: 'github',
