@@ -1,0 +1,62 @@
+---
+import MermaidDiagram from '../../MermaidDiagram.astro';
+
+const stages = [
+	{
+		label: 'Config',
+		desc: 'Preset selection, tag registry init, path resolution. Supports generic, libar-generic, and DDD-ES-CQRS presets.',
+		path: 'src/config/',
+	},
+	{
+		label: 'Scanner',
+		desc: 'File discovery, AST parsing, opt-in detection. Processes TypeScript JSDoc and Gherkin feature files independently.',
+		path: 'src/scanner/',
+	},
+	{
+		label: 'Extractor',
+		desc: 'Pattern extraction, shape resolution, and cross-source merging with conflict detection into ExtractedPattern[].',
+		path: 'src/extractor/',
+	},
+	{
+		label: 'Transformer',
+		desc: 'Builds MasterDataset in a single O(n) pass — pre-computed views, relationship index, and architecture data.',
+		path: 'src/generators/pipeline/',
+	},
+	{
+		label: 'Codec',
+		desc: '20 Zod codecs transform MasterDataset into RenderableDocument, then to Markdown with progressive disclosure.',
+		path: 'src/renderable/',
+	},
+];
+
+const dualSourceDiagram = `flowchart LR
+    TS[".ts files"] --> MD["MasterDataset"]
+    GK[".feature files"] --> MD
+    MD --> API["Process Data API"]
+    MD --> DOCS["20+ Codecs → Generated Docs"]`;
+---
+
+<section class="landing-section pipeline" id="pipeline">
+	<div class="landing-section__inner">
+		<span class="landing-section__label reveal">The Pipeline</span>
+
+		<div class="pipeline__grid reveal reveal-d1">
+			{stages.map((stage) => (
+				<div class="pipeline__stage">
+					<div class="pipeline__block">
+						<span class="pipeline__block-label">{stage.label}</span>
+					</div>
+					<div class="pipeline__desc">
+						<p class="pipeline__desc-text">{stage.desc}</p>
+						<span class="pipeline__path">{stage.path}</span>
+					</div>
+				</div>
+			))}
+		</div>
+
+		<div class="pipeline__diagram reveal reveal-d2">
+			<span class="pipeline__diagram-label">Dual-Source Input &rarr; Single Read Model &rarr; Living Docs</span>
+			<MermaidDiagram diagram={dualSourceDiagram} />
+		</div>
+	</div>
+</section>

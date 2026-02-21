@@ -1,0 +1,67 @@
+---
+interface Props {
+	diagram: string;
+	class?: string;
+}
+
+const { diagram, class: cls } = Astro.props;
+---
+
+<div class={`mermaid-diagram${cls ? ` ${cls}` : ''}`} data-mermaid-def={diagram}></div>
+
+<script>
+	import mermaid from 'mermaid';
+
+	function getTheme(): string {
+		return document.documentElement.getAttribute('data-theme') ?? 'light';
+	}
+
+	function buildConfig(theme: string) {
+		const dark = theme === 'dark';
+		return {
+			startOnLoad: false,
+			theme: 'base' as const,
+			themeVariables: {
+				primaryColor: 'transparent',
+				primaryBorderColor: dark ? 'rgba(240,237,232,0.35)' : '#000000',
+				primaryTextColor: dark ? '#f0ede8' : '#000000',
+				lineColor: dark ? '#666666' : '#888888',
+				fontFamily: '"JetBrains Mono", monospace',
+				fontSize: '12px',
+				edgeLabelBackground: 'transparent',
+				clusterBkg: 'transparent',
+				nodeBorder: dark ? 'rgba(240,237,232,0.35)' : '#000000',
+				mainBkg: 'transparent',
+				background: 'transparent',
+				nodeTextColor: dark ? '#f0ede8' : '#000000',
+			},
+		};
+	}
+
+	let seq = 0;
+
+	async function renderAll(theme: string): Promise<void> {
+		mermaid.initialize(buildConfig(theme));
+		const containers = document.querySelectorAll<HTMLElement>('[data-mermaid-def]');
+		for (const el of containers) {
+			const def = el.getAttribute('data-mermaid-def');
+			if (!def) continue;
+			try {
+				const id = `md-${Date.now()}-${++seq}`;
+				const { svg } = await mermaid.render(id, def);
+				el.innerHTML = svg;
+			} catch (err) {
+				console.error('[MermaidDiagram] render error:', err);
+			}
+		}
+	}
+
+	// Initial render
+	renderAll(getTheme());
+
+	// Re-render on theme toggle (watches data-theme on <html>)
+	new MutationObserver(() => renderAll(getTheme())).observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ['data-theme'],
+	});
+</script>

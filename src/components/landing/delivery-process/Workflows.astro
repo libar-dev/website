@@ -1,0 +1,60 @@
+---
+const sessions = [
+	{
+		number: '01',
+		heading: 'Planning Session',
+		subtitle: 'Spec before code',
+		desc: 'Turn a pattern brief into a structured Gherkin spec. Define deliverables, set the phase number, declare dependencies. No implementation — just a locked roadmap spec ready to drive the next session.',
+		fsm: [{ label: 'roadmap', mod: '' }],
+	},
+	{
+		number: '02',
+		heading: 'Design Session',
+		subtitle: 'Decisions before implementation',
+		desc: 'Make architectural choices with options documented as Decision Specs. Create typed TypeScript stubs — interfaces and function signatures that compile but throw. The contract that implementation must fulfill.',
+		fsm: [{ label: 'roadmap', mod: '' }],
+	},
+	{
+		number: '03',
+		heading: 'Implementation Session',
+		subtitle: 'Code from spec',
+		desc: 'The spec is the contract. Transition to active, implement each deliverable, run Process Guard at every commit. When all deliverables are complete, transition to completed — hard-locked forever.',
+		fsm: [
+			{ label: 'roadmap', mod: '' },
+			{ label: '→', mod: 'edge' },
+			{ label: 'active', mod: 'active' },
+			{ label: '→', mod: 'edge' },
+			{ label: 'completed', mod: 'terminal' },
+		],
+	},
+];
+---
+
+<section class="landing-section workflows" id="workflows">
+	<div class="landing-section__inner">
+		<span class="landing-section__label reveal">Delivery Workflow</span>
+		<h2 class="workflows__heading reveal">Three Sessions. Every Pattern.</h2>
+
+		<div class="workflows__grid">
+			{sessions.map((session, i) => (
+				<div class={`workflow-card reveal reveal-d${i + 1}`}>
+					<div class="workflow-card__number">{session.number}</div>
+					<h3 class="workflow-card__heading">{session.heading}</h3>
+					<p class="workflow-card__subtitle">{session.subtitle}</p>
+					<p class="workflow-card__desc">{session.desc}</p>
+					{session.fsm.length > 0 && (
+						<div class="fsm-row">
+							{session.fsm.map((node) =>
+								node.mod === 'edge' ? (
+									<span class="fsm-edge">{node.label}</span>
+								) : (
+									<span class={`fsm-node${node.mod ? ` fsm-node--${node.mod}` : ''}`}>{node.label}</span>
+								)
+							)}
+						</div>
+					)}
+				</div>
+			))}
+		</div>
+	</div>
+</section>
