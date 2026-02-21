@@ -1,0 +1,116 @@
+---
+const tab1Cmd = `<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- overview`;
+
+const tab1Out = `<span class="s-section">=== PROGRESS ===</span>
+318 patterns  224 completed · 47 active · 47 planned  <span class="s-pass">70%</span>
+
+<span class="s-section">=== ACTIVE PHASES ===</span>
+Phase 24: ProcessStateAPIRelationshipQueries
+Phase 25: DataAPIStubIntegration
+
+<span class="s-section">=== BLOCKING ===</span>
+StepLintExtendedRules  <span class="s-blocked">←</span>  StepLintVitestCucumber`;
+
+const tab2Cmd = `<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- scope-validate ProcessStateAPI implement`;
+
+const tab2Out = `<span class="s-section">=== CHECKLIST ===</span>
+<span class="s-pass">[PASS]</span>    Dependencies completed
+<span class="s-blocked">[BLOCKED]</span> Deliverables defined: No deliverables found
+<span class="s-blocked">[BLOCKED]</span> FSM transition: active → active is not valid
+
+<span class="s-section">=== VERDICT ===</span>
+<span class="s-blocked">BLOCKED</span>  2 blocker(s) prevent implement session`;
+
+const tab3Cmd = `<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- context ProcessStateAPI --session design`;
+
+const tab3Out = `<span class="s-section">=== PATTERN: ProcessStateAPI ===</span>
+Status: active | Category: core
+File: <span class="s-str">src/api/process-state.ts</span>
+
+<span class="s-section">=== DEPENDENCIES ===</span>
+<span class="s-pass">[completed]</span> MasterDataset   <span class="s-str">src/validation-schemas/master-dataset.ts</span>
+<span class="s-tag">[active]</span>    FSMValidator    <span class="s-str">src/validation/fsm/validator.ts</span>
+
+<span class="s-section">=== CONSUMERS (13) ===</span>
+ContextAssemblerImpl (active)
+HandoffGeneratorImpl (completed)
+ScopeValidatorImpl (completed)`;
+
+const tab4Cmd = `<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- handoff --pattern DataAPIDesignSessionSupport`;
+
+const tab4Out = `<span class="s-section">=== HANDOFF: DataAPIDesignSessionSupport ===</span>
+Date: 2026-02-21 | Status: <span class="s-pass">completed</span>
+
+<span class="s-section">=== COMPLETED ===</span>
+<span class="s-pass">[x]</span> Scope validation logic       <span class="s-str">src/api/scope-validator.ts</span>
+<span class="s-pass">[x]</span> Handoff document generator   <span class="s-str">src/api/handoff-generator.ts</span>
+<span class="s-pass">[x]</span> scope-validate subcommand    <span class="s-str">src/cli/process-api.ts</span>
+
+<span class="s-section">=== BLOCKERS ===</span>
+None`;
+---
+
+<section class="landing-section data-api" id="data-api">
+	<div class="landing-section__inner">
+		<span class="landing-section__label reveal">Data API</span>
+		<h2 class="data-api__heading reveal">Your delivery process, queryable.</h2>
+		<p class="data-api__sub reveal">
+			AI agents parse stale generated docs and hallucinate context. The Data API queries annotated
+			source directly &mdash; 26 typed methods, real-time, zero extra tokens.
+		</p>
+
+		<div class="data-api__terminal reveal">
+			<div class="data-api__tabs" role="tablist">
+				<button class="data-api__tab data-api__tab--active" role="tab" aria-selected="true"
+					>Project Health</button
+				>
+				<button class="data-api__tab" role="tab" aria-selected="false">Pre-flight</button>
+				<button class="data-api__tab" role="tab" aria-selected="false">Session Context</button>
+				<button class="data-api__tab" role="tab" aria-selected="false">Handoff</button>
+			</div>
+
+			<div class="data-api__panels">
+				<div class="data-api__panel" role="tabpanel">
+					<div class="data-api__cmd"><pre set:html={tab1Cmd} /></div>
+					<div class="data-api__output"><pre set:html={tab1Out} /></div>
+				</div>
+				<div class="data-api__panel" role="tabpanel" hidden>
+					<div class="data-api__cmd"><pre set:html={tab2Cmd} /></div>
+					<div class="data-api__output"><pre set:html={tab2Out} /></div>
+				</div>
+				<div class="data-api__panel" role="tabpanel" hidden>
+					<div class="data-api__cmd"><pre set:html={tab3Cmd} /></div>
+					<div class="data-api__output"><pre set:html={tab3Out} /></div>
+				</div>
+				<div class="data-api__panel" role="tabpanel" hidden>
+					<div class="data-api__cmd"><pre set:html={tab4Cmd} /></div>
+					<div class="data-api__output"><pre set:html={tab4Out} /></div>
+				</div>
+			</div>
+		</div>
+
+		<p class="data-api__stamp reveal">
+			&uarr; actual output &middot; delivery-process querying its own 318-pattern source
+		</p>
+	</div>
+</section>
+
+<script is:inline>
+	(function () {
+		const tabs = document.querySelectorAll('.data-api__tab');
+		const panels = document.querySelectorAll('.data-api__panel');
+		tabs.forEach((tab, i) => {
+			tab.addEventListener('click', () => {
+				tabs.forEach(t => {
+					t.classList.remove('data-api__tab--active');
+					t.setAttribute('aria-selected', 'false');
+				});
+				panels.forEach((p, j) => {
+					p.hidden = j !== i;
+				});
+				tab.classList.add('data-api__tab--active');
+				tab.setAttribute('aria-selected', 'true');
+			});
+		});
+	})();
+</script>
