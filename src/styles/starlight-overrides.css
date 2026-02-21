@@ -1,5 +1,15 @@
 /* ================================================================
    STARLIGHT OVERRIDES — Bridge design tokens to Starlight variables
+
+   IMPORTANT: This file is unlayered CSS. Starlight ships all its
+   default variables inside @layer starlight.base, which means our
+   unlayered rules always win in the cascade regardless of specificity.
+   Every rule here overrides Starlight's defaults unconditionally.
+
+   Key: Starlight dark mode = :root (no data-theme)
+        Starlight light mode = :root[data-theme='light']
+   This is the OPPOSITE of tokens.css convention (where :root = light).
+   So we cannot use var(--dp-*) for bg/text — resolve values directly.
    ================================================================ */
 
 :root {
@@ -7,12 +17,14 @@
 	--sl-font: var(--dp-font-body);
 	--sl-font-mono: var(--dp-font-mono);
 
-	/* Accent color scale (orange #E8530E) */
-	--sl-color-accent-low: #fce8de;
+	/* Accent — dark mode */
+	--sl-color-accent-low: #3d1a08;
 	--sl-color-accent: #e8530e;
-	--sl-color-accent-high: #7a2c07;
+	--sl-color-accent-high: #f5a580;
 
-	/* Gray scale mapped to design tokens */
+	/* Gray scale — dark mode
+	   Starlight expects: 1=lightest (text/headings) → 7=darkest (near bg)
+	   --sl-color-text = var(--sl-color-gray-2) */
 	--sl-color-gray-1: #f5f3f0;
 	--sl-color-gray-2: #e0ddd8;
 	--sl-color-gray-3: #b5a898;
@@ -21,31 +33,65 @@
 	--sl-color-gray-6: #1a1a1a;
 	--sl-color-gray-7: #0c0c0c;
 
-	/* Background overrides */
-	--sl-color-bg: var(--dp-bg);
-	--sl-color-bg-sidebar: var(--dp-bg-surface);
-	--sl-color-bg-nav: var(--dp-bg);
-	--sl-color-hairline-shade: var(--dp-border-subtle);
+	/* Backgrounds — dark mode (resolved directly, not via --dp-* tokens) */
+	--sl-color-bg: #0c0c0c;
+	--sl-color-bg-sidebar: #161616;
+	--sl-color-bg-nav: #0c0c0c;
+	--sl-color-hairline-shade: #222222;
 }
 
 :root[data-theme='dark'] {
-	/* Accent color scale (dark mode) */
+	/* Accent — dark mode (explicit for when html carries data-theme="dark") */
 	--sl-color-accent-low: #3d1a08;
 	--sl-color-accent: #e8530e;
 	--sl-color-accent-high: #f5a580;
 
-	/* Gray scale (dark mode) */
-	--sl-color-gray-1: #161616;
-	--sl-color-gray-2: #222222;
-	--sl-color-gray-3: #555555;
-	--sl-color-gray-4: #888888;
-	--sl-color-gray-5: #f0ede8;
-	--sl-color-gray-6: #f5f3f0;
-	--sl-color-gray-7: #ffffff;
+	/* Gray scale — same as :root dark defaults */
+	--sl-color-gray-1: #f5f3f0;
+	--sl-color-gray-2: #e0ddd8;
+	--sl-color-gray-3: #b5a898;
+	--sl-color-gray-4: #777777;
+	--sl-color-gray-5: #333333;
+	--sl-color-gray-6: #1a1a1a;
+	--sl-color-gray-7: #0c0c0c;
 
-	/* Background overrides */
-	--sl-color-bg: var(--dp-bg);
-	--sl-color-bg-sidebar: var(--dp-bg-surface);
-	--sl-color-bg-nav: var(--dp-bg);
-	--sl-color-hairline-shade: var(--dp-border-subtle);
+	/* Backgrounds */
+	--sl-color-bg: #0c0c0c;
+	--sl-color-bg-sidebar: #161616;
+	--sl-color-bg-nav: #0c0c0c;
+	--sl-color-hairline-shade: #222222;
+}
+
+/* Inline code — always dark to match code blocks */
+:root,
+:root[data-theme='light'] {
+	--sl-color-bg-inline-code: #111111;
+}
+
+:root[data-theme='light'] code:not(pre code) {
+	color: #d4cdc4;
+}
+
+:root[data-theme='light'] {
+	/* Accent — light mode */
+	--sl-color-accent-low: #fce8de;
+	--sl-color-accent: #e8530e;
+	--sl-color-accent-high: #7a2c07;
+
+	/* Gray scale — light mode
+	   Starlight expects: 1=darkest (text/headings) → 7=lightest (near bg)
+	   --sl-color-text = var(--sl-color-gray-2) */
+	--sl-color-gray-1: #1a1a1a;
+	--sl-color-gray-2: #333333;
+	--sl-color-gray-3: #555555;
+	--sl-color-gray-4: #777777;
+	--sl-color-gray-5: #b5a898;
+	--sl-color-gray-6: #e0ddd8;
+	--sl-color-gray-7: #f5f3f0;
+
+	/* Backgrounds — light mode */
+	--sl-color-bg: #ffffff;
+	--sl-color-bg-sidebar: #f5f3f0;
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-hairline-shade: #e0ddd8;
 }

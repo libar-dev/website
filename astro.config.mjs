@@ -3,6 +3,99 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
 
+// Custom code block theme — always dark, warm muted palette matching the landing page.
+// Colors sourced from tokens.css --dp-syn-* variables (hardcoded here since
+// Shiki themes are JS objects, not CSS).
+const libarDark = {
+	name: 'libar-dark',
+	type: 'dark',
+	colors: {
+		'editor.background': '#0c0c0c',
+		'editor.foreground': '#d4cdc4',
+		'editor.lineHighlightBackground': '#111111',
+		'editorCursor.foreground': '#e8530e',
+		'editorLineNumber.foreground': '#3a3530',
+		'editorLineNumber.activeForeground': '#5a5550',
+	},
+	tokenColors: [
+		{
+			scope: ['comment', 'comment.line', 'comment.block', 'punctuation.definition.comment'],
+			settings: { foreground: '#5a5550' },
+		},
+		{
+			scope: [
+				'keyword',
+				'keyword.control',
+				'keyword.operator.new',
+				'storage.type',
+				'storage.modifier',
+				'keyword.other',
+			],
+			settings: { foreground: '#e0dcd6', fontStyle: 'bold' },
+		},
+		{
+			scope: [
+				'entity.name.function',
+				'support.function',
+				'meta.function-call entity.name.function',
+			],
+			settings: { foreground: '#c8bfb4' },
+		},
+		{
+			scope: [
+				'entity.name.type',
+				'entity.name.class',
+				'support.type',
+				'support.class',
+				'entity.other.inherited-class',
+			],
+			settings: { foreground: '#d4cdc4' },
+		},
+		{
+			scope: ['string', 'string.quoted', 'string.template', 'string.regexp'],
+			settings: { foreground: '#c49a6c' },
+		},
+		{
+			scope: ['constant.numeric', 'constant.language', 'constant.character.escape'],
+			settings: { foreground: '#c49a6c' },
+		},
+		{
+			scope: [
+				'support.type.property-name',
+				'meta.property-name',
+				'variable.other.property',
+				'entity.name.tag',
+			],
+			settings: { foreground: '#b5a898' },
+		},
+		{
+			scope: ['keyword.operator', 'punctuation.separator', 'punctuation.accessor'],
+			settings: { foreground: '#7a756e' },
+		},
+		{
+			scope: ['variable', 'variable.other', 'variable.parameter'],
+			settings: { foreground: '#d4cdc4' },
+		},
+		// Gherkin (.feature files)
+		{
+			scope: [
+				'keyword.control.cucumber',
+				'entity.name.function.cucumber',
+				'storage.type.feature.cucumber',
+			],
+			settings: { foreground: '#e0dcd6', fontStyle: 'bold' },
+		},
+		{
+			scope: ['entity.name.type.feature.cucumber', 'string.unquoted.feature.cucumber'],
+			settings: { foreground: '#c49a6c' },
+		},
+		{
+			scope: ['meta.tag.cucumber', 'entity.name.tag.cucumber'],
+			settings: { foreground: '#b5a898' },
+		},
+	],
+};
+
 // https://astro.build/config
 export default defineConfig({
 	// Start with GitHub Pages default; switch to site: 'https://libar.dev' + remove base when DNS is configured
@@ -12,6 +105,19 @@ export default defineConfig({
 		// MUST come before starlight — ordering is critical for mermaid fences to be processed
 		mermaid(),
 		starlight({
+			expressiveCode: {
+				themes: [libarDark],
+				styleOverrides: {
+					borderRadius: '0px',
+					borderColor: '#222222',
+					frames: {
+						editorTabBarBackground: '#111111',
+						editorActiveTabBackground: '#0c0c0c',
+						editorActiveTabBorderColor: '#e8530e',
+						frameBoxShadowCssValue: 'none',
+					},
+				},
+			},
 			title: '@libar-dev',
 			social: [
 				{

@@ -33,7 +33,7 @@ const base = import.meta.env.BASE_URL;
 			<li><a href="#data-api">Data API</a></li>
 			<li><a href="#workflows">Workflow</a></li>
 			<li><a href="#pillars">Features</a></li>
-			<li><a href={`${base}delivery-process/`}>Docs</a></li>
+			<li><a href={`${base.replace(/\/$/, '')}/delivery-process/`}>Docs</a></li>
 			<li><a href="https://github.com/libar-dev">GitHub</a></li>
 			<li>
 				<button class="landing-nav__theme-toggle" id="theme-toggle" aria-label="Toggle theme">
@@ -71,7 +71,7 @@ const base = import.meta.env.BASE_URL;
 		<div class="landing-footer__links">
 			<a href="https://www.npmjs.com/package/@libar-dev/delivery-process">npm</a>
 			<a href="https://github.com/libar-dev/delivery-process">GitHub</a>
-			<a href={`${base}delivery-process/`}>Docs</a>
+			<a href={`${base.replace(/\/$/, '')}/delivery-process/`}>Docs</a>
 		</div>
 	</footer>
 </LandingLayout>

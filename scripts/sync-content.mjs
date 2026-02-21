@@ -32,16 +32,24 @@ const DOCS_TARGET = join(ROOT, 'src/content/docs/delivery-process');
 
 // ── Source resolution ──
 // Try local dev paths first (sibling directories), fall back to CI layout (same directory)
-function resolveSource(localPath, ciPath) {
+function resolveSource(localPath, ciPath, nodeModulesPath = null) {
 	const local = resolve(ROOT, localPath);
 	const ci = resolve(ROOT, ciPath);
 	if (existsSync(local)) return local;
 	if (existsSync(ci)) return ci;
+	if (nodeModulesPath) {
+		const nm = resolve(ROOT, nodeModulesPath);
+		if (existsSync(nm)) return nm;
+	}
 	return null;
 }
 
 const SOURCES = {
-	docs: resolveSource('../delivery-process/docs', './delivery-process/docs'),
+	docs: resolveSource(
+		'../delivery-process/docs',
+		'./delivery-process/docs',
+		'node_modules/@libar-dev/delivery-process/docs',
+	),
 	docsLive: resolveSource('../delivery-process/docs-live', './delivery-process/docs-live'),
 	docsGenerated: resolveSource('../delivery-process/docs-generated', './delivery-process/docs-generated'),
 	readme: resolveSource('../delivery-process/README.md', './delivery-process/README.md'),
@@ -85,6 +93,10 @@ const LINK_REWRITES = {
 	'../README.md': '/delivery-process/getting-started/',
 	'../CHANGELOG.md': 'https://github.com/libar-dev/delivery-process/blob/main/CHANGELOG.md',
 	'../SECURITY.md': 'https://github.com/libar-dev/delivery-process/blob/main/SECURITY.md',
+	'../CLAUDE.md': 'https://github.com/libar-dev/delivery-process/blob/main/CLAUDE.md',
+	'../src/taxonomy/': 'https://github.com/libar-dev/delivery-process/tree/main/src/taxonomy/',
+	'../tests/features/validation/fsm-validator.feature': 'https://github.com/libar-dev/delivery-process/blob/main/tests/features/validation/fsm-validator.feature',
+	'../tests/features/behavior/session-handoffs.feature': 'https://github.com/libar-dev/delivery-process/blob/main/tests/features/behavior/session-handoffs.feature',
 };
 
 // ── Helpers ──

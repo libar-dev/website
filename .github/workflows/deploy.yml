@@ -24,11 +24,12 @@ jobs:
           ref: v1.0.0-pre.0
           path: delivery-process
 
-      - name: Checkout dp-mini-demo repo
-        uses: actions/checkout@v4
-        with:
-          repository: libar-dev/dp-mini-demo
-          path: dp-mini-demo
+      # TODO: restore when libar-dev/dp-mini-demo is pushed to GitHub
+      # - name: Checkout dp-mini-demo repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: libar-dev/dp-mini-demo
+      #     path: dp-mini-demo
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
