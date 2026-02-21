@@ -28,3 +28,6 @@ src/content/docs/delivery-process/product-areas/
 src/content/docs/delivery-process/decisions/
 src/content/docs/delivery-process/generated/
 src/content/docs/delivery-process/tutorial/
+
+# tmp files
+_tmp/  

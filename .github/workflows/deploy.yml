@@ -17,19 +17,11 @@ jobs:
       - name: Checkout website repo
         uses: actions/checkout@v4
 
-      - name: Checkout delivery-process repo
+      - name: Checkout delivery-process-tutorials repo
         uses: actions/checkout@v4
         with:
-          repository: libar-dev/delivery-process
-          ref: v1.0.0-pre.0
-          path: delivery-process
-
-      # TODO: restore when libar-dev/dp-mini-demo is pushed to GitHub
-      # - name: Checkout dp-mini-demo repo
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: libar-dev/dp-mini-demo
-      #     path: dp-mini-demo
+          repository: libar-dev/delivery-process-tutorials
+          path: delivery-process-tutorials
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -62,9 +54,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-# NOTE: When switching to custom domain (libar.dev):
-# 1. Add public/CNAME file containing "libar.dev"
-# 2. Update astro.config.mjs: site → 'https://libar.dev', remove base
-# 3. Configure DNS: A records → 185.199.108-111.153, or CNAME → libar-dev.github.io
-# 4. GitHub Settings → Pages → Custom domain → libar.dev → Enable HTTPS

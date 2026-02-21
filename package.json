@@ -19,6 +19,6 @@
 		"sharp": "^0.34.2"
 	},
 	"devDependencies": {
-		"@libar-dev/delivery-process": "github:libar-dev/delivery-process#v1.0.0-pre.0"
+		"@libar-dev/delivery-process": "1.0.0-pre.1"
 	}
 }

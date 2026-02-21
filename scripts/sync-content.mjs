@@ -1,7 +1,7 @@
 /**
  * sync-content.mjs — Build-time content pipeline
  *
- * Copies markdown from delivery-process repo and dp-mini-demo tutorial,
+ * Copies markdown from delivery-process npm package and delivery-process-tutorials repo,
  * injects Starlight frontmatter, strips H1, rewrites internal links,
  * and splits the tutorial into 10 parts.
  *
@@ -13,11 +13,11 @@
  *   ../delivery-process/docs/          → manual docs
  *   ../delivery-process/docs-live/     → auto-generated (product areas, decisions)
  *   ../delivery-process/docs-generated/ → auto-generated (business rules, taxonomy)
- *   ../dp-mini-demo/TUTORIAL-ARTICLE-v1.md → tutorial
+ *   ../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md → tutorial
  *
- * Sources (CI — repos checked out as siblings):
- *   ./delivery-process/docs/           etc.
- *   ./dp-mini-demo/TUTORIAL-ARTICLE-v1.md
+ * Sources (CI — tutorial repo checked out as sibling; delivery-process via node_modules):
+ *   ./delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md
+ *   node_modules/@libar-dev/delivery-process/{docs,docs-live,docs-generated}
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync, cpSync } from 'node:fs';
@@ -50,10 +50,21 @@ const SOURCES = {
 		'./delivery-process/docs',
 		'node_modules/@libar-dev/delivery-process/docs',
 	),
-	docsLive: resolveSource('../delivery-process/docs-live', './delivery-process/docs-live'),
-	docsGenerated: resolveSource('../delivery-process/docs-generated', './delivery-process/docs-generated'),
+	docsLive: resolveSource(
+		'../delivery-process/docs-live',
+		'./delivery-process/docs-live',
+		'node_modules/@libar-dev/delivery-process/docs-live',
+	),
+	docsGenerated: resolveSource(
+		'../delivery-process/docs-generated',
+		'./delivery-process/docs-generated',
+		'node_modules/@libar-dev/delivery-process/docs-generated',
+	),
 	readme: resolveSource('../delivery-process/README.md', './delivery-process/README.md'),
-	tutorial: resolveSource('../dp-mini-demo/TUTORIAL-ARTICLE-v1.md', './dp-mini-demo/TUTORIAL-ARTICLE-v1.md'),
+	tutorial: resolveSource(
+		'../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md',
+		'./delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md',
+	),
 };
 
 // ── File mapping: source filename → { target dir, target name, sidebar order, group } ──
@@ -310,7 +321,7 @@ function syncGenerated() {
 
 function syncTutorial() {
 	if (!SOURCES.tutorial) {
-		console.warn('  [sync] WARNING: dp-mini-demo/TUTORIAL-ARTICLE-v1.md not found, skipping tutorial');
+		console.warn('  [sync] WARNING: delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md not found, skipping tutorial');
 		return;
 	}
 

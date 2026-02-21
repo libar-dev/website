@@ -98,9 +98,7 @@ const libarDark = {
 
 // https://astro.build/config
 export default defineConfig({
-	// Start with GitHub Pages default; switch to site: 'https://libar.dev' + remove base when DNS is configured
-	site: 'https://libar-dev.github.io',
-	base: '/website',
+	site: 'https://libar.dev',
 	integrations: [
 		// MUST come before starlight — ordering is critical for mermaid fences to be processed
 		mermaid(),
