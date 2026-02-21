@@ -154,3 +154,193 @@ starlight-tabs [role='tab'] {
 	border-radius: 0;
 	box-shadow: none;
 }
+
+/* ================================================================
+   DOC/LANDING ALIGNMENT — Bridge the landing page visual grammar
+   into Starlight docs: Bebas Neue headings, structural orange,
+   1px separator patterns, refined sidebar active state.
+   ================================================================ */
+
+/* ── Heading typography — Bebas Neue to match landing page voice ── */
+
+/* Page title (PageTitle.astro renders outside .sl-markdown-content) */
+main h1 {
+	font-family: var(--dp-font-display);
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	line-height: 1.1;
+}
+
+/* H2 + H3 section headers — Bebas Neue + structural orange left border
+   (Tutorial pages use ### for all numbered sections like "6.2 Generate …") */
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+	font-family: var(--dp-font-display);
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	line-height: 1.1;
+	border-inline-start: 2px solid var(--sl-color-accent);
+	padding-inline-start: 14px;
+	margin-top: 2.5rem;
+}
+
+.sl-markdown-content h2 {
+	font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+}
+
+.sl-markdown-content h3 {
+	font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+
+/* ── Sidebar active link — left-border accent (replaces full orange block) ── */
+
+/* Note: border-radius: 0 is already set above — this extends that rule */
+a[aria-current='page'],
+a[aria-current='true'] {
+	background-color: rgba(232, 83, 14, 0.08) !important;
+	color: var(--sl-color-accent) !important;
+	border-inline-start: 2px solid var(--sl-color-accent);
+	padding-inline-start: calc(var(--sl-sidebar-item-padding-inline) - 2px);
+	font-weight: 600;
+}
+
+a[aria-current='page']:hover,
+a[aria-current='true']:hover {
+	background-color: rgba(232, 83, 14, 0.12) !important;
+	color: var(--sl-color-accent) !important;
+}
+
+/* ── Tables — row separators + mono uppercase headers ── */
+
+.sl-markdown-content table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.sl-markdown-content thead th {
+	font-family: var(--dp-font-mono);
+	font-size: 0.72rem;
+	font-weight: 400;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sl-color-gray-3);
+	border-bottom: 1px solid var(--sl-color-gray-5);
+	padding-block: 0.6rem;
+	padding-inline: 0.75rem;
+	text-align: left;
+}
+
+.sl-markdown-content tbody tr {
+	border-bottom: 1px solid var(--sl-color-hairline-shade);
+}
+
+.sl-markdown-content tbody td {
+	padding-block: 0.6rem;
+	padding-inline: 0.75rem;
+	vertical-align: top;
+}
+
+/* ── Inline code — stronger contrast in light mode ── */
+
+:root[data-theme='light'] {
+	--sl-color-bg-inline-code: #d5d0c9;
+}
+
+:root[data-theme='light'] .sl-markdown-content :not(h1, h2, h3, h4, h5, h6) > code {
+	border: 1px solid #c0bbb4;
+}
+
+/* ── ExpressiveCode — flat/borderless treatment ── */
+
+/* EC computes border-radius as calc(--ec-brdRad + --ec-brdWd) and border as
+   var(--ec-brdWd) solid var(--ec-brdCol). Zeroing --ec-brdWd eliminates both
+   the border AND the unwanted 1px corner radius in one shot. These are scoped
+   to .expressive-code, so they override the :root values via higher specificity. */
+.expressive-code {
+	--ec-brdWd: 0px;
+	--ec-brdRad: 0px;
+}
+
+/* Hide the decorative macOS three-dots chrome on terminal-style blocks.
+   It's non-functional and conflicts with the flat Swiss Constructivist aesthetic. */
+.expressive-code .frame.is-terminal .header {
+	display: none;
+}
+
+/* Hide scrollbar track at bottom of code blocks */
+.expressive-code pre {
+	scrollbar-width: none;
+}
+.expressive-code pre::-webkit-scrollbar {
+	display: none;
+}
+
+/* ── Mermaid diagram container — flat, no rounded corners, no bg tint ── */
+/* astro-mermaid injects styles via JS that add border-radius + bg tint;
+   !important is required to override dynamically injected rules */
+pre.mermaid,
+pre.mermaid[data-processed] {
+	border-radius: 0 !important;
+	background-color: transparent !important;
+	border: none !important;
+	min-height: 0 !important;
+}
+
+/* ── Mermaid diagram nodes — design palette colors ── */
+/* Best-effort: targets SVG class selectors. Inline fill attributes from Mermaid's
+   default theme may take precedence; configure mermaid() initialize options in
+   astro.config.mjs as a follow-up if these don't fully override. */
+
+/* Dark mode (Starlight :root = dark by default) */
+pre.mermaid .node rect,
+pre.mermaid .node circle,
+pre.mermaid .node ellipse,
+pre.mermaid .node polygon,
+pre.mermaid .cluster rect {
+	fill: #1a1a1a !important;
+	stroke: #333333 !important;
+}
+
+pre.mermaid .label,
+pre.mermaid .nodeLabel,
+pre.mermaid .edgeLabel {
+	color: #d4cdc4 !important;
+}
+
+pre.mermaid .edgePath .path,
+pre.mermaid .flowchart-link {
+	stroke: #3a3530 !important;
+}
+
+pre.mermaid .arrowheadPath {
+	fill: #3a3530 !important;
+	stroke: none !important;
+}
+
+/* Light mode */
+:root[data-theme='light'] pre.mermaid .node rect,
+:root[data-theme='light'] pre.mermaid .node circle,
+:root[data-theme='light'] pre.mermaid .node ellipse,
+:root[data-theme='light'] pre.mermaid .node polygon,
+:root[data-theme='light'] pre.mermaid .cluster rect {
+	fill: #f5f3f0 !important;
+	stroke: #b5a898 !important;
+}
+
+:root[data-theme='light'] pre.mermaid .label,
+:root[data-theme='light'] pre.mermaid .nodeLabel,
+:root[data-theme='light'] pre.mermaid .edgeLabel {
+	color: #333333 !important;
+}
+
+:root[data-theme='light'] pre.mermaid .edgePath .path,
+:root[data-theme='light'] pre.mermaid .flowchart-link {
+	stroke: #b5a898 !important;
+}
+
+:root[data-theme='light'] pre.mermaid .arrowheadPath {
+	fill: #b5a898 !important;
+	stroke: none !important;
+}

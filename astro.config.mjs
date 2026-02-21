@@ -10,9 +10,9 @@ const libarDark = {
 	name: 'libar-dark',
 	type: 'dark',
 	colors: {
-		'editor.background': '#0c0c0c',
+		'editor.background': '#111111',
 		'editor.foreground': '#d4cdc4',
-		'editor.lineHighlightBackground': '#111111',
+		'editor.lineHighlightBackground': '#1a1a1a',
 		'editorCursor.foreground': '#e8530e',
 		'editorLineNumber.foreground': '#3a3530',
 		'editorLineNumber.activeForeground': '#5a5550',
@@ -112,8 +112,8 @@ export default defineConfig({
 					borderColor: '#222222',
 					codeFontSize: '0.8rem',
 					frames: {
-						editorTabBarBackground: '#111111',
-						editorActiveTabBackground: '#0c0c0c',
+						editorTabBarBackground: '#1a1a1a',
+						editorActiveTabBackground: '#111111',
 						editorActiveTabBorderColor: '#e8530e',
 						frameBoxShadowCssValue: 'none',
 					},
