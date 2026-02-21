@@ -1,40 +1,62 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
-import Hero from '../components/landing/Hero.astro';
+import Hero from '../components/landing/delivery-process/Hero.astro';
+import Metrics from '../components/landing/delivery-process/Metrics.astro';
+import CodeExamples from '../components/landing/delivery-process/CodeExamples.astro';
+import Pillars from '../components/landing/delivery-process/Pillars.astro';
+import McpCallout from '../components/landing/delivery-process/McpCallout.astro';
+import FooterCta from '../components/landing/delivery-process/FooterCta.astro';
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <LandingLayout
-	title="@libar-dev — Context Engineering for AI-Assisted Codebases"
-	description="Extract patterns from TypeScript and Gherkin, generate living documentation and architecture diagrams, enforce delivery workflow via FSM."
+	title="@libar-dev/delivery-process — Stop Prompting. Start Context Engineering."
+	description="Turn your static codebase into a deterministic, queryable read-model. Extract patterns from TypeScript and Gherkin, enforce delivery workflow via FSM, and feed AI agents exactly the context they need."
 >
 	<nav class="landing-nav">
-		<a href={base} class="landing-nav__brand">@libar-dev</a>
-		<div class="landing-nav__links">
-			<a href={`${base}delivery-process/`}>Docs</a>
-			<a href="https://github.com/libar-dev">GitHub</a>
-			<button class="landing-nav__theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-				<svg
-					width="16"
-					height="16"
-					viewBox="0 0 16 16"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.5"
-					id="theme-icon-sun"
-				>
-					<circle cx="8" cy="8" r="3"></circle>
-					<line x1="8" y1="1" x2="8" y2="3"></line>
-					<line x1="8" y1="13" x2="8" y2="15"></line>
-					<line x1="1" y1="8" x2="3" y2="8"></line>
-					<line x1="13" y1="8" x2="15" y2="8"></line>
-				</svg>
-			</button>
+		<div class="landing-nav__left">
+			<a href={base} class="landing-nav__brand">@libar-dev</a>
+			<span class="landing-nav__version">v1.0.0-pre</span>
 		</div>
+
+		<button class="landing-nav__hamburger" id="nav-hamburger" aria-label="Toggle menu">
+			<span></span><span></span><span></span>
+		</button>
+
+		<ul class="landing-nav__links" id="nav-links">
+			<li><a href="#metrics">Scale</a></li>
+			<li><a href="#code">Code</a></li>
+			<li><a href="#pillars">Features</a></li>
+			<li><a href={`${base}delivery-process/`}>Docs</a></li>
+			<li><a href="https://github.com/libar-dev">GitHub</a></li>
+			<li>
+				<button class="landing-nav__theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+					<svg class="icon-sun" viewBox="0 0 24 24">
+						<circle cx="12" cy="12" r="5"></circle>
+						<line x1="12" y1="1" x2="12" y2="3"></line>
+						<line x1="12" y1="21" x2="12" y2="23"></line>
+						<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+						<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+						<line x1="1" y1="12" x2="3" y2="12"></line>
+						<line x1="21" y1="12" x2="23" y2="12"></line>
+						<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+						<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+					</svg>
+					<svg class="icon-moon" viewBox="0 0 24 24">
+						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+					</svg>
+				</button>
+			</li>
+		</ul>
 	</nav>
 
 	<Hero base={base} />
+	<Metrics />
+	<CodeExamples />
+	<Pillars base={base} />
+	<McpCallout />
+	<FooterCta base={base} />
 
 	<footer class="landing-footer">
 		<span>MIT License &copy; {new Date().getFullYear()} @libar-dev</span>
@@ -47,12 +69,37 @@ const base = import.meta.env.BASE_URL;
 </LandingLayout>
 
 <script is:inline>
+	// Theme toggle
 	document.getElementById('theme-toggle').addEventListener('click', function () {
 		const html = document.documentElement;
 		const current = html.getAttribute('data-theme');
 		const next = current === 'dark' ? 'light' : 'dark';
 		html.setAttribute('data-theme', next);
-		// Sync with Starlight's localStorage key
 		localStorage.setItem('starlight-theme', next);
 	});
+
+	// Hamburger nav toggle
+	document.getElementById('nav-hamburger').addEventListener('click', function () {
+		document.getElementById('nav-links').classList.toggle('open');
+	});
+
+	// Scroll reveal
+	(function () {
+		const reveals = document.querySelectorAll('.reveal');
+		if (!reveals.length) return;
+		const io = new IntersectionObserver(
+			function (entries) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						io.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1 }
+		);
+		reveals.forEach(function (el) {
+			io.observe(el);
+		});
+	})();
 </script>

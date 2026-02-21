@@ -1,0 +1,79 @@
+---
+interface Props {
+	base: string;
+}
+
+const { base } = Astro.props;
+---
+
+<section class="hero" id="hero">
+	<div class="hero__inner">
+		<div class="hero__grid">
+
+			<!-- dp lettermark -->
+			<div class="dp reveal" aria-label="dp lettermark">
+				<div class="dp__letter dp__d">
+					<div class="blk d-stem"></div>
+					<div class="blk d-top"></div>
+					<div class="blk d-left"></div>
+					<div class="blk d-bot"></div>
+				</div>
+				<div class="dp__letter dp__p">
+					<div class="blk p-stem"></div>
+					<div class="blk p-top"></div>
+					<div class="blk p-right"></div>
+					<div class="blk p-bot"></div>
+				</div>
+			</div>
+
+			<!-- Hero text -->
+			<div class="hero__text">
+				<p class="hero__eyebrow reveal reveal-d1">
+					@libar-dev/delivery-process &nbsp;&nbsp;v1.0.0-pre
+				</p>
+				<h1 class="hero__title reveal reveal-d2">
+					Stop Prompting.<br />Start <span>Context Engineering.</span>
+				</h1>
+				<p class="hero__tagline reveal reveal-d3">
+					The architectural memory engine for AI-assisted codebases.
+				</p>
+				<p class="hero__body reveal reveal-d3">
+					Traditional documentation exists outside the code &mdash; AI agents scrape stale
+					Markdown, hallucinate APIs, and burn token budgets. <code>delivery-process</code> turns
+					your static codebase into a deterministic, queryable read-model that feeds agents exactly
+					what they need.
+				</p>
+				<div class="hero__install reveal reveal-d4">
+					<code><span class="hero__install-prefix">$</span> npm install @libar-dev/delivery-process@pre</code>
+				</div>
+				<div class="hero__actions reveal reveal-d5">
+					<a href={`${base}delivery-process/getting-started/`} class="hero__btn hero__btn--primary"
+						>Get Started</a
+					>
+					<a
+						href={`${base}delivery-process/guides/methodology/`}
+						class="hero__btn hero__btn--secondary">Read the Methodology</a
+					>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Before/after comparison — full width below grid -->
+		<div class="hero__comparison reveal">
+			<div class="hero__comparison-block">
+				<span class="hero__comparison-label">Before</span>
+				<code class="hero__comparison-code"><span class="s-cm"># Hallucination risk: High</span>
+<span class="s-op">$</span> cat ROADMAP.md src/core/*.ts | head -500
+<span class="s-op">$</span> grep -r "MasterDataset" --include="*.ts"
+<span class="s-cm"># 40+ files, ~8,000 tokens, still incomplete</span></code>
+			</div>
+			<div class="hero__comparison-block">
+				<span class="hero__comparison-label hero__comparison-label--after">After</span>
+				<code class="hero__comparison-code"><span class="s-cm"># Hallucination risk: Zero</span>
+<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- context TransformDataset --session implement
+<span class="s-cm"># 1 call, ~200 tokens, complete &amp; accurate</span></code>
+			</div>
+		</div>
+	</div>
+</section>

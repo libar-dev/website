@@ -1,0 +1,72 @@
+---
+const tsCode = `<span class="s-cm">/**
+ * @libar-docs
+ * @libar-docs-status roadmap
+ * @libar-docs-uses EventStoreFoundation, Workpool
+ * @libar-docs-used-by SagaEngine, CommandOrchestrator
+ */</span>
+<span class="s-kw">export function</span> <span class="s-fn">durableAppend</span>(
+  event: <span class="s-ty">DomainEvent</span>
+): <span class="s-ty">Promise</span>&lt;<span class="s-ty">Result</span>&gt; {
+  <span class="s-kw">throw new</span> <span class="s-ty">Error</span>(<span class="s-str">'Not implemented'</span>);
+}`;
+
+const gkCode = `<span class="s-tag">@libar-docs</span>
+<span class="s-tag">@libar-docs-pattern:EventStoreDurability</span>
+<span class="s-tag">@libar-docs-status:roadmap</span>
+<span class="s-tag">@libar-docs-phase:18</span>
+<span class="s-tag">@libar-docs-depends-on:EventStoreFoundation</span>
+<span class="s-kw">Feature:</span> <span class="s-str">Event Store Durability</span>
+
+  <span class="s-kw">Rule:</span> Appends must survive process crashes
+
+    <span class="s-kw">Given</span> a DomainEvent is ready to commit
+    <span class="s-kw">When</span> the process crashes mid-write
+    <span class="s-kw">Then</span> the append retries to completion`;
+
+const cliCode = `<span class="s-cm"># Validate scope before starting a session</span>
+<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- scope-validate EventStoreDurability implement
+
+<span class="s-cm"># Pull exact context — zero hallucination, minimal tokens</span>
+<span class="s-op">$</span> <span class="s-fn">pnpm</span> <span class="s-tag">process:query</span> -- context EventStoreDurability --session implement`;
+---
+
+<section class="landing-section code-examples" id="code">
+	<div class="landing-section__inner">
+		<span class="landing-section__label reveal">Show, Don&rsquo;t Tell</span>
+		<p class="code-examples__intro reveal">
+			Annotate TypeScript and Gherkin sources with <code>@libar-docs</code> tags. The four-stage
+			pipeline (Scanner &rarr; Extractor &rarr; Transformer &rarr; Codec) merges them into a
+			queryable MasterDataset. Neither source duplicates the other.
+		</p>
+
+		<div class="code-examples__grid">
+			<div class="code-block-wrap reveal reveal-d1">
+				<span class="code-block-wrap__label code-block-wrap__label--ts"
+					>1. TypeScript Implementation Stub</span
+				>
+				<div class="code-block">
+					<pre set:html={tsCode} />
+				</div>
+			</div>
+
+			<div class="code-block-wrap reveal reveal-d2">
+				<span class="code-block-wrap__label code-block-wrap__label--gk"
+					>2. Gherkin Specification</span
+				>
+				<div class="code-block">
+					<pre set:html={gkCode} />
+				</div>
+			</div>
+		</div>
+
+		<div class="code-block-wrap reveal">
+			<span class="code-block-wrap__label code-block-wrap__label--cli"
+				>3. Agent Queries the Truth</span
+			>
+			<div class="code-block">
+				<pre set:html={cliCode} />
+			</div>
+		</div>
+	</div>
+</section>

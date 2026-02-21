@@ -1,0 +1,72 @@
+---
+interface Props {
+	base: string;
+}
+
+const { base } = Astro.props;
+---
+
+<section class="landing-section" id="pillars">
+	<div class="landing-section__inner">
+		<span class="landing-section__label reveal">What It Does</span>
+		<h2 class="pillars__heading reveal">Four Pillars</h2>
+		<div class="pillars__grid">
+			<div class="pillar reveal reveal-d1">
+				<div class="pillar__number">01</div>
+				<h3 class="pillar__heading">Stop Scraping. Start Querying.</h3>
+				<p class="pillar__subtitle">AI-Native Data API</p>
+				<p class="pillar__desc">
+					Traditional AI tools ingest entire repos. Our Data API (<code
+						class="pillar__code">process-api</code
+					>) feeds curated JSON or condensed text directly to the agent. Traverse dependency trees,
+					evaluate architectural impact, and pull deliverables &mdash; zero hallucination, massive
+					token savings.
+				</p>
+			</div>
+
+			<div class="pillar reveal reveal-d2">
+				<div class="pillar__number">02</div>
+				<h3 class="pillar__heading">Immutable Delivery Rules</h3>
+				<p class="pillar__subtitle">FSM-Enforced Process Guard</p>
+				<p class="pillar__desc">
+					Documentation guidelines are ignored; state machines are enforced. A rigid FSM
+					(<code class="pillar__code">roadmap</code> &rarr; <code class="pillar__code">active</code>
+					&rarr; <code class="pillar__code">completed</code>) lives in your codebase, validated by a
+					Decider-pattern pre-commit hook. Active specs are scope-locked; completed features cannot
+					be modified without an auditable unlock reason.
+				</p>
+			</div>
+
+			<div class="pillar reveal reveal-d3">
+				<div class="pillar__number">03</div>
+				<h3 class="pillar__heading">Dual-Source Truth</h3>
+				<p class="pillar__subtitle">Four-Stage Pipeline</p>
+				<p class="pillar__desc">
+					Implementation meets intent. Scanner &rarr; Extractor &rarr; Transformer &rarr; Codec
+					parses your TypeScript AST and Gherkin tags, merging them into a unified MasterDataset.
+					Anti-pattern validators guarantee these boundaries are never crossed, ensuring perfect
+					synchronization.
+				</p>
+			</div>
+
+			<div class="pillar reveal reveal-d4">
+				<div class="pillar__number">04</div>
+				<h3 class="pillar__heading">Codec-Driven Living Documents</h3>
+				<p class="pillar__subtitle">Progressive Disclosure</p>
+				<p class="pillar__desc">
+					Beautiful docs for humans. Token-efficient modules for AI. Zod-validated codecs render
+					Markdown, live Mermaid dependency graphs, auto-extracted TypeScript interfaces, and
+					Definition of Done traceability matrices &mdash; all from the same source.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.pillar__code {
+		font-family: var(--dp-font-mono);
+		font-size: 0.85em;
+		color: var(--dp-text-primary);
+	}
+</style>

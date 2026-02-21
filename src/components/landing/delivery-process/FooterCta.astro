@@ -1,0 +1,25 @@
+---
+interface Props {
+	base: string;
+}
+
+const { base } = Astro.props;
+---
+
+<section class="footer-cta">
+	<div class="footer-cta__inner reveal">
+		<h2 class="footer-cta__heading">Ready to engineer your context?</h2>
+		<div class="footer-cta__install">
+			<code><span class="footer-cta__install-prefix">$</span> npm install @libar-dev/delivery-process@pre</code>
+		</div>
+		<div class="footer-cta__actions">
+			<a href={`${base}delivery-process/getting-started/`} class="hero__btn hero__btn--primary"
+				>Read the Quick Start</a
+			>
+			<a
+				href="https://github.com/libar-dev/delivery-process"
+				class="hero__btn hero__btn--secondary">View on GitHub</a
+			>
+		</div>
+	</div>
+</section>
