@@ -810,6 +810,14 @@ body {
 	margin-bottom: 2rem;
 }
 
+.footer-cta__sub {
+	font-family: var(--dp-font-body);
+	font-size: 0.9rem;
+	color: var(--dp-text-secondary);
+	letter-spacing: 0.02em;
+	margin: 0 0 2rem;
+}
+
 .footer-cta__install {
 	display: inline-flex;
 	align-items: center;

@@ -16,11 +16,10 @@ const { base } = Astro.props;
 				<h3 class="pillar__heading">Stop Scraping. Start Querying.</h3>
 				<p class="pillar__subtitle">AI-Native Data API</p>
 				<p class="pillar__desc">
-					Traditional AI tools ingest entire repos. Our Data API (<code
-						class="pillar__code">process-api</code
-					>) feeds curated JSON or condensed text directly to the agent. Traverse dependency trees,
-					evaluate architectural impact, and pull deliverables &mdash; zero hallucination, massive
-					token savings.
+					Traditional AI tools ingest entire repos. <code class="pillar__code">process-api</code>
+					feeds curated JSON or text directly to the agent. One call for scope validation, one for a
+					curated context bundle &mdash; dependency trees, architectural impact, deliverables. Zero
+					hallucination. 5x fewer tokens.
 				</p>
 			</div>
 
@@ -42,10 +41,12 @@ const { base } = Astro.props;
 				<h3 class="pillar__heading">Dual-Source Truth</h3>
 				<p class="pillar__subtitle">Four-Stage Pipeline</p>
 				<p class="pillar__desc">
-					Implementation meets intent. Scanner &rarr; Extractor &rarr; Transformer &rarr; Codec
-					parses your TypeScript AST and Gherkin tags, merging them into a unified MasterDataset.
-					Anti-pattern validators guarantee these boundaries are never crossed, ensuring perfect
-					synchronization.
+					TypeScript owns runtime relationships &mdash; <code class="pillar__code">uses</code>,
+					<code class="pillar__code">used-by</code>, <code class="pillar__code">category</code>.
+					Gherkin owns planning constraints &mdash; <code class="pillar__code">status</code>,
+					<code class="pillar__code">phase</code>, <code class="pillar__code">depends-on</code>.
+					Neither duplicates the other. The four-stage pipeline merges both into a unified
+					MasterDataset, and anti-pattern validators ensure the boundary is never crossed.
 				</p>
 			</div>
 
@@ -54,9 +55,10 @@ const { base } = Astro.props;
 				<h3 class="pillar__heading">Codec-Driven Living Documents</h3>
 				<p class="pillar__subtitle">Progressive Disclosure</p>
 				<p class="pillar__desc">
-					Beautiful docs for humans. Token-efficient modules for AI. Zod-validated codecs render
-					Markdown, live Mermaid dependency graphs, auto-extracted TypeScript interfaces, and
-					Definition of Done traceability matrices &mdash; all from the same source.
+					20 Zod-validated codecs generate rich Markdown for humans and token-efficient modules for
+					AI &mdash; from a single source. Live Mermaid dependency graphs, auto-extracted TypeScript
+					shapes, Definition of Done traceability matrices. One annotation set. Two audiences. Zero
+					duplication.
 				</p>
 			</div>
 		</div>

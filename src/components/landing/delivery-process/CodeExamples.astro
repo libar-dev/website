@@ -35,9 +35,10 @@ const cliCode = `<span class="s-cm"># Validate scope before starting a session</
 	<div class="landing-section__inner">
 		<span class="landing-section__label reveal">Show, Don&rsquo;t Tell</span>
 		<p class="code-examples__intro reveal">
-			Annotate TypeScript and Gherkin sources with <code>@libar-docs</code> tags. The four-stage
-			pipeline (Scanner &rarr; Extractor &rarr; Transformer &rarr; Codec) merges them into a
-			queryable MasterDataset. Neither source duplicates the other.
+			TypeScript owns runtime structure. Gherkin owns planning and behavior. Each source flows through
+			the four-stage pipeline &mdash; Scanner &rarr; Extractor &rarr; Transformer &rarr; Codec &mdash;
+			into a single queryable <code>MasterDataset</code>. Neither source duplicates the other. The
+			agent queries truth directly instead of reading both.
 		</p>
 
 		<div class="code-examples__grid">
