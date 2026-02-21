@@ -14,12 +14,12 @@ const { base } = Astro.props;
 			<code><span class="footer-cta__install-prefix">$</span> npm install @libar-dev/delivery-process@pre</code>
 		</div>
 		<div class="footer-cta__actions">
-			<a href={`${base}delivery-process/getting-started/`} class="hero__btn hero__btn--primary"
-				>Read the Quick Start</a
+			<a href={`${base.replace(/\/$/, '')}/delivery-process/tutorial/`} class="hero__btn hero__btn--primary"
+				>Start the Tutorial</a
 			>
 			<a
-				href="https://github.com/libar-dev/delivery-process"
-				class="hero__btn hero__btn--secondary">View on GitHub</a
+				href={`${base.replace(/\/$/, '')}/delivery-process/`}
+				class="hero__btn hero__btn--secondary">Explore the Docs</a
 			>
 		</div>
 	</div>

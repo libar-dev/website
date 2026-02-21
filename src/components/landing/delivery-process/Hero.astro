@@ -48,12 +48,12 @@ const { base } = Astro.props;
 					<code><span class="hero__install-prefix">$</span> npm install @libar-dev/delivery-process@pre</code>
 				</div>
 				<div class="hero__actions reveal reveal-d5">
-					<a href={`${base}delivery-process/getting-started/`} class="hero__btn hero__btn--primary"
-						>Get Started</a
-					>
 					<a
-						href={`${base}delivery-process/guides/methodology/`}
-						class="hero__btn hero__btn--secondary">Read the Methodology</a
+						href="#pipeline"
+						class="hero__btn hero__btn--primary">See How It Works</a
+					>
+					<a href={`${base.replace(/\/$/, '')}/delivery-process/getting-started/`} class="hero__btn hero__btn--secondary"
+						>Get Started</a
 					>
 				</div>
 			</div>
