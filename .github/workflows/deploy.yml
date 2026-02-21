@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout website repo
+        uses: actions/checkout@v4
+
+      - name: Checkout delivery-process repo
+        uses: actions/checkout@v4
+        with:
+          repository: libar-dev/delivery-process
+          ref: v1.0.0-pre.0
+          path: delivery-process
+
+      - name: Checkout dp-mini-demo repo
+        uses: actions/checkout@v4
+        with:
+          repository: libar-dev/dp-mini-demo
+          path: dp-mini-demo
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # prebuild script runs sync-content.mjs automatically via package.json
+      - name: Build site
+        run: pnpm build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+# NOTE: When switching to custom domain (libar.dev):
+# 1. Add public/CNAME file containing "libar.dev"
+# 2. Update astro.config.mjs: site → 'https://libar.dev', remove base
+# 3. Configure DNS: A records → 185.199.108-111.153, or CNAME → libar-dev.github.io
+# 4. GitHub Settings → Pages → Custom domain → libar.dev → Enable HTTPS

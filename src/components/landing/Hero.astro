@@ -1,0 +1,29 @@
+---
+interface Props {
+	base: string;
+}
+
+const { base } = Astro.props;
+---
+
+<section class="hero">
+	<p class="hero__eyebrow">Part of the @libar-dev ecosystem</p>
+	<h1 class="hero__title">
+		Context <span>Engineering</span><br />for AI-Assisted Codebases
+	</h1>
+	<p class="hero__subtitle">
+		Extract patterns from TypeScript and Gherkin. Generate living documentation and architecture
+		diagrams. Enforce delivery workflow via FSM.
+	</p>
+	<div class="hero__install">
+		<span class="hero__install-prefix">$</span> npm install @libar-dev/delivery-process
+	</div>
+	<div class="hero__actions">
+		<a href={`${base}delivery-process/`} class="hero__btn hero__btn--primary">Read the Docs</a>
+		<a
+			href="https://github.com/libar-dev/delivery-process"
+			class="hero__btn hero__btn--secondary">GitHub</a
+		>
+		<a href="https://www.npmjs.com/package/@libar-dev/delivery-process" class="hero__btn hero__btn--secondary">npm</a>
+	</div>
+</section>

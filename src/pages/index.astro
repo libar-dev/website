@@ -1,0 +1,58 @@
+---
+import LandingLayout from '../layouts/LandingLayout.astro';
+import Hero from '../components/landing/Hero.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<LandingLayout
+	title="@libar-dev — Context Engineering for AI-Assisted Codebases"
+	description="Extract patterns from TypeScript and Gherkin, generate living documentation and architecture diagrams, enforce delivery workflow via FSM."
+>
+	<nav class="landing-nav">
+		<a href={base} class="landing-nav__brand">@libar-dev</a>
+		<div class="landing-nav__links">
+			<a href={`${base}delivery-process/`}>Docs</a>
+			<a href="https://github.com/libar-dev">GitHub</a>
+			<button class="landing-nav__theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 16 16"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					id="theme-icon-sun"
+				>
+					<circle cx="8" cy="8" r="3"></circle>
+					<line x1="8" y1="1" x2="8" y2="3"></line>
+					<line x1="8" y1="13" x2="8" y2="15"></line>
+					<line x1="1" y1="8" x2="3" y2="8"></line>
+					<line x1="13" y1="8" x2="15" y2="8"></line>
+				</svg>
+			</button>
+		</div>
+	</nav>
+
+	<Hero base={base} />
+
+	<footer class="landing-footer">
+		<span>MIT License &copy; {new Date().getFullYear()} @libar-dev</span>
+		<div class="landing-footer__links">
+			<a href="https://www.npmjs.com/package/@libar-dev/delivery-process">npm</a>
+			<a href="https://github.com/libar-dev/delivery-process">GitHub</a>
+			<a href={`${base}delivery-process/`}>Docs</a>
+		</div>
+	</footer>
+</LandingLayout>
+
+<script is:inline>
+	document.getElementById('theme-toggle').addEventListener('click', function () {
+		const html = document.documentElement;
+		const current = html.getAttribute('data-theme');
+		const next = current === 'dark' ? 'light' : 'dark';
+		html.setAttribute('data-theme', next);
+		// Sync with Starlight's localStorage key
+		localStorage.setItem('starlight-theme', next);
+	});
+</script>

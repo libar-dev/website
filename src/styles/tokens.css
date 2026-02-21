@@ -1,0 +1,55 @@
+/* ================================================================
+   DESIGN TOKENS — Shared across landing page and Starlight docs
+   Source: _designs/unified/index.html (Swiss Constructivist system)
+   ================================================================ */
+
+:root {
+	/* Colors — Light theme (default) */
+	--dp-bg: #ffffff;
+	--dp-bg-surface: #f5f3f0;
+	--dp-bg-code: #0c0c0c;
+	--dp-text-primary: #000000;
+	--dp-text-secondary: #777777;
+	--dp-text-inverse: #f0ede8;
+	--dp-accent: #e8530e;
+	--dp-taupe: #b5a898;
+	--dp-border: #000000;
+	--dp-border-subtle: #e0ddd8;
+	--dp-surface-hover: #eceae6;
+	--dp-bracket-color: #000000;
+	--dp-bracket-subtle: rgba(0, 0, 0, 0.12);
+
+	/* Typography */
+	--dp-font-display: 'Bebas Neue', sans-serif;
+	--dp-font-body: 'Outfit', sans-serif;
+	--dp-font-mono: 'JetBrains Mono', monospace;
+
+	/* Spacing */
+	--dp-section-pad: clamp(80px, 10vw, 120px);
+	--dp-content-max: 1200px;
+	--dp-content-pad: clamp(24px, 4vw, 60px);
+
+	/* Syntax highlighting (always on dark bg) */
+	--dp-syn-kw: #e0dcd6;
+	--dp-syn-fn: #c8bfb4;
+	--dp-syn-type: #d4cdc4;
+	--dp-syn-str: #c49a6c;
+	--dp-syn-cm: #5a5550;
+	--dp-syn-tag: #b5a898;
+	--dp-syn-op: #7a756e;
+	--dp-syn-base: #d4cdc4;
+}
+
+:root[data-theme='dark'] {
+	--dp-bg: #0c0c0c;
+	--dp-bg-surface: #161616;
+	--dp-bg-code: #111111;
+	--dp-text-primary: #f0ede8;
+	--dp-text-secondary: #888888;
+	--dp-text-inverse: #0c0c0c;
+	--dp-border: #2a2a2a;
+	--dp-border-subtle: #222222;
+	--dp-surface-hover: #1e1e1e;
+	--dp-bracket-color: rgba(240, 237, 232, 0.25);
+	--dp-bracket-subtle: rgba(240, 237, 232, 0.08);
+}

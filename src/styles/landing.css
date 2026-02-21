@@ -1,0 +1,222 @@
+/* ================================================================
+   LANDING PAGE STYLES
+   Minimal hero layout — full design sections come later
+   ================================================================ */
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: var(--dp-font-body);
+	font-weight: 400;
+	color: var(--dp-text-primary);
+	background: var(--dp-bg);
+	line-height: 1.6;
+}
+
+/* ── Navigation ── */
+
+.landing-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 var(--dp-content-pad);
+	background: var(--dp-bg);
+	border-bottom: 1px solid var(--dp-border);
+	z-index: 100;
+	font-family: var(--dp-font-body);
+}
+
+.landing-nav__brand {
+	font-weight: 700;
+	font-size: 0.85rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--dp-text-primary);
+	text-decoration: none;
+}
+
+.landing-nav__links {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.landing-nav__links a {
+	font-size: 0.8rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--dp-text-secondary);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.landing-nav__links a:hover {
+	color: var(--dp-text-primary);
+}
+
+.landing-nav__theme-toggle {
+	background: none;
+	border: 1px solid var(--dp-border);
+	width: 32px;
+	height: 32px;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--dp-text-primary);
+	transition: background 0.2s;
+}
+
+.landing-nav__theme-toggle:hover {
+	background: var(--dp-surface-hover);
+}
+
+/* ── Hero ── */
+
+.hero {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: calc(52px + var(--dp-section-pad)) var(--dp-content-pad) var(--dp-section-pad);
+}
+
+.hero__eyebrow {
+	font-family: var(--dp-font-mono);
+	font-size: 0.75rem;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	color: var(--dp-text-secondary);
+	margin-bottom: 1.5rem;
+}
+
+.hero__title {
+	font-family: var(--dp-font-display);
+	font-size: clamp(3rem, 8vw, 6rem);
+	font-weight: 400;
+	line-height: 0.95;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	color: var(--dp-text-primary);
+	margin-bottom: 1.5rem;
+}
+
+.hero__title span {
+	color: var(--dp-accent);
+}
+
+.hero__subtitle {
+	font-size: clamp(1rem, 2vw, 1.25rem);
+	font-weight: 300;
+	color: var(--dp-text-secondary);
+	max-width: 600px;
+	margin-bottom: 2.5rem;
+	line-height: 1.6;
+}
+
+.hero__install {
+	font-family: var(--dp-font-mono);
+	font-size: 0.85rem;
+	background: var(--dp-bg-code);
+	color: var(--dp-text-inverse);
+	padding: 0.75rem 1.5rem;
+	border-radius: 4px;
+	margin-bottom: 2rem;
+	display: inline-block;
+}
+
+.hero__install .hero__install-prefix {
+	color: var(--dp-taupe);
+}
+
+.hero__actions {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.hero__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
+	font-family: var(--dp-font-body);
+	font-size: 0.85rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	border: 1px solid var(--dp-border);
+	transition:
+		background 0.2s,
+		color 0.2s;
+}
+
+.hero__btn--primary {
+	background: var(--dp-text-primary);
+	color: var(--dp-bg);
+}
+
+.hero__btn--primary:hover {
+	background: var(--dp-accent);
+	border-color: var(--dp-accent);
+}
+
+.hero__btn--secondary {
+	background: transparent;
+	color: var(--dp-text-primary);
+}
+
+.hero__btn--secondary:hover {
+	background: var(--dp-surface-hover);
+}
+
+/* ── Footer ── */
+
+.landing-footer {
+	padding: 2rem var(--dp-content-pad);
+	border-top: 1px solid var(--dp-border);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.75rem;
+	color: var(--dp-text-secondary);
+}
+
+.landing-footer a {
+	color: var(--dp-text-secondary);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.landing-footer a:hover {
+	color: var(--dp-text-primary);
+}
+
+.landing-footer__links {
+	display: flex;
+	gap: 1.5rem;
+}
