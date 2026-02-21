@@ -35,9 +35,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Verify synced content
+        run: pnpm test:sync
+
       # prebuild script runs sync-content.mjs automatically via package.json
       - name: Build site
         run: pnpm build
+
+      - name: Verify build artifacts
+        run: pnpm verify:build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

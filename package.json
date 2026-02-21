@@ -6,6 +6,9 @@
 	"packageManager": "pnpm@10.4.1",
 	"scripts": {
 		"sync": "node scripts/sync-content.mjs",
+		"sync:strict": "node scripts/sync-content.mjs --strict",
+		"test:sync": "node --test tests/sync-content.test.mjs",
+		"verify:build": "node scripts/verify-build-output.mjs",
 		"prebuild": "node scripts/sync-content.mjs",
 		"dev": "node scripts/sync-content.mjs && astro dev",
 		"build": "astro build",
@@ -20,6 +23,10 @@
 		"sharp": "^0.34.2"
 	},
 	"devDependencies": {
-		"@libar-dev/delivery-process": "1.0.0-pre.1"
+		"@libar-dev/delivery-process": "1.0.0-pre.1",
+		"remark-parse": "^11.0.0",
+		"remark-stringify": "^11.0.0",
+		"unified": "^11.0.5",
+		"unist-util-visit": "^5.1.0"
 	}
 }

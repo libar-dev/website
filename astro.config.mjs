@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
+import { DELIVERY_PROCESS_SIDEBAR_GROUP } from './scripts/content-manifest.mjs';
 
 // Custom code block theme — always dark, warm muted palette matching the landing page.
 // Colors sourced from tokens.css --dp-syn-* variables (hardcoded here since
@@ -151,47 +152,7 @@ export default defineConfig({
 					},
 				},
 			],
-			sidebar: [
-				{
-					label: 'delivery-process',
-					items: [
-						{
-							label: 'Overview',
-							slug: 'delivery-process',
-						},
-						{
-							label: 'Getting Started',
-							slug: 'delivery-process/getting-started',
-						},
-						{
-							label: 'Tutorial',
-							autogenerate: { directory: 'delivery-process/tutorial' },
-						},
-						{
-							label: 'Guides',
-							autogenerate: { directory: 'delivery-process/guides' },
-						},
-						{
-							label: 'Reference',
-							autogenerate: { directory: 'delivery-process/reference' },
-						},
-						{
-							label: 'Product Areas',
-							autogenerate: { directory: 'delivery-process/product-areas' },
-						},
-						{
-							label: 'Architecture Decisions',
-							collapsed: true,
-							autogenerate: { directory: 'delivery-process/decisions' },
-						},
-						{
-							label: 'Generated Reference',
-							collapsed: true,
-							autogenerate: { directory: 'delivery-process/generated' },
-						},
-					],
-				},
-			],
+			sidebar: [DELIVERY_PROCESS_SIDEBAR_GROUP],
 		}),
 	],
 });

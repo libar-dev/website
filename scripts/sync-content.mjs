@@ -20,19 +20,37 @@
  *   node_modules/@libar-dev/delivery-process/{docs,docs-live,docs-generated}
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync, cpSync } from 'node:fs';
-import { join, basename, dirname, resolve } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import { join, basename, dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
+import { visit } from 'unist-util-visit';
+import {
+	DELIVERY_PROCESS_DOCS,
+	DELIVERY_PROCESS_LINK_REWRITES,
+	DELIVERY_PROCESS_LINK_PREFIX_REWRITES,
+	DELIVERY_PROCESS_MANUAL_DOCS,
+	DELIVERY_PROCESS_SYNC_SUBDIRS,
+} from './content-manifest.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const VERBOSE = process.argv.includes('--verbose');
+const STRICT_MODE = process.argv.includes('--strict') || process.env.CI === 'true';
 
-const DOCS_TARGET = join(ROOT, 'src/content/docs/delivery-process');
+const DOCS_TARGET = join(ROOT, 'src/content/docs', DELIVERY_PROCESS_DOCS.slug);
 
 // ── Source resolution ──
 // Try local dev paths first (sibling directories), fall back to CI layout (same directory)
-function resolveSource(localPath, ciPath, nodeModulesPath = null) {
+function resolveSource(localPath, ciPath, nodeModulesPath = null, envVar = null) {
+	if (envVar && process.env[envVar]) {
+		const overridden = resolve(ROOT, process.env[envVar]);
+		if (existsSync(overridden)) return overridden;
+		return null;
+	}
+
 	const local = resolve(ROOT, localPath);
 	const ci = resolve(ROOT, ciPath);
 	if (existsSync(local)) return local;
@@ -49,66 +67,56 @@ const SOURCES = {
 		'../delivery-process/docs',
 		'./delivery-process/docs',
 		'node_modules/@libar-dev/delivery-process/docs',
+		'SYNC_SOURCE_DOCS',
 	),
 	docsLive: resolveSource(
 		'../delivery-process/docs-live',
 		'./delivery-process/docs-live',
 		'node_modules/@libar-dev/delivery-process/docs-live',
+		'SYNC_SOURCE_DOCS_LIVE',
 	),
 	docsGenerated: resolveSource(
 		'../delivery-process/docs-generated',
 		'./delivery-process/docs-generated',
 		'node_modules/@libar-dev/delivery-process/docs-generated',
+		'SYNC_SOURCE_DOCS_GENERATED',
 	),
-	readme: resolveSource('../delivery-process/README.md', './delivery-process/README.md'),
+	readme: resolveSource('../delivery-process/README.md', './delivery-process/README.md', null, 'SYNC_SOURCE_README'),
 	tutorial: resolveSource(
 		'../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md',
 		'./delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md',
+		null,
+		'SYNC_SOURCE_TUTORIAL',
 	),
 };
 
-// ── File mapping: source filename → { target dir, target name, sidebar order, group } ──
-const GUIDES_MAP = {
-	'METHODOLOGY.md': { order: 1 },
-	'CONFIGURATION.md': { order: 2 },
-	'SESSION-GUIDES.md': { order: 3 },
-	'GHERKIN-PATTERNS.md': { order: 4 },
-	'ANNOTATION-GUIDE.md': { order: 5 },
-	'PUBLISHING.md': { order: 6 },
-};
-
-const REFERENCE_MAP = {
-	'ARCHITECTURE.md': { order: 1 },
-	'PROCESS-API.md': { order: 2 },
-	'PROCESS-GUARD.md': { order: 3 },
-	'VALIDATION.md': { order: 4 },
-	'TAXONOMY.md': { order: 5 },
-};
-
-// ── Internal link rewriting ──
-const LINK_REWRITES = {
-	// docs/ files referencing each other
-	'./METHODOLOGY.md': '/delivery-process/guides/methodology/',
-	'./CONFIGURATION.md': '/delivery-process/guides/configuration/',
-	'./SESSION-GUIDES.md': '/delivery-process/guides/session-guides/',
-	'./GHERKIN-PATTERNS.md': '/delivery-process/guides/gherkin-patterns/',
-	'./ANNOTATION-GUIDE.md': '/delivery-process/guides/annotation-guide/',
-	'./PUBLISHING.md': '/delivery-process/guides/publishing/',
-	'./ARCHITECTURE.md': '/delivery-process/reference/architecture/',
-	'./PROCESS-API.md': '/delivery-process/reference/process-api/',
-	'./PROCESS-GUARD.md': '/delivery-process/reference/process-guard/',
-	'./VALIDATION.md': '/delivery-process/reference/validation/',
-	'./TAXONOMY.md': '/delivery-process/reference/taxonomy/',
-	'./INDEX.md': '/delivery-process/',
-	// Relative up references from docs/ to repo root
-	'../README.md': '/delivery-process/getting-started/',
-	'../CHANGELOG.md': 'https://github.com/libar-dev/delivery-process/blob/main/CHANGELOG.md',
-	'../SECURITY.md': 'https://github.com/libar-dev/delivery-process/blob/main/SECURITY.md',
-	'../CLAUDE.md': 'https://github.com/libar-dev/delivery-process/blob/main/CLAUDE.md',
-	'../src/taxonomy/': 'https://github.com/libar-dev/delivery-process/tree/main/src/taxonomy/',
-	'../tests/features/validation/fsm-validator.feature': 'https://github.com/libar-dev/delivery-process/blob/main/tests/features/validation/fsm-validator.feature',
-	'../tests/features/behavior/session-handoffs.feature': 'https://github.com/libar-dev/delivery-process/blob/main/tests/features/behavior/session-handoffs.feature',
-};
+const REQUIRED_SOURCES = [
+	{ key: 'docs', label: 'delivery-process/docs' },
+	{ key: 'docsLive', label: 'delivery-process/docs-live' },
+	{ key: 'docsGenerated', label: 'delivery-process/docs-generated' },
+	{ key: 'tutorial', label: 'delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md' },
+];
+const REQUIRED_SOURCE_FILES = [
+	...DELIVERY_PROCESS_MANUAL_DOCS.guides.map(file => ({
+		key: 'docs',
+		relativePath: file.source,
+		label: `delivery-process/docs/${file.source}`,
+	})),
+	...DELIVERY_PROCESS_MANUAL_DOCS.reference.map(file => ({
+		key: 'docs',
+		relativePath: file.source,
+		label: `delivery-process/docs/${file.source}`,
+	})),
+	{ key: 'docsLive', relativePath: 'PRODUCT-AREAS.md', label: 'delivery-process/docs-live/PRODUCT-AREAS.md' },
+	{ key: 'docsLive', relativePath: 'DECISIONS.md', label: 'delivery-process/docs-live/DECISIONS.md' },
+	{ key: 'docsGenerated', relativePath: 'BUSINESS-RULES.md', label: 'delivery-process/docs-generated/BUSINESS-RULES.md' },
+	{ key: 'docsGenerated', relativePath: 'TAXONOMY.md', label: 'delivery-process/docs-generated/TAXONOMY.md' },
+];
+const EXPECTED_TUTORIAL_PARTS = Number.parseInt(process.env.TUTORIAL_EXPECTED_PARTS || '10', 10);
+const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkStringify, {
+	fences: true,
+	listItemIndent: 'one',
+});
 
 // ── Helpers ──
 
@@ -125,15 +133,131 @@ function stripFirstH1(content) {
 	return content.replace(/^#\s+.+\n+/, '');
 }
 
-function rewriteLinks(content) {
-	let result = content;
-	for (const [from, to] of Object.entries(LINK_REWRITES)) {
-		// Match markdown links: [text](./FILE.md) or [text](../FILE.md)
-		const escaped = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-		const regex = new RegExp(`\\]\\(${escaped}\\)`, 'g');
-		result = result.replace(regex, `](${to})`);
+function splitLinkTarget(url) {
+	const match = /^([^?#]*)([?#].*)?$/.exec(url);
+	if (!match) {
+		return {
+			path: url,
+			suffix: '',
+		};
 	}
-	return result;
+	return {
+		path: match[1],
+		suffix: match[2] || '',
+	};
+}
+
+function isAbsoluteOrSpecialLink(path) {
+	if (!path) return true;
+	if (path.startsWith('/')) return true;
+	if (path.startsWith('#')) return true;
+	return /^[a-z][a-z0-9+.-]*:/i.test(path);
+}
+
+function getSourceRelativePath(rootPath, absolutePath) {
+	if (!rootPath || !absolutePath) return null;
+	const rel = relative(rootPath, absolutePath).replace(/\\/g, '/');
+	if (!rel || rel === '.' || rel.startsWith('../')) return null;
+	return rel;
+}
+
+function toDocsRoute(section, slug) {
+	if (!slug) return `/${DELIVERY_PROCESS_DOCS.slug}/${section}/`;
+	return `/${DELIVERY_PROCESS_DOCS.slug}/${section}/${slug}/`;
+}
+
+const GUIDE_SOURCE_TO_SLUG = new Map(DELIVERY_PROCESS_MANUAL_DOCS.guides.map(file => [file.source, file.slug]));
+const REFERENCE_SOURCE_TO_SLUG = new Map(DELIVERY_PROCESS_MANUAL_DOCS.reference.map(file => [file.source, file.slug]));
+
+function getSyncedRouteForSourceFile(sourceFilePath) {
+	const docsRel = getSourceRelativePath(SOURCES.docs, sourceFilePath);
+	if (docsRel) {
+		if (docsRel === 'INDEX.md') return `/${DELIVERY_PROCESS_DOCS.slug}/`;
+		if (docsRel === 'README.md') return `/${DELIVERY_PROCESS_DOCS.slug}/getting-started/`;
+		if (GUIDE_SOURCE_TO_SLUG.has(docsRel)) return toDocsRoute('guides', GUIDE_SOURCE_TO_SLUG.get(docsRel));
+		if (REFERENCE_SOURCE_TO_SLUG.has(docsRel)) return toDocsRoute('reference', REFERENCE_SOURCE_TO_SLUG.get(docsRel));
+	}
+
+	const docsLiveRel = getSourceRelativePath(SOURCES.docsLive, sourceFilePath);
+	if (docsLiveRel) {
+		if (docsLiveRel === 'PRODUCT-AREAS.md') return toDocsRoute('product-areas', '');
+		if (docsLiveRel === 'DECISIONS.md') return toDocsRoute('decisions', '');
+		if (/^product-areas\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
+			return toDocsRoute('product-areas', slug);
+		}
+		if (/^decisions\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
+			return toDocsRoute('decisions', slug);
+		}
+	}
+
+	const docsGeneratedRel = getSourceRelativePath(SOURCES.docsGenerated, sourceFilePath);
+	if (docsGeneratedRel) {
+		if (docsGeneratedRel === 'BUSINESS-RULES.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/`;
+		if (docsGeneratedRel === 'TAXONOMY.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/`;
+		if (docsGeneratedRel === 'docs/REFERENCE-SAMPLE.md')
+			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/reference-sample/`;
+		if (/^business-rules\/.+\.md$/i.test(docsGeneratedRel)) {
+			const slug = basename(docsGeneratedRel, '.md').toLowerCase();
+			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/${slug}/`;
+		}
+		if (/^taxonomy\/.+\.md$/i.test(docsGeneratedRel)) {
+			const slug = basename(docsGeneratedRel, '.md').toLowerCase();
+			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/${slug}/`;
+		}
+	}
+
+	return null;
+}
+
+function resolveSyncedDocLink(url, sourceFilePath) {
+	if (!sourceFilePath) return null;
+	const { path: linkPath, suffix } = splitLinkTarget(url);
+	if (isAbsoluteOrSpecialLink(linkPath)) return null;
+	const targetSourcePath = resolve(dirname(sourceFilePath), linkPath);
+	const resolvedRoute = getSyncedRouteForSourceFile(targetSourcePath);
+	if (!resolvedRoute) return null;
+	return `${resolvedRoute}${suffix}`;
+}
+
+function applyLinkPrefixRewrite(url) {
+	const { path: linkPath, suffix } = splitLinkTarget(url);
+	if (isAbsoluteOrSpecialLink(linkPath)) return null;
+
+	const normalizedPath = linkPath.replace(/^\.\//, '');
+	for (const rewrite of DELIVERY_PROCESS_LINK_PREFIX_REWRITES) {
+		if (!normalizedPath.startsWith(rewrite.prefix)) continue;
+		const remainder = rewrite.stripPrefix ? normalizedPath.slice(rewrite.prefix.length) : normalizedPath;
+		return `${rewrite.targetPrefix}${remainder}${suffix}`;
+	}
+
+	return null;
+}
+
+function applyLinkRewrite(url, sourceFilePath) {
+	for (const [from, to] of Object.entries(DELIVERY_PROCESS_LINK_REWRITES)) {
+		if (url === from) return to;
+		if (url.startsWith(`${from}#`)) return `${to}${url.slice(from.length)}`;
+		if (url.startsWith(`${from}?`)) return `${to}${url.slice(from.length)}`;
+	}
+
+	const syncedDocRewrite = resolveSyncedDocLink(url, sourceFilePath);
+	if (syncedDocRewrite) return syncedDocRewrite;
+
+	const prefixRewrite = applyLinkPrefixRewrite(url);
+	if (prefixRewrite) return prefixRewrite;
+
+	return null;
+}
+
+function rewriteLinks(content, sourceFilePath) {
+	const tree = MARKDOWN_PROCESSOR.parse(content);
+	visit(tree, ['link', 'image'], node => {
+		const rewritten = applyLinkRewrite(node.url, sourceFilePath);
+		if (rewritten) node.url = rewritten;
+	});
+	return String(MARKDOWN_PROCESSOR.stringify(tree));
 }
 
 function buildFrontmatter({ title, description, sidebarOrder, sidebarLabel, editUrl = true, generated = false }) {
@@ -151,10 +275,10 @@ function buildFrontmatter({ title, description, sidebarOrder, sidebarLabel, edit
 	return lines.join('\n');
 }
 
-function processMarkdownFile(content, { sidebarOrder, sidebarLabel, editUrl = true, generated = false } = {}) {
+function processMarkdownFile(content, { sourceFilePath, sidebarOrder, sidebarLabel, editUrl = true, generated = false } = {}) {
 	const title = extractTitle(content);
 	const stripped = stripFirstH1(content);
-	const rewritten = rewriteLinks(stripped);
+	const rewritten = rewriteLinks(stripped, sourceFilePath);
 	const frontmatter = buildFrontmatter({ title, sidebarOrder, sidebarLabel, editUrl, generated });
 	return frontmatter + rewritten;
 }
@@ -175,10 +299,69 @@ function cleanDir(dir) {
 
 function copyAndProcess(srcPath, destPath, opts = {}) {
 	const content = readFileSync(srcPath, 'utf-8');
-	const processed = processMarkdownFile(content, opts);
+	const processed = processMarkdownFile(content, {
+		sourceFilePath: srcPath,
+		...opts,
+	});
 	ensureDir(dirname(destPath));
 	writeFileSync(destPath, processed);
 	log(`${basename(srcPath)} → ${destPath.replace(ROOT, '.')}`);
+}
+
+function validateSourcesOrExit() {
+	const missingRequired = REQUIRED_SOURCES.filter(source => !SOURCES[source.key]);
+	if (missingRequired.length === 0) return;
+
+	const summary = missingRequired.map(source => source.label).join(', ');
+	if (STRICT_MODE) {
+		console.error(`[sync-content] ERROR: Missing required sources in strict mode: ${summary}`);
+		process.exit(1);
+	}
+
+	console.warn(`[sync-content] WARNING: Missing recommended sources: ${summary}`);
+	console.warn('[sync-content] WARNING: Continuing because strict mode is disabled');
+}
+
+function validateRequiredSourceFilesOrExit() {
+	const missingRequiredFiles = REQUIRED_SOURCE_FILES.filter(file => {
+		const sourceRoot = SOURCES[file.key];
+		if (!sourceRoot) return false;
+		return !existsSync(join(sourceRoot, file.relativePath));
+	});
+
+	if (missingRequiredFiles.length === 0) return;
+
+	const summary = missingRequiredFiles.map(file => file.label).join(', ');
+	if (STRICT_MODE) {
+		console.error(`[sync-content] ERROR: Missing required source files in strict mode: ${summary}`);
+		process.exit(1);
+	}
+
+	console.warn(`[sync-content] WARNING: Missing recommended source files: ${summary}`);
+	console.warn('[sync-content] WARNING: Continuing because strict mode is disabled');
+}
+
+function validateTutorialParts(parts) {
+	const errors = [];
+
+	if (parts.length === 0) {
+		errors.push('no "## Part N:" headings found');
+		return errors;
+	}
+
+	for (let i = 0; i < parts.length; i++) {
+		const expected = i + 1;
+		if (parts[i].number !== expected) {
+			errors.push(`part numbering is non-sequential (expected Part ${expected}, found Part ${parts[i].number})`);
+			break;
+		}
+	}
+
+	if (Number.isFinite(EXPECTED_TUTORIAL_PARTS) && parts.length !== EXPECTED_TUTORIAL_PARTS) {
+		errors.push(`expected ${EXPECTED_TUTORIAL_PARTS} parts, found ${parts.length}`);
+	}
+
+	return errors;
 }
 
 // ── Sync functions ──
@@ -194,26 +377,26 @@ function syncManualDocs() {
 	// Guides
 	const guidesDir = join(DOCS_TARGET, 'guides');
 	ensureDir(guidesDir);
-	for (const [filename, opts] of Object.entries(GUIDES_MAP)) {
-		const src = join(SOURCES.docs, filename);
+	for (const file of DELIVERY_PROCESS_MANUAL_DOCS.guides) {
+		const src = join(SOURCES.docs, file.source);
 		if (existsSync(src)) {
-			const dest = join(guidesDir, filename.toLowerCase());
-			copyAndProcess(src, dest, { sidebarOrder: opts.order });
+			const dest = join(guidesDir, `${file.slug}.md`);
+			copyAndProcess(src, dest, { sidebarOrder: file.order });
 		} else {
-			console.warn(`  [sync] WARNING: ${filename} not found`);
+			console.warn(`  [sync] WARNING: ${file.source} not found`);
 		}
 	}
 
 	// Reference
 	const refDir = join(DOCS_TARGET, 'reference');
 	ensureDir(refDir);
-	for (const [filename, opts] of Object.entries(REFERENCE_MAP)) {
-		const src = join(SOURCES.docs, filename);
+	for (const file of DELIVERY_PROCESS_MANUAL_DOCS.reference) {
+		const src = join(SOURCES.docs, file.source);
 		if (existsSync(src)) {
-			const dest = join(refDir, filename.toLowerCase());
-			copyAndProcess(src, dest, { sidebarOrder: opts.order });
+			const dest = join(refDir, `${file.slug}.md`);
+			copyAndProcess(src, dest, { sidebarOrder: file.order });
 		} else {
-			console.warn(`  [sync] WARNING: ${filename} not found`);
+			console.warn(`  [sync] WARNING: ${file.source} not found`);
 		}
 	}
 }
@@ -344,8 +527,18 @@ function syncTutorial() {
 		});
 	}
 
+	const tutorialErrors = validateTutorialParts(parts);
+	if (tutorialErrors.length > 0) {
+		const summary = tutorialErrors.join('; ');
+		if (STRICT_MODE) {
+			console.error(`[sync-content] ERROR: Tutorial structure validation failed: ${summary}`);
+			process.exit(1);
+		}
+		console.warn(`  [sync] WARNING: Tutorial structure validation failed: ${summary}`);
+	}
+
 	if (parts.length === 0) {
-		console.warn('  [sync] WARNING: No "## Part N:" headings found in tutorial, copying as single file');
+		console.warn('  [sync] WARNING: Tutorial fallback: copying tutorial as a single page');
 		copyAndProcess(SOURCES.tutorial, join(targetDir, 'index.md'), { sidebarOrder: 0 });
 		return;
 	}
@@ -353,14 +546,12 @@ function syncTutorial() {
 	// Extract introduction (content before first part)
 	const introContent = content.substring(0, parts[0].startIndex).trim();
 	if (introContent) {
-		const introTitle = extractTitle(introContent);
-		const introStripped = stripFirstH1(introContent);
-		const introFrontmatter = buildFrontmatter({
-			title: introTitle,
+		const introProcessed = processMarkdownFile(introContent, {
+			sourceFilePath: SOURCES.tutorial,
 			sidebarOrder: 0,
 			sidebarLabel: 'Introduction',
 		});
-		writeFileSync(join(targetDir, 'index.md'), introFrontmatter + introStripped);
+		writeFileSync(join(targetDir, 'index.md'), introProcessed);
 		log('Tutorial intro → tutorial/index.md');
 	}
 
@@ -377,6 +568,7 @@ function syncTutorial() {
 		const filename = `${padded}-${part.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')}.md`;
 
 		const processed = processMarkdownFile(partContent, {
+			sourceFilePath: SOURCES.tutorial,
 			sidebarOrder: part.number,
 			sidebarLabel: `Part ${part.number}: ${part.title}`,
 		});
@@ -392,6 +584,7 @@ function syncTutorial() {
 
 console.log('[sync-content] Starting content sync...');
 console.log(`[sync-content] Target: ${DOCS_TARGET}`);
+console.log(`[sync-content] Strict mode: ${STRICT_MODE ? 'ON' : 'OFF'}`);
 
 // Show source resolution
 for (const [key, path] of Object.entries(SOURCES)) {
@@ -402,8 +595,12 @@ for (const [key, path] of Object.entries(SOURCES)) {
 	}
 }
 
+// Fail fast before cleanup when required source inputs are missing.
+validateSourcesOrExit();
+validateRequiredSourceFilesOrExit();
+
 // Clean synced directories (but not hand-crafted files at the root)
-for (const subdir of ['guides', 'reference', 'product-areas', 'decisions', 'generated', 'tutorial']) {
+for (const subdir of DELIVERY_PROCESS_SYNC_SUBDIRS) {
 	cleanDir(join(DOCS_TARGET, subdir));
 }
 
