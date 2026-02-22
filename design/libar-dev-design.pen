@@ -4937,8 +4937,11 @@
       "x": 7650,
       "y": 4459,
       "name": "Three Sessions — Light",
+      "theme": {
+        "mode": "dark"
+      },
       "width": 1200,
-      "fill": "#F6F5F3",
+      "fill": "\\$--bg-page",
       "layout": "vertical",
       "gap": 48,
       "padding": 80,
