@@ -4866,9 +4866,7 @@
       "x": 4950,
       "y": 3150,
       "name": "Docs Overview — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "clip": true,
       "width": 1200,
       "fill": "$--bg-page",
@@ -5617,9 +5615,7 @@
       "x": 7650,
       "y": 3150,
       "name": "Hero Section — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "clip": true,
       "width": 1200,
       "fill": "$--bg-page",
@@ -5896,9 +5892,7 @@
       "x": 7650,
       "y": 3972,
       "name": "Stats Section — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "width": 1200,
       "fill": "$--bg-page",
       "layout": "vertical",
@@ -6035,9 +6029,7 @@
       "x": 7650,
       "y": 4459,
       "name": "Three Sessions — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "width": 1200,
       "fill": "$--bg-section-alt",
       "layout": "vertical",
@@ -6172,9 +6164,7 @@
       "x": 7650,
       "y": 7198,
       "name": "CTA Footer — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "width": 1200,
       "fill": "$--bg-page",
       "layout": "vertical",
@@ -6288,9 +6278,7 @@
       "x": 7650,
       "y": 5029,
       "name": "Pipeline Section — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "width": 1200,
       "fill": "$--bg-page",
       "layout": "vertical",
@@ -6555,9 +6543,7 @@
       "x": 7650,
       "y": 6314,
       "name": "Show Dont Tell — Light",
-      "theme": {
-        "Mode": "Light"
-      },
+      "theme": {},
       "width": 1200,
       "fill": "$--bg-section-alt",
       "layout": "vertical",
@@ -6770,9 +6756,7 @@
       "x": 7650,
       "y": 5734,
       "width": 1200,
-      "theme": {
-        "Mode": "Light"
-      }
+      "theme": {}
     }
   ],
   "themes": {
