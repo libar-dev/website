@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@libar-dev/delivery-process — Context Engineering Toolkit</title>
+  <meta name="description" content="Context engineering for AI-assisted codebases. Extract patterns from TypeScript and Gherkin, generate living documentation and architecture diagrams, enforce delivery workflow via FSM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    window.__mermaid = mermaid;
+
+    function getMermaidVars(theme) {
+      const isDark = theme === 'dark';
+      return {
+        primaryColor: 'transparent',
+        primaryBorderColor: isDark ? '#F0EDE8' : '#000000',
+        primaryTextColor: isDark ? '#F0EDE8' : '#000000',
+        lineColor: isDark ? '#555555' : '#999999',
+        fontFamily: '"JetBrains Mono", monospace',
+        fontSize: '12px',
+        edgeLabelBackground: 'transparent',
+      };
+    }
+
+    // Store original diagram source before mermaid replaces it with SVG
+    document.querySelectorAll('.mermaid').forEach(function(el) {
+      el.setAttribute('data-mermaid-src', el.textContent.trim());
+    });
+
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: getMermaidVars(currentTheme),
+    });
+
+    window.__reinitMermaid = async function(theme) {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: getMermaidVars(theme),
+      });
+      const els = document.querySelectorAll('.mermaid');
+      els.forEach(function(el) {
+        const src = el.getAttribute('data-mermaid-src');
+        if (src) {
+          el.removeAttribute('data-processed');
+          el.innerHTML = src;
+        }
+      });
+      await mermaid.run({ nodes: els });
+    };
+  </script>
+  <style>
+    /* ================================================================
+       UNIFIED DESIGN SYSTEM — Light + Dark
+       ================================================================ */
+
+    :root {
+      /* Light theme (default) */
+      --bg:             #FFFFFF;
+      --bg-surface:     #F5F3F0;
+      --bg-code:        #0C0C0C;
+      --text-primary:   #000000;
+      --text-secondary: #777777;
+      --text-inverse:   #F0EDE8;
+      --accent:         #E8530E;
+      --taupe:          #B5A898;
+      --border:         #000000;
+      --border-subtle:  #E0DDD8;
+      --nav-bg:         #FFFFFF;
+      --nav-border:     #000000;
+      --surface-hover:  #ECEAE6;
+      --bracket-color:  #000000;
+      --bracket-subtle: rgba(0,0,0,0.12);
+      --check-color:    #000000;
+      --cross-color:    #CCCCCC;
+
+      /* Typography */
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Outfit', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      /* Spacing */
+      --section-pad:  clamp(80px, 10vw, 120px);
+      --content-max:  1200px;
+      --content-pad:  clamp(24px, 4vw, 60px);
+
+      /* Syntax (always on dark bg) */
+      --syn-kw:    #E0DCD6;
+      --syn-fn:    #C8BFB4;
+      --syn-type:  #D4CDC4;
+      --syn-str:   #C49A6C;
+      --syn-cm:    #5A5550;
+      --syn-tag:   #B5A898;
+      --syn-op:    #7A756E;
+      --syn-base:  #D4CDC4;
+    }
+
+    [data-theme="dark"] {
+      --bg:             #0C0C0C;
+      --bg-surface:     #161616;
+      --bg-code:        #111111;
+      --text-primary:   #F0EDE8;
+      --text-secondary: #888888;
+      --text-inverse:   #0C0C0C;
+      --border:         #2A2A2A;
+      --border-subtle:  #222222;
+      --nav-bg:         #0C0C0C;
+      --nav-border:     #2A2A2A;
+      --surface-hover:  #1E1E1E;
+      --bracket-color:  rgba(240,237,232,0.25);
+      --bracket-subtle: rgba(240,237,232,0.08);
+      --check-color:    #F0EDE8;
+      --cross-color:    #444444;
+    }
+
+    /* ── Reset ── */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--text-primary);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Utilities ── */
+
+    .meta {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      line-height: 1.2;
+    }
+
+    .meta--taupe { color: var(--taupe); }
+
+    .content {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding-left: var(--content-pad);
+      padding-right: var(--content-pad);
+    }
+
+    .section-label {
+      margin-bottom: 48px;
+    }
+
+    /* ── Reveal Animation ── */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    /* ── Buttons ── */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 1px solid var(--text-primary);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      background: none;
+      color: var(--text-primary);
+    }
+
+    .btn--primary {
+      background: var(--text-primary);
+      color: var(--bg);
+    }
+    .btn--primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #FFFFFF;
+    }
+    .btn--secondary:hover {
+      background: var(--text-primary);
+      color: var(--bg);
+    }
+
+    /* ================================================================
+       NAVIGATION
+       ================================================================ */
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-border);
+      height: 52px;
+      transition: background-color 0.35s ease, border-color 0.35s ease;
+    }
+
+    .nav__inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--content-pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .nav__left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav__name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .nav__version {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      font-weight: 400;
+      padding: 3px 8px;
+      border: 1px solid var(--border-subtle);
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav__link {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--text-primary);
+      transition: width 0.25s ease;
+    }
+    .nav__link:hover::after { width: 100%; }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border-subtle);
+      width: 36px; height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+      padding: 0;
+    }
+    .theme-toggle:hover {
+      border-color: var(--text-primary);
+      color: var(--text-primary);
+    }
+    .theme-toggle svg {
+      width: 16px; height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .theme-toggle .icon-moon { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+    /* Mobile nav toggle */
+    .nav__hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 36px; height: 36px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0;
+    }
+    .nav__hamburger span {
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--text-primary);
+      transition: all 0.25s ease;
+    }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 52px;
+    }
+
+    .hero .content {
+      position: relative;
+      width: 100%;
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: center;
+      width: 100%;
+    }
+
+    /* ── dp Letterform ── */
+
+    .dp {
+      display: flex;
+      gap: 28px;
+      flex-shrink: 0;
+      position: relative;
+      padding: 18px;
+    }
+
+    /* Bracket frame TL */
+    .dp::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 40px; height: 40px;
+      border-top: 1px solid var(--bracket-color);
+      border-left: 1px solid var(--bracket-color);
+    }
+    /* Bracket frame BR */
+    .dp::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 40px; height: 40px;
+      border-bottom: 1px solid var(--bracket-color);
+      border-right: 1px solid var(--bracket-color);
+    }
+
+    .dp__letter { position: relative; }
+
+    .dp__letter .blk {
+      position: absolute;
+      background: var(--text-primary);
+      transition: background-color 0.35s ease;
+    }
+
+    /* Letter "d" — 190 x 480px
+       right stem + bowl (top bar, left bar, bottom bar) */
+    .dp__d { width: 190px; height: 480px; }
+    .dp__d .d-stem { top: 0; right: 0; width: 48px; height: 100%; }
+    .dp__d .d-top  { top: 160px; left: 0; right: 48px; height: 48px; }
+    .dp__d .d-left { top: 160px; left: 0; width: 48px; height: 262px; }
+    .dp__d .d-bot  { top: 374px; left: 0; right: 48px; height: 48px; }
+
+    /* Letter "p" — 190 x 480px
+       left stem + bowl (top bar, right bar, bottom bar) */
+    .dp__p { width: 190px; height: 480px; }
+    .dp__p .p-stem  { top: 0; left: 0; width: 48px; height: 100%; }
+    .dp__p .p-top   { top: 58px; left: 48px; right: 0; height: 48px; }
+    .dp__p .p-right { top: 58px; right: 0; width: 48px; height: 262px; }
+    .dp__p .p-bot   { top: 272px; left: 48px; right: 0; height: 48px; }
+
+    /* Hero text */
+    .hero__text { max-width: 580px; }
+
+    .hero__overline { margin-bottom: 16px; }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 6.5vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+
+    .hero__subtitle {
+      font-weight: 300;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 460px;
+    }
+
+    .hero__install {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-code);
+      padding: 14px 24px;
+      margin-bottom: 24px;
+    }
+    .hero__install code {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #D4CDC4;
+    }
+    .hero__install .prompt {
+      color: var(--taupe);
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .hero__namespace {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      margin-top: 20px;
+      letter-spacing: 0.02em;
+    }
+    .hero__namespace a {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: border-color 0.2s ease;
+    }
+    .hero__namespace a:hover {
+      border-color: var(--text-primary);
+    }
+
+    /* ================================================================
+       PIPELINE
+       ================================================================ */
+
+    .pipeline {
+      padding: var(--section-pad) 0;
+    }
+
+    .pipeline__grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border-subtle);
+    }
+
+    .pipeline__stage {
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.35s ease;
+    }
+
+    .pipeline__block {
+      background: var(--text-primary);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px 20px;
+      transition: background-color 0.35s ease;
+    }
+
+    .pipeline__block-label {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 1.4vw, 1.35rem);
+      letter-spacing: 0.04em;
+      color: var(--bg);
+      transition: color 0.35s ease;
+    }
+
+    .pipeline__desc {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .pipeline__desc-text {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .pipeline__path {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--taupe);
+    }
+
+    /* Varying heights for visual rhythm */
+    .pipeline__stage:nth-child(1) .pipeline__block { height: 80px; }
+    .pipeline__stage:nth-child(2) .pipeline__block { height: 120px; }
+    .pipeline__stage:nth-child(3) .pipeline__block { height: 180px; }
+    .pipeline__stage:nth-child(4) .pipeline__block { height: 160px; }
+    .pipeline__stage:nth-child(5) .pipeline__block { height: 100px; }
+
+    /* ================================================================
+       CAPABILITIES
+       ================================================================ */
+
+    .capabilities {
+      padding: var(--section-pad) 0;
+    }
+
+    .capabilities__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1px;
+      background: var(--border-subtle);
+      margin-bottom: 1px;
+    }
+
+    .cap-card {
+      background: var(--bg-surface);
+      padding: clamp(28px, 3vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      transition: background-color 0.35s ease;
+    }
+
+    /* Bracket corners on cards */
+    .cap-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 20px; height: 20px;
+      border-top: 1px solid var(--bracket-color);
+      border-left: 1px solid var(--bracket-color);
+      transition: all 0.3s ease;
+    }
+    .cap-card::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 20px; height: 20px;
+      border-bottom: 1px solid var(--bracket-color);
+      border-right: 1px solid var(--bracket-color);
+      transition: all 0.3s ease;
+    }
+    .cap-card:hover::before { transform: translate(-3px, -3px); }
+    .cap-card:hover::after  { transform: translate(3px, 3px); }
+
+    .cap-card.large {
+      grid-row: span 2;
+    }
+
+    .cap-card__title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .cap-card__desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Mermaid diagram wrapper */
+    .mermaid-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 0 12px;
+    }
+    .mermaid-wrap .mermaid {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* FSM diagram */
+    .fsm-diagram {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .fsm-node {
+      border: 1px solid var(--text-primary);
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-primary);
+      transition: border-color 0.35s ease, color 0.35s ease;
+    }
+    .fsm-node.terminal {
+      border-color: var(--taupe);
+      color: var(--taupe);
+    }
+    .fsm-edge {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+
+    /* Mini terminal */
+    .mini-terminal {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      margin-top: 8px;
+    }
+    .mini-terminal .t-prompt { color: var(--taupe); }
+    .mini-terminal .t-cmd { color: #D4CDC4; }
+    .mini-terminal .t-output {
+      color: #7A756E;
+      display: block;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-subtle);
+    }
+
+    .stat {
+      background: var(--bg);
+      padding: 32px 24px;
+      text-align: center;
+      transition: background-color 0.35s ease;
+    }
+
+    .stat__number {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat__number--accent { color: var(--accent); }
+
+    .stat__label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    /* ================================================================
+       CODE SECTION (always dark)
+       ================================================================ */
+
+    .code-section {
+      background: #0C0C0C;
+      padding: var(--section-pad) 0;
+    }
+
+    .code-section .meta {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .code-section__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .code-block-wrap {}
+
+    .code-block-wrap__label {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .code-block-wrap__label--ts { color: var(--accent); }
+    .code-block-wrap__label--gk { color: var(--taupe); }
+
+    .code-block {
+      background: #111111;
+      border: 1px solid #1E1E1E;
+      padding: clamp(16px, 2vw, 28px);
+      overflow-x: auto;
+      position: relative;
+    }
+
+    /* Bracket corners on code blocks */
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 16px; height: 16px;
+      border-top: 1px solid rgba(240,237,232,0.15);
+      border-left: 1px solid rgba(240,237,232,0.15);
+    }
+    .code-block::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 16px; height: 16px;
+      border-bottom: 1px solid rgba(240,237,232,0.15);
+      border-right: 1px solid rgba(240,237,232,0.15);
+    }
+
+    .code-block {
+      scrollbar-width: none;
+    }
+    .code-block::-webkit-scrollbar { display: none; }
+
+    .code-block code {
+      font-family: var(--font-mono);
+      font-size: clamp(0.68rem, 0.85vw, 0.78rem);
+      line-height: 1.75;
+      color: var(--syn-base);
+      white-space: pre;
+      display: block;
+    }
+
+    /* Syntax tokens */
+    .s-kw  { color: var(--syn-kw); font-weight: 700; }
+    .s-fn  { color: var(--syn-fn); }
+    .s-ty  { color: var(--syn-type); }
+    .s-str { color: var(--syn-str); }
+    .s-cm  { color: var(--syn-cm); }
+    .s-tag { color: var(--syn-tag); }
+    .s-op  { color: var(--syn-op); }
+    .s-gk  { color: var(--syn-kw); font-weight: 700; }
+
+    /* ================================================================
+       COMPARISON TABLE
+       ================================================================ */
+
+    .comparison {
+      padding: var(--section-pad) 0;
+    }
+
+    .comparison__wrap {
+      overflow-x: auto;
+      position: relative;
+      padding: 6px;
+    }
+
+    /* Bracket frame */
+    .comparison__wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 20px; height: 20px;
+      border-top: 1px solid var(--bracket-subtle);
+      border-left: 1px solid var(--bracket-subtle);
+    }
+    .comparison__wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 20px; height: 20px;
+      border-bottom: 1px solid var(--bracket-subtle);
+      border-right: 1px solid var(--bracket-subtle);
+    }
+
+    .comparison__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .comparison__table th {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison__table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+    }
+
+    .comparison__table tr.highlight td {
+      background: rgba(232, 83, 14, 0.05);
+      color: var(--text-primary);
+    }
+    [data-theme="dark"] .comparison__table tr.highlight td {
+      background: rgba(232, 83, 14, 0.08);
+    }
+
+    .comparison__table .check,
+    .comparison__table .cross {
+      font-size: 0;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .comparison__table .check::after {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 7px;
+      border-bottom: 1.5px solid var(--check-color);
+      border-left: 1.5px solid var(--check-color);
+      transform: rotate(-45deg);
+      margin-bottom: 4px;
+    }
+    .comparison__table .cross::after {
+      content: '–';
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--cross-color);
+    }
+
+    /* ================================================================
+       QUICK START
+       ================================================================ */
+
+    .quickstart {
+      padding: var(--section-pad) 0;
+    }
+
+    .quickstart__steps {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(48px, 6vw, 72px);
+    }
+
+    .qs-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .qs-step__num {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      line-height: 0.85;
+      color: var(--text-primary);
+    }
+
+    .qs-step__title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .qs-step__desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .qs-code {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-code);
+      padding: 12px 20px;
+    }
+    .qs-code code {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #D4CDC4;
+      white-space: pre;
+    }
+    .qs-code .s-prompt { color: var(--taupe); }
+    .qs-code .s-cm  { color: #8A8580; }
+    .qs-code .s-tag { color: var(--taupe); }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      transition: border-color 0.35s ease;
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer__link {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+    .footer__link:hover { color: var(--text-primary); }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+
+    @media (max-width: 1024px) {
+      .hero__grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+      .hero__text { max-width: 560px; }
+      .hero__subtitle { margin-left: auto; margin-right: auto; }
+      .hero__actions { justify-content: center; }
+      .hero__namespace { text-align: center; }
+
+      .dp__d, .dp__p { width: 140px; height: 340px; }
+      .dp__d .d-stem { width: 36px; }
+      .dp__d .d-top  { top: 120px; right: 36px; height: 36px; }
+      .dp__d .d-left { top: 120px; width: 36px; height: 190px; }
+      .dp__d .d-bot  { top: 274px; right: 36px; height: 36px; }
+      .dp__p .p-stem  { width: 36px; }
+      .dp__p .p-top   { top: 44px; left: 36px; height: 36px; }
+      .dp__p .p-right { top: 44px; width: 36px; height: 190px; }
+      .dp__p .p-bot   { top: 198px; left: 36px; height: 36px; }
+      .dp { gap: 20px; padding: 14px; }
+
+      .pipeline__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .pipeline__stage:nth-child(n) .pipeline__block { height: 80px; }
+
+      .capabilities__grid {
+        grid-template-columns: 1fr;
+      }
+      .cap-card.large { grid-row: auto; }
+
+      .code-section__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-pad: clamp(60px, 10vw, 80px);
+        --content-pad: clamp(20px, 4vw, 32px);
+      }
+
+      .nav__links { display: none; }
+      .nav__links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 52px; left: 0; right: 0;
+        background: var(--nav-bg);
+        border-bottom: 1px solid var(--nav-border);
+        padding: 20px var(--content-pad);
+        gap: 16px;
+      }
+      .nav__hamburger { display: flex; }
+
+      .dp__d, .dp__p { width: 110px; height: 260px; }
+      .dp__d .d-stem { width: 28px; }
+      .dp__d .d-top  { top: 90px; right: 28px; height: 28px; }
+      .dp__d .d-left { top: 90px; width: 28px; height: 148px; }
+      .dp__d .d-bot  { top: 210px; right: 28px; height: 28px; }
+      .dp__p .p-stem  { width: 28px; }
+      .dp__p .p-top   { top: 34px; left: 28px; height: 28px; }
+      .dp__p .p-right { top: 34px; width: 28px; height: 148px; }
+      .dp__p .p-bot   { top: 154px; left: 28px; height: 28px; }
+      .dp { gap: 16px; padding: 10px; }
+
+      .pipeline__grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        background: var(--bg);
+      }
+      .pipeline__stage {
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .pipeline__stage:nth-child(n) .pipeline__block { height: 60px; }
+
+      .qs-step {
+        grid-template-columns: 60px 1fr;
+        gap: 16px;
+      }
+
+      .comparison__table th,
+      .comparison__table td {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --section-pad: 48px;
+        --content-pad: 16px;
+      }
+
+      .dp__d, .dp__p { width: 80px; height: 200px; }
+      .dp__d .d-stem { width: 22px; }
+      .dp__d .d-top  { top: 68px; right: 22px; height: 22px; }
+      .dp__d .d-left { top: 68px; width: 22px; height: 110px; }
+      .dp__d .d-bot  { top: 156px; right: 22px; height: 22px; }
+      .dp__p .p-stem  { width: 22px; }
+      .dp__p .p-top   { top: 26px; left: 22px; height: 22px; }
+      .dp__p .p-right { top: 26px; width: 22px; height: 110px; }
+      .dp__p .p-bot   { top: 114px; left: 22px; height: 22px; }
+      .dp { gap: 12px; padding: 8px; }
+
+      .hero { min-height: auto; padding-top: 100px; padding-bottom: 60px; }
+      .hero__actions { flex-direction: column; }
+      .hero__actions .btn { width: 100%; }
+
+      .stats-row { grid-template-columns: 1fr 1fr; }
+
+      .qs-step {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <div class="nav__left">
+        <span class="nav__name">@libar-dev/delivery-process</span>
+        <span class="nav__version">v1.0.0-pre</span>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links">
+        <li><a href="#pipeline" class="nav__link">Pipeline</a></li>
+        <li><a href="#capabilities" class="nav__link">Capabilities</a></li>
+        <li><a href="#code" class="nav__link">Annotation</a></li>
+        <li><a href="#comparison" class="nav__link">Compare</a></li>
+        <li><a href="#quickstart" class="nav__link">Get Started</a></li>
+        <li>
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+
+  <section class="hero">
+    <div class="content">
+      <div class="hero__grid">
+
+        <div class="dp reveal" aria-label="dp lettermark">
+          <div class="dp__letter dp__d">
+            <div class="blk d-stem"></div>
+            <div class="blk d-top"></div>
+            <div class="blk d-left"></div>
+            <div class="blk d-bot"></div>
+          </div>
+          <div class="dp__letter dp__p">
+            <div class="blk p-stem"></div>
+            <div class="blk p-top"></div>
+            <div class="blk p-right"></div>
+            <div class="blk p-bot"></div>
+          </div>
+        </div>
+
+        <div class="hero__text">
+          <div class="meta hero__overline reveal reveal-d1">Context Engineering Toolkit</div>
+          <h1 class="hero__title reveal reveal-d2">Code as the<br>Single Source<br>of Truth</h1>
+          <p class="hero__subtitle reveal reveal-d3">Extract patterns from TypeScript and Gherkin sources. Generate living documentation, architecture diagrams, and FSM-enforced delivery workflows that AI agents consume without hallucinating.</p>
+          <div class="hero__install reveal reveal-d4">
+            <code><span class="prompt">$ </span>pnpm add -D @libar-dev/delivery-process</code>
+          </div>
+          <div class="hero__actions reveal reveal-d5">
+            <a href="#quickstart" class="btn btn--primary">Get Started</a>
+            <a href="https://github.com/libar-dev/delivery-process" target="_blank" rel="noopener" class="btn btn--secondary">View Source</a>
+          </div>
+          <div class="hero__namespace reveal reveal-d5">
+            Part of the <a href="https://github.com/libar-dev">@libar-dev</a> ecosystem
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PIPELINE
+       ============================================================ -->
+
+  <section class="pipeline" id="pipeline">
+    <div class="content">
+      <div class="meta section-label reveal">The Pipeline</div>
+
+      <div class="pipeline__grid reveal reveal-d1">
+        <div class="pipeline__stage">
+          <div class="pipeline__block">
+            <span class="pipeline__block-label">Config</span>
+          </div>
+          <div class="pipeline__desc">
+            <span class="pipeline__desc-text">Preset selection, tag registry initialization, path resolution. Supports generic, libar-generic, and DDD-ES-CQRS presets.</span>
+            <span class="pipeline__path">src/config/</span>
+          </div>
+        </div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__block">
+            <span class="pipeline__block-label">Scanner</span>
+          </div>
+          <div class="pipeline__desc">
+            <span class="pipeline__desc-text">File discovery, AST parsing, opt-in detection via <code style="font-family:var(--font-mono);font-size:0.7rem;">@libar-docs</code> marker. Supports TypeScript and Gherkin sources.</span>
+            <span class="pipeline__path">src/scanner/</span>
+          </div>
+        </div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__block">
+            <span class="pipeline__block-label">Extractor</span>
+          </div>
+          <div class="pipeline__desc">
+            <span class="pipeline__desc-text">Pattern extraction from TypeScript JSDoc annotations and Gherkin feature tags with shape resolution and cross-source merging.</span>
+            <span class="pipeline__path">src/extractor/</span>
+          </div>
+        </div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__block">
+            <span class="pipeline__block-label">Transformer</span>
+          </div>
+          <div class="pipeline__desc">
+            <span class="pipeline__desc-text">Builds MasterDataset with pre-computed views, dependency graphs, and O(1) lookups. The single read model for all consumers.</span>
+            <span class="pipeline__path">src/generators/pipeline/</span>
+          </div>
+        </div>
+
+        <div class="pipeline__stage">
+          <div class="pipeline__block">
+            <span class="pipeline__block-label">Codec</span>
+          </div>
+          <div class="pipeline__desc">
+            <span class="pipeline__desc-text">20 Zod codecs transform MasterDataset to RenderableDocument to Markdown. Progressive disclosure splits detailed vs compact output.</span>
+            <span class="pipeline__path">src/renderable/</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CAPABILITIES
+       ============================================================ -->
+
+  <section class="capabilities" id="capabilities">
+    <div class="content">
+      <div class="meta section-label reveal">Capabilities</div>
+
+      <div class="capabilities__grid reveal reveal-d1">
+        <!-- Large card: Dual-Source Architecture -->
+        <div class="cap-card large">
+          <span class="meta">Architecture</span>
+          <span class="cap-card__title">Dual-Source Architecture</span>
+          <span class="cap-card__desc">TypeScript owns runtime structure. Gherkin owns planning and behavior. Both contribute to a unified MasterDataset &mdash; the single read model that all generators consume.</span>
+          <div class="mermaid-wrap">
+            <pre class="mermaid">
+graph TD
+  TS["TypeScript<br/><small>JSDoc annotations</small>"] --> MD["MasterDataset"]
+  GK["Gherkin<br/><small>Feature tags</small>"] --> MD
+            </pre>
+          </div>
+        </div>
+
+        <!-- Small card 1: FSM Enforcement -->
+        <div class="cap-card">
+          <span class="meta">Validation</span>
+          <span class="cap-card__title">FSM Workflow Enforcement</span>
+          <span class="cap-card__desc">Delivery workflow validated at commit time via pre-commit hooks. Scope-locked active specs prevent creep. Hard-locked completed specs require explicit unlock.</span>
+          <div class="fsm-diagram">
+            <span class="fsm-node">roadmap</span>
+            <span class="fsm-edge">&rarr;</span>
+            <span class="fsm-node">active</span>
+            <span class="fsm-edge">&rarr;</span>
+            <span class="fsm-node terminal">completed</span>
+          </div>
+        </div>
+
+        <!-- Small card 2: AI-Native CLI -->
+        <div class="cap-card">
+          <span class="meta">Developer Experience</span>
+          <span class="cap-card__title">AI-Native Data API</span>
+          <span class="cap-card__desc">Query delivery state directly from the terminal. Targeted queries use 5&ndash;10x less context than reading generated files. Replaces explore agents for structural questions.</span>
+          <div class="mini-terminal">
+            <span class="t-prompt">$ </span><span class="t-cmd">process:query -- overview</span>
+            <span class="t-output">Progress: 67% (32/48 patterns completed)
+Active phases: 12, 14, 17
+Blockers: 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row reveal reveal-d2">
+        <div class="stat">
+          <div class="stat__number">50-65%</div>
+          <div class="stat__label">Context Reduction</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number stat__number--accent">5x</div>
+          <div class="stat__label">Session Productivity</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">0</div>
+          <div class="stat__label">Manual Docs Maintained</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">422</div>
+          <div class="stat__label">Executable Specs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CODE EXAMPLES (always dark)
+       ============================================================ -->
+
+  <section class="code-section" id="code">
+    <div class="content">
+      <div class="meta section-label reveal">Dual-Source Annotations</div>
+
+      <div class="code-section__grid">
+        <!-- TypeScript -->
+        <div class="code-block-wrap reveal reveal-d1">
+          <span class="code-block-wrap__label code-block-wrap__label--ts">TypeScript</span>
+          <div class="code-block">
+<code><span class="s-cm">/** @libar-docs */</span>
+
+<span class="s-cm">/**</span>
+<span class="s-cm"> * </span><span class="s-tag">@libar-docs-pattern</span><span class="s-cm"> PipelineFactory</span>
+<span class="s-cm"> * </span><span class="s-tag">@libar-docs-status</span><span class="s-cm"> completed</span>
+<span class="s-cm"> * </span><span class="s-tag">@libar-docs-uses</span><span class="s-cm"> PatternScanner, GherkinScanner</span>
+<span class="s-cm"> * </span><span class="s-tag">@libar-docs-uses</span><span class="s-cm"> DocExtractor, MasterDataset</span>
+<span class="s-cm"> * </span><span class="s-tag">@libar-docs-product-area</span><span class="s-cm"> Generation</span>
+<span class="s-cm"> *</span>
+<span class="s-cm"> * ## Pipeline Factory</span>
+<span class="s-cm"> *</span>
+<span class="s-cm"> * Shared factory that executes the full</span>
+<span class="s-cm"> * scan-extract-merge-transform pipeline.</span>
+<span class="s-cm"> * See: ADR-006 (Single Read Model)</span>
+<span class="s-cm"> */</span>
+
+<span class="s-kw">export interface</span> <span class="s-ty">PipelineOptions</span> <span class="s-op">{</span>
+  <span class="s-kw">readonly</span> <span class="s-fn">input</span><span class="s-op">:</span> <span class="s-kw">readonly</span> <span class="s-ty">string</span><span class="s-op">[];</span>
+  <span class="s-kw">readonly</span> <span class="s-fn">features</span><span class="s-op">:</span> <span class="s-kw">readonly</span> <span class="s-ty">string</span><span class="s-op">[];</span>
+  <span class="s-kw">readonly</span> <span class="s-fn">baseDir</span><span class="s-op">:</span> <span class="s-ty">string</span><span class="s-op">;</span>
+  <span class="s-kw">readonly</span> <span class="s-fn">preset</span><span class="s-op">:</span>
+    <span class="s-op">|</span> <span class="s-str">'generic'</span>
+    <span class="s-op">|</span> <span class="s-str">'libar-generic'</span>
+    <span class="s-op">|</span> <span class="s-str">'ddd-es-cqrs'</span><span class="s-op">;</span>
+<span class="s-op">}</span>
+
+<span class="s-kw">export type</span> <span class="s-ty">Result</span><span class="s-op">&lt;</span><span class="s-ty">T</span><span class="s-op">,</span> <span class="s-ty">E</span> <span class="s-op">=</span> <span class="s-ty">Error</span><span class="s-op">&gt; =</span>
+  <span class="s-op">|</span> <span class="s-op">{</span> <span class="s-kw">readonly</span> <span class="s-fn">ok</span><span class="s-op">:</span> <span class="s-kw">true</span><span class="s-op">;</span>  <span class="s-fn">value</span><span class="s-op">:</span> <span class="s-ty">T</span> <span class="s-op">}</span>
+  <span class="s-op">|</span> <span class="s-op">{</span> <span class="s-kw">readonly</span> <span class="s-fn">ok</span><span class="s-op">:</span> <span class="s-kw">false</span><span class="s-op">;</span> <span class="s-fn">error</span><span class="s-op">:</span> <span class="s-ty">E</span> <span class="s-op">};</span>
+
+<span class="s-kw">export function</span> <span class="s-fn">buildMasterDataset</span><span class="s-op">(</span>
+  <span class="s-fn">options</span><span class="s-op">:</span> <span class="s-ty">PipelineOptions</span>
+<span class="s-op">):</span> <span class="s-ty">Result</span><span class="s-op">&lt;</span><span class="s-ty">MasterDataset</span><span class="s-op">&gt; {</span>
+  <span class="s-kw">const</span> <span class="s-fn">scanned</span>   <span class="s-op">=</span> <span class="s-fn">scanSources</span><span class="s-op">(</span><span class="s-fn">options</span><span class="s-op">);</span>
+  <span class="s-kw">const</span> <span class="s-fn">extracted</span> <span class="s-op">=</span> <span class="s-fn">extractPatterns</span><span class="s-op">(</span><span class="s-fn">scanned</span><span class="s-op">);</span>
+  <span class="s-kw">const</span> <span class="s-fn">merged</span>    <span class="s-op">=</span> <span class="s-fn">mergePatterns</span><span class="s-op">(</span><span class="s-fn">extracted</span><span class="s-op">);</span>
+  <span class="s-kw">return</span> <span class="s-ty">Result</span><span class="s-op">.</span><span class="s-fn">ok</span><span class="s-op">(</span>
+    <span class="s-fn">transformToMasterDataset</span><span class="s-op">(</span><span class="s-fn">merged</span><span class="s-op">)</span>
+  <span class="s-op">);</span>
+<span class="s-op">}</span></code>
+          </div>
+        </div>
+
+        <!-- Gherkin -->
+        <div class="code-block-wrap reveal reveal-d2">
+          <span class="code-block-wrap__label code-block-wrap__label--gk">Gherkin</span>
+          <div class="code-block">
+<code><span class="s-tag">@libar-docs</span>
+<span class="s-tag">@libar-docs-pattern:ProcessGuardLinter</span>
+<span class="s-tag">@libar-docs-status:completed</span>
+<span class="s-tag">@libar-docs-phase:99</span>
+<span class="s-gk">Feature:</span> Process Guard Linter
+
+  <span class="s-str">**Problem:**</span>
+  No enforcement boundary between
+  planning and implementation sessions.
+  Accidental modifications go undetected.
+
+  <span class="s-str">**Solution:**</span>
+  Decider-based linter that validates
+  changes against FSM rules at commit time.
+
+  <span class="s-gk">Background:</span> Deliverables
+    <span class="s-gk">Given</span> the following deliverables<span class="s-op">:</span>
+      <span class="s-op">|</span> Deliverable        <span class="s-op">|</span> Status   <span class="s-op">|</span>
+      <span class="s-op">|</span> State derivation   <span class="s-op">|</span> complete <span class="s-op">|</span>
+      <span class="s-op">|</span> Change detection   <span class="s-op">|</span> complete <span class="s-op">|</span>
+      <span class="s-op">|</span> Process Decider    <span class="s-op">|</span> complete <span class="s-op">|</span>
+      <span class="s-op">|</span> Pre-commit hook    <span class="s-op">|</span> complete <span class="s-op">|</span>
+
+  <span class="s-gk">Rule:</span> Completed specs are immutable
+
+    <span class="s-str">**Invariant:**</span> A completed spec cannot
+    be modified without an unlock reason.
+
+    <span class="s-str">**Rationale:**</span> Prevents accidental
+    regression of validated deliverables.
+
+    <span class="s-tag">@acceptance-criteria</span> <span class="s-tag">@happy-path</span>
+    <span class="s-gk">Scenario:</span> Block edit without unlock
+      <span class="s-gk">Given</span> a spec with status <span class="s-str">"completed"</span>
+      <span class="s-gk">When</span> a change is staged
+      <span class="s-gk">Then</span> the guard rejects the commit
+      <span class="s-gk">And</span> the error includes <span class="s-str">"completed-protection"</span>
+
+    <span class="s-tag">@acceptance-criteria</span> <span class="s-tag">@edge-case</span>
+    <span class="s-gk">Scenario:</span> Allow edit with unlock reason
+      <span class="s-gk">Given</span> a spec with status <span class="s-str">"completed"</span>
+      <span class="s-gk">And</span> tag <span class="s-str">"@libar-docs-unlock-reason:Fix-typo"</span>
+      <span class="s-gk">When</span> a change is staged
+      <span class="s-gk">Then</span> the guard allows the commit</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPARISON TABLE
+       ============================================================ -->
+
+  <section class="comparison" id="comparison">
+    <div class="content">
+      <div class="meta section-label reveal">How It Compares</div>
+
+      <div class="comparison__wrap reveal reveal-d1">
+        <table class="comparison__table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>delivery-process</th>
+              <th>TypeDoc</th>
+              <th>Storybook</th>
+              <th>Manual Docs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Code-first generation</td>
+              <td class="check">&check;</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+            <tr>
+              <td>Gherkin spec extraction</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+            <tr>
+              <td>FSM workflow enforcement</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+            <tr>
+              <td>LLM-optimized output</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+            <tr class="highlight">
+              <td>AI session context CLI</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+            <tr>
+              <td>Mermaid architecture diagrams</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="check">&check;</td>
+            </tr>
+            <tr>
+              <td>Pre-commit validation</td>
+              <td class="check">&check;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+              <td class="cross">&times;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUICK START
+       ============================================================ -->
+
+  <section class="quickstart" id="quickstart">
+    <div class="content">
+      <div class="meta section-label reveal">Get Started</div>
+
+      <div class="quickstart__steps">
+        <div class="qs-step reveal">
+          <div class="qs-step__num">01</div>
+          <div>
+            <div class="qs-step__title">Install the package</div>
+            <div class="qs-step__desc">Add as a dev dependency. Works with pnpm, npm, and yarn. Requires Node.js &ge; 18 and ESM.</div>
+            <div class="qs-code"><code><span class="s-prompt">$ </span>pnpm add -D @libar-dev/delivery-process</code></div>
+          </div>
+        </div>
+
+        <div class="qs-step reveal reveal-d1">
+          <div class="qs-step__num">02</div>
+          <div>
+            <div class="qs-step__title">Annotate your sources</div>
+            <div class="qs-step__desc">Add <code style="font-family:var(--font-mono);font-size:0.82rem;">@docs</code> markers to TypeScript JSDoc or Gherkin feature tags. Configure a preset that matches your architecture.</div>
+            <div class="qs-code"><code><span class="s-cm">/** @docs */</span>
+<span class="s-cm">/**</span>
+<span class="s-cm"> * </span><span class="s-tag">@docs-pattern</span><span class="s-cm"> MyPattern</span>
+<span class="s-cm"> * </span><span class="s-tag">@docs-status</span><span class="s-cm"> roadmap</span>
+<span class="s-cm"> * </span><span class="s-tag">@docs-uses</span><span class="s-cm"> SessionManager</span>
+<span class="s-cm"> */</span></code></div>
+          </div>
+        </div>
+
+        <div class="qs-step reveal reveal-d2">
+          <div class="qs-step__num">03</div>
+          <div>
+            <div class="qs-step__title">Generate documentation</div>
+            <div class="qs-step__desc">Run the generator. Output includes pattern registries, roadmaps, remaining work, architecture diagrams, and decision records.</div>
+            <div class="qs-code"><code><span class="s-prompt">$ </span>pnpm docs:all</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+
+  <footer class="footer">
+    <div class="content">
+      <div class="footer__inner">
+        <span class="meta">MIT &copy; @libar-dev</span>
+        <div class="footer__links">
+          <a href="https://www.npmjs.com/package/@libar-dev/delivery-process" class="footer__link" target="_blank" rel="noopener">npm</a>
+          <a href="https://github.com/libar-dev/delivery-process" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/libar-dev/delivery-process/tree/main/docs" class="footer__link" target="_blank" rel="noopener">Docs</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script>
+    // Theme toggle
+    (function() {
+      const html = document.documentElement;
+      const toggle = document.querySelector('.theme-toggle');
+      const stored = localStorage.getItem('theme');
+      if (stored) {
+        html.setAttribute('data-theme', stored);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        html.setAttribute('data-theme', 'dark');
+      }
+      toggle.addEventListener('click', function() {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        if (window.__reinitMermaid) {
+          window.__reinitMermaid(next);
+        }
+      });
+    })();
+
+    // Scroll reveal
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        els.forEach(function(el) { observer.observe(el); });
+      } else {
+        els.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+
+    // Mobile nav
+    (function() {
+      var btn = document.querySelector('.nav__hamburger');
+      var links = document.querySelector('.nav__links');
+      btn.addEventListener('click', function() {
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('.nav__link').forEach(function(link) {
+        link.addEventListener('click', function() {
+          links.classList.remove('open');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
