@@ -1,1 +1,29 @@
-{"mcpServers":{}}
+{
+    "mcpServers": {
+        "pencil": {
+            "command": "/Users/darkomijic/.vscode/extensions/highagency.pencildev-0.6.26/out/mcp-server-darwin-arm64",
+            "args": [
+                "--app",
+                "visual_studio_code"
+            ],
+            "env": {},
+            "type": "stdio",
+            "alwaysAllow": [
+                "batch_design",
+                "batch_get",
+                "find_empty_space_on_canvas",
+                "get_editor_state",
+                "get_guidelines",
+                "get_screenshot",
+                "get_style_guide",
+                "get_style_guide_tags",
+                "get_variables",
+                "open_document",
+                "replace_all_matching_properties",
+                "search_all_unique_properties",
+                "set_variables",
+                "snapshot_layout"
+            ]
+        }
+    }
+}
