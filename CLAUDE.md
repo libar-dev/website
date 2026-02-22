@@ -71,3 +71,22 @@ GitHub Actions (`.github/workflows/deploy.yml`) deploys to GitHub Pages on push 
 ## Theme system
 
 The landing page and Starlight docs share a single theme. Theme toggle on the landing page writes to `localStorage('starlight-theme')` so Starlight picks it up. The `data-theme` attribute on `<html>` drives both `--dp-*` token overrides and Starlight's built-in dark mode.
+
+---
+
+## Reference Skill
+
+The **pencil-design** skill at `/Users/darkomijic/.agents/skills/pencil-design` provides the rules and workflows for working with `.pen` files. Each session should load this skill before starting work.
+
+Key references within the skill:
+- `SKILL.md` — 6 critical rules (reuse components, use variables, prevent overflow, visual verification, reuse assets, load frontend-design)
+- `references/variables-and-tokens.md` — Variable binding workflow and Tailwind mapping (critical for Phases 1-2)
+- `references/design-system-components.md` — Component reuse patterns (critical for Phases 3-4)
+- `references/layout-and-text-overflow.md` — Overflow prevention and `snapshot_layout` usage
+- `references/visual-verification.md` — Screenshot verification workflow (used in every phase)
+- `references/asset-reuse.md` — Asset copying rules
+- `references/design-to-code-workflow.md` — Code generation guide (relevant for Phase 5)
+- `references/tailwind-shadcn-mapping.md` — Tailwind/shadcn mapping tables
+- `references/responsive-breakpoints.md` — Responsive patterns
+
+---

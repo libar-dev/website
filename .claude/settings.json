@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/Users/darkomijic/.claude/skills/*)",
+      "Read(/Users/darkomijic/.agents/skills/*)",
+      "Read(/Users/darkomijic/.claude/plugins/cache/*)"
+    ]
+  }
+}
