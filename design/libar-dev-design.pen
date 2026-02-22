@@ -50,7 +50,7 @@
               "width": "fill_container",
               "content": "10-part hands-on guide — from first annotation to full generation pipeline.",
               "lineHeight": 1.5,
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 14,
               "fontWeight": "normal"
             },
@@ -61,7 +61,7 @@
               "fill": "#B06A3C",
               "content": "Start the tutorial →",
               "lineHeight": 1.5,
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 14,
               "fontWeight": "500"
             }
@@ -158,7 +158,7 @@
                   "width": 200,
                   "content": "Pattern Extraction",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -171,7 +171,7 @@
                   "width": "fill_container",
                   "content": "TypeScript JSDoc and Gherkin tag scanning with shape extraction",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -203,7 +203,7 @@
                   "width": 200,
                   "content": "MasterDataset",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -216,7 +216,7 @@
                   "width": "fill_container",
                   "content": "Single read model with O(1) pre-computed views",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -241,7 +241,7 @@
                   "width": 200,
                   "content": "Codec Rendering",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -254,7 +254,7 @@
                   "width": "fill_container",
                   "content": "20 codecs generating markdown with progressive disclosure",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -366,7 +366,7 @@
                   "width": "fill_container",
                   "content": "Targets for directories (e.g., \"docs\" or \"full/on-source\")",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -404,7 +404,7 @@
                   "width": "fill_container",
                   "content": "Configure definitions for uniform classification",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -449,7 +449,7 @@
                   "fill": "#9B958F",
                   "content": "Next",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 12,
                   "fontWeight": "500",
                   "letterSpacing": 0.96
@@ -461,7 +461,7 @@
                   "fill": "#1B1A19",
                   "content": "Getting Started",
                   "lineHeight": 1.4,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "700"
                 }
@@ -550,7 +550,7 @@
                   "fill": "#9B958F",
                   "content": "Search",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
                 },
@@ -638,7 +638,7 @@
                       "fill": "#66615C",
                       "content": "Light",
                       "lineHeight": 1.3,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 12,
                       "fontWeight": "500"
                     }
@@ -687,7 +687,7 @@
                   "descendants": {
                     "rBkE4": {
                       "content": "delivery-process",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#9B958F",
                       "fontSize": 11
                     },
@@ -715,7 +715,7 @@
                     "KtAQ9": {
                       "content": "Overview",
                       "fill": "#B06A3C",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 14
                     }
                   }
@@ -729,7 +729,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Getting Started",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -753,7 +753,7 @@
                   "descendants": {
                     "rBkE4": {
                       "content": "TUTORIAL",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#9B958F",
                       "fontSize": 11
                     },
@@ -772,7 +772,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Introduction",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -787,7 +787,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Part 1: Project Setup",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -802,7 +802,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Part 2: Configuration",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -817,7 +817,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Part 3: Your First Annotation",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -841,7 +841,7 @@
                   "descendants": {
                     "rBkE4": {
                       "content": "GUIDES",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#9B958F",
                       "fontSize": 11
                     },
@@ -860,7 +860,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Delivery Process Methodology",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -875,7 +875,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Configuration Guide",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -890,7 +890,7 @@
                   "descendants": {
                     "eJa5C": {
                       "content": "Session Workflow Guides",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#66615C",
                       "fontSize": 14
                     }
@@ -914,7 +914,7 @@
                   "descendants": {
                     "rBkE4": {
                       "content": "REFERENCE",
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fill": "#9B958F",
                       "fontSize": 11
                     },
@@ -995,7 +995,7 @@
               "width": "fill_container",
               "content": "Preset selection, log registry, init, path resolution.",
               "lineHeight": 1.5,
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 12,
               "fontWeight": "normal"
             },
@@ -1055,7 +1055,7 @@
               "width": "fill_container",
               "content": "3 production sessions, 5x output — one codebase, zero re-prompting.",
               "lineHeight": 1.5,
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 14,
               "fontWeight": "normal"
             }
@@ -1133,7 +1133,7 @@
                   "width": "fill_container",
                   "content": "Turn pattern briefs into Gherkin specs.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -1148,7 +1148,8 @@
               "descendants": {
                 "kxdHj": {
                   "fill": "#B06A3C",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontFamily": "\\$--font-primary"
                 }
               }
             }
@@ -1434,7 +1435,7 @@
               "width": "fill_container",
               "content": "Section description text goes here.",
               "lineHeight": 1.6,
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 14,
               "fontWeight": "normal"
             }
@@ -3025,7 +3026,7 @@
                   "fill": "#1B1A19",
                   "content": "The architectural memory engine for AI-assisted codebases.",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 18,
                   "fontWeight": "500"
                 },
@@ -3075,7 +3076,7 @@
                   "fill": "#66615C",
                   "content": "AI agents scrape stale Markdown, hallucinate APIs, and exhaust context windows.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
@@ -3125,7 +3126,7 @@
                   "fill": "#66615C",
                   "content": "Turn pattern briefs into Gherkin specs and structured annotations.",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 },
@@ -3175,7 +3176,7 @@
                   "fill": "#66615C",
                   "content": "MIT License · © 2026 @libar-dev",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 12,
                   "fontWeight": "normal"
                 },
@@ -3456,7 +3457,7 @@
           "name": "Catalog/Board Title",
           "fill": "#1B1A19",
           "content": "DESIGN SYSTEM CATALOG — LIGHT",
-          "fontFamily": "IBM Plex Sans",
+          "fontFamily": "\\$--font-primary",
           "fontSize": 18,
           "fontWeight": "700",
           "letterSpacing": 1
@@ -3484,7 +3485,7 @@
                   "name": "Catalog/Section Label",
                   "fill": "#9B958F",
                   "content": "DOCS FOUNDATION",
-                  "fontFamily": "JetBrains Mono",
+                  "fontFamily": "\\$--font-mono",
                   "fontSize": 12,
                   "fontWeight": "600",
                   "letterSpacing": 1.8
@@ -3539,7 +3540,7 @@
                       "fill": "#9B958F",
                       "content": "TUTORIAL",
                       "lineHeight": 1.5,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 11,
                       "fontWeight": "600",
                       "letterSpacing": 1.1
@@ -3583,7 +3584,7 @@
                       "fill": "#B06A3C",
                       "content": "Overview",
                       "lineHeight": 1.5,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 14,
                       "fontWeight": "500"
                     }
@@ -3608,7 +3609,7 @@
                       "fill": "#66615C",
                       "content": "Getting Started",
                       "lineHeight": 1.5,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 14,
                       "fontWeight": "normal"
                     }
@@ -3682,7 +3683,7 @@
                           "fill": "#1B1A19",
                           "content": "npm",
                           "lineHeight": 1.5,
-                          "fontFamily": "Geist",
+                          "fontFamily": "\\$--font-body",
                           "fontSize": 13,
                           "fontWeight": "500"
                         }
@@ -3706,7 +3707,7 @@
                           "fill": "#66615C",
                           "content": "pnpm",
                           "lineHeight": 1.5,
-                          "fontFamily": "Geist",
+                          "fontFamily": "\\$--font-body",
                           "fontSize": 13,
                           "fontWeight": "500"
                         }
@@ -4621,7 +4622,7 @@
               "name": "b2Title",
               "fill": "$--text-primary",
               "content": "B2 — Accent Hover: Current vs Candidate A vs Candidate B",
-              "fontFamily": "$--font-primary",
+              "fontFamily": "\\$--font-primary",
               "fontSize": 20,
               "fontWeight": "700"
             },
@@ -4649,7 +4650,7 @@
                       "name": "Light Context Title",
                       "fill": "$--text-primary",
                       "content": "Light Theme Hover Test",
-                      "fontFamily": "$--font-primary",
+                      "fontFamily": "\\$--font-primary",
                       "fontSize": 14,
                       "fontWeight": "700"
                     },
@@ -4776,7 +4777,7 @@
                       "name": "Dark Context Title",
                       "fill": "$--text-primary",
                       "content": "Dark Theme Hover Test",
-                      "fontFamily": "$--font-primary",
+                      "fontFamily": "\\$--font-primary",
                       "fontSize": 14,
                       "fontWeight": "700"
                     },
@@ -5176,7 +5177,7 @@
                   "width": "fill_container",
                   "content": "Code-first documentation and delivery process toolkit. Extract patterns from TypeScript and Gherkin sources, generate living documentation and architecture diagrams, and enforce delivery workflow via FSM.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
@@ -5209,7 +5210,7 @@
                       "width": "fill_container",
                       "content": "Traditional documentation fails because it exists outside the code. When AI agents receive unstructured markdown, they hallucinate APIs, ignore architectural constraints, and consume excessive token budgets.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     },
@@ -5222,7 +5223,7 @@
                       "width": "fill_container",
                       "content": "This package inverts the paradigm: the Git repository is the event store, and all generated documentation is a derived projection of annotated source code.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     }
@@ -5318,11 +5319,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "10-part hands-on guide — from first annotation to full generation pipeline.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Start the tutorial →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             },
@@ -5339,11 +5340,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Methodology, configuration, session workflows, Gherkin patterns, annotation guide.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Browse guides →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             }
@@ -5369,11 +5370,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Architecture deep-dive, Data API CLI, Process Guard, validation rules, taxonomy.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "View reference →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             },
@@ -5390,11 +5391,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Auto-generated docs with Mermaid diagrams, extracted types, and behavior specs.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Explore areas →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             }
@@ -5512,7 +5513,7 @@
                               "width": 200,
                               "content": "Pattern Extraction",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -5525,7 +5526,7 @@
                               "width": "fill_container",
                               "content": "TypeScript JSDoc and Gherkin tag scanning with shape extraction",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -5557,7 +5558,7 @@
                               "width": 200,
                               "content": "MasterDataset",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -5570,7 +5571,7 @@
                               "width": "fill_container",
                               "content": "Single read model with O(1) pre-computed views",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -5602,7 +5603,7 @@
                               "width": 200,
                               "content": "Codec Rendering",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -5615,7 +5616,7 @@
                               "width": "fill_container",
                               "content": "20 codecs generating markdown with progressive disclosure",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -5663,7 +5664,7 @@
               "fontFamily": "\\$--font-primary"
             },
             "wNHj6": {
-              "fontFamily": "Geist"
+              "fontFamily": "\\$--font-body"
             },
             "Z3j3n": {
               "fontFamily": "\\$--font-mono"
@@ -5673,7 +5674,7 @@
             },
             "r6VTe": {
               "content": "Dark",
-              "fontFamily": "Geist"
+              "fontFamily": "\\$--font-body"
             }
           }
         },
@@ -5945,7 +5946,7 @@
                   "width": "fill_container",
                   "content": "Code-first documentation and delivery process toolkit. Extract patterns from TypeScript and Gherkin sources, generate living documentation and architecture diagrams, and enforce delivery workflow via FSM.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
@@ -5978,7 +5979,7 @@
                       "width": "fill_container",
                       "content": "Traditional documentation fails because it exists outside the code. When AI agents receive unstructured markdown, they hallucinate APIs, ignore architectural constraints, and consume excessive token budgets.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     },
@@ -5991,7 +5992,7 @@
                       "width": "fill_container",
                       "content": "This package inverts the paradigm: the Git repository is the event store, and all generated documentation is a derived projection of annotated source code.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     }
@@ -6087,11 +6088,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "10-part hands-on guide — from first annotation to full generation pipeline.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Start the tutorial →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             },
@@ -6108,11 +6109,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Methodology, configuration, session workflows, Gherkin patterns, annotation guide.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Browse guides →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             }
@@ -6138,11 +6139,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Architecture deep-dive, Data API CLI, Process Guard, validation rules, taxonomy.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "View reference →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             },
@@ -6159,11 +6160,11 @@
                                 },
                                 "0SCJd": {
                                   "content": "Auto-generated docs with Mermaid diagrams, extracted types, and behavior specs.",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 },
                                 "76SKd": {
                                   "content": "Explore areas →",
-                                  "fontFamily": "Geist"
+                                  "fontFamily": "\\$--font-body"
                                 }
                               }
                             }
@@ -6281,7 +6282,7 @@
                               "width": 200,
                               "content": "Pattern Extraction",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -6294,7 +6295,7 @@
                               "width": "fill_container",
                               "content": "TypeScript JSDoc and Gherkin tag scanning with shape extraction",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -6326,7 +6327,7 @@
                               "width": 200,
                               "content": "MasterDataset",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -6339,7 +6340,7 @@
                               "width": "fill_container",
                               "content": "Single read model with O(1) pre-computed views",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -6371,7 +6372,7 @@
                               "width": 200,
                               "content": "Codec Rendering",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
@@ -6384,7 +6385,7 @@
                               "width": "fill_container",
                               "content": "20 codecs generating markdown with progressive disclosure",
                               "lineHeight": 1.5,
-                              "fontFamily": "Geist",
+                              "fontFamily": "\\$--font-body",
                               "fontSize": 14,
                               "fontWeight": "normal"
                             }
@@ -6513,7 +6514,7 @@
                   "width": "fill_container",
                   "content": "The architectural memory engine for AI-assisted codebases.",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 18,
                   "fontWeight": "500"
                 },
@@ -6526,7 +6527,7 @@
                   "width": "fill_container",
                   "content": "AI agents scrape stale Markdown, hallucinate APIs, and exhaust context windows before reaching the right files. When context compresses mid-session, prose breaks — agents lose continuity and repeat mistakes.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
@@ -6558,7 +6559,7 @@
                       "width": "fill_container",
                       "content": "makes your codebase machine-queryable: annotate TypeScript and Gherkin with structured tags, query exact context with a single CLI call, and get specs that survive compaction where prose doesn't.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     }
@@ -6635,7 +6636,7 @@
               "fontFamily": "\\$--font-primary"
             },
             "wNHj6": {
-              "fontFamily": "Geist"
+              "fontFamily": "\\$--font-body"
             },
             "Z3j3n": {
               "fontFamily": "\\$--font-mono"
@@ -6645,7 +6646,7 @@
             },
             "r6VTe": {
               "content": "Dark",
-              "fontFamily": "Geist"
+              "fontFamily": "\\$--font-body"
             }
           }
         },
@@ -6737,7 +6738,7 @@
                   "width": "fill_container",
                   "content": "The architectural memory engine for AI-assisted codebases.",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 18,
                   "fontWeight": "500"
                 },
@@ -6750,7 +6751,7 @@
                   "width": "fill_container",
                   "content": "AI agents scrape stale Markdown, hallucinate APIs, and exhaust context windows before reaching the right files. When context compresses mid-session, prose breaks — agents lose continuity and repeat mistakes.",
                   "lineHeight": 1.6,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
@@ -6782,7 +6783,7 @@
                       "width": "fill_container",
                       "content": "makes your codebase machine-queryable: annotate TypeScript and Gherkin with structured tags, query exact context with a single CLI call, and get specs that survive compaction where prose doesn't.",
                       "lineHeight": 1.6,
-                      "fontFamily": "Geist",
+                      "fontFamily": "\\$--font-body",
                       "fontSize": 16,
                       "fontWeight": "normal"
                     }
@@ -6856,11 +6857,12 @@
             "i0Bcv": {
               "content": "PROVEN AT MONOREPO SCALE.",
               "fill": "#E6E4E1",
-              "fontSize": 28
+              "fontSize": 28,
+              "fontFamily": "\\$--font-primary"
             },
             "pFOOV": {
               "content": "Across an 8.8M-line monorepo — 43,949 files, 422 executable specs.",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fill": "#B7B3AE",
               "fontSize": 16
             }
@@ -6991,11 +6993,12 @@
             "i0Bcv": {
               "content": "PROVEN AT MONOREPO SCALE.",
               "fill": "#1B1A19",
-              "fontSize": 28
+              "fontSize": 28,
+              "fontFamily": "\\$--font-primary"
             },
             "pFOOV": {
               "content": "Across an 8.8M-line monorepo — 43,949 files, 422 executable specs.",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fill": "#66615C",
               "fontSize": 16
             }
@@ -7126,11 +7129,12 @@
             "i0Bcv": {
               "content": "THREE SESSIONS. EVERY PATTERN.",
               "fill": "#E6E4E1",
-              "fontSize": 28
+              "fontSize": 28,
+              "fontFamily": "\\$--font-primary"
             },
             "pFOOV": {
               "content": "A structured delivery workflow that turns patterns into production code.",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fill": "#B7B3AE",
               "fontSize": 16
             }
@@ -7260,11 +7264,12 @@
             "i0Bcv": {
               "content": "THREE SESSIONS. EVERY PATTERN.",
               "fill": "#1B1A19",
-              "fontSize": 28
+              "fontSize": 28,
+              "fontFamily": "\\$--font-primary"
             },
             "pFOOV": {
               "content": "A structured delivery workflow that turns patterns into production code.",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fill": "#66615C",
               "fontSize": 16
             }
@@ -7423,7 +7428,7 @@
               "content": "Join the shift from prompt engineering to context engineering.",
               "lineHeight": 1.5,
               "textAlign": "center",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 16,
               "fontWeight": "normal"
             },
@@ -7536,7 +7541,7 @@
               "content": "Join the shift from prompt engineering to context engineering.",
               "lineHeight": 1.5,
               "textAlign": "center",
-              "fontFamily": "Geist",
+              "fontFamily": "\\$--font-body",
               "fontSize": 16,
               "fontWeight": "normal"
             },
@@ -7615,7 +7620,7 @@
           "name": "Pipeline Label",
           "fill": "#9B958F",
           "content": "THE PIPELINE",
-          "fontFamily": "$--font-primary",
+          "fontFamily": "\\$--font-primary",
           "fontSize": 12,
           "fontWeight": "500",
           "letterSpacing": 2
@@ -7876,7 +7881,7 @@
           "width": 640,
           "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. Each source flows through the four-stage pipeline — Scanner → Extractor → Transformer → Codec — into a single queryable MasterDataset. Neither source duplicates the other. The agent queries truth directly instead of reading both.",
           "lineHeight": 1.6,
-          "fontFamily": "Geist",
+          "fontFamily": "\\$--font-body",
           "fontSize": 14,
           "fontWeight": "normal"
         },
@@ -8255,7 +8260,7 @@
           "width": 640,
           "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. Each source flows through the four-stage pipeline — Scanner → Extractor → Transformer → Codec — into a single queryable MasterDataset. Neither source duplicates the other. The agent queries truth directly instead of reading both.",
           "lineHeight": 1.6,
-          "fontFamily": "Geist",
+          "fontFamily": "\\$--font-body",
           "fontSize": 14,
           "fontWeight": "normal"
         },
@@ -8462,7 +8467,7 @@
                   "width": 200,
                   "content": "Pattern Extraction",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -8475,7 +8480,7 @@
                   "width": "fill_container",
                   "content": "TypeScript JSDoc and Gherkin tag scanning with shape extraction",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -8507,7 +8512,7 @@
                   "width": 200,
                   "content": "MasterDataset",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -8520,7 +8525,7 @@
                   "width": "fill_container",
                   "content": "Single read model with O(1) pre-computed views",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -8552,7 +8557,7 @@
                   "width": 200,
                   "content": "Codec Rendering",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "600"
                 },
@@ -8565,7 +8570,7 @@
                   "width": "fill_container",
                   "content": "20 codecs generating markdown with progressive disclosure",
                   "lineHeight": 1.5,
-                  "fontFamily": "Geist",
+                  "fontFamily": "\\$--font-body",
                   "fontSize": 14,
                   "fontWeight": "normal"
                 }
@@ -10312,7 +10317,7 @@
           "width": "fill_container",
           "content": "Section description text that provides context.",
           "lineHeight": 1.5,
-          "fontFamily": "Geist",
+          "fontFamily": "\\$--font-body",
           "fontSize": 16,
           "fontWeight": "normal"
         }
