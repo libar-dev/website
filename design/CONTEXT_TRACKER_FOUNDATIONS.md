@@ -436,7 +436,7 @@ Input also has variables not yet in new design: `--bg-section-alt`, `--bg-featur
 | Section | Atomic Decomposition | New Design Status |
 |---|---|---|
 | **Hero** | Needs: display text, CTA buttons, install command, dp lettermark, paragraph text | Not started |
-| **Stats** | Needs: stat card molecule, section header, eyebrow text | Not started |
+| **Stats** | Needs: stat card molecule, section header, eyebrow text | Done |
 | **Three Sessions** | Needs: session card (numbered), status tag, section header | Not started |
 | **Pipeline** | Needs: pipeline card, flow tile, section structure | Not started |
 | **B2 / Show Don't Tell** | Needs: code block, tab bar, comparison layout, stat display | Main Show section migrated (desktop/dark/mobile). B2 compare strip intentionally deferred |
@@ -595,9 +595,15 @@ Done:
 - Validation:
   - `snapshot_layout(problemsOnly:true)` reports no layout problems for `dehK6`, `4jo2u`, `97uoV`, `DogW5`, `vLqHF`, `5BO2H`
 
+### Session 7 (2026-02-22) — Stats Section Migration
+Done:
+- Created `Molecule/Stat Card` and `Molecule/Section Header`.
+- Constructed `Organism/Stats Section`.
+- Composed Stats Section into `page-landing-delivery-process-desktop-light` and `page-landing-delivery-process-desktop-dark`.
+- Verified layout structure, padding, and variable binding cleanly rendered in auto layout with full fidelity to input.
+
 ### Next Session Priorities
-1. Migrate Stats section: decompose input design Stats (`TxgPk`/`l39dJ`) into Stat Card atom + section organism
-2. Migrate Sessions section: decompose input design Sessions (`ruj7g`/`z0Bzq`) into Session Card molecule
-3. Migrate Pipeline section: decompose input design Pipeline (`xp4Bv`/`djdNg`) into Pipeline Card + Flow Tile molecules
-4. Compose migrated sections into desktop page frames (light + dark)
-5. Update migration tracker statuses
+1. Migrate Sessions section: decompose input design Sessions (`ruj7g`/`z0Bzq`) into Session Card molecule
+2. Migrate Pipeline section: decompose input design Pipeline (`xp4Bv`/`djdNg`) into Pipeline Card + Flow Tile molecules
+3. Compose migrated sections into desktop page frames (light + dark)
+4. Update migration tracker statuses

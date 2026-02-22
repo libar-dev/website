@@ -6196,6 +6196,33 @@
               }
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "FRO0v",
+          "x": 0,
+          "y": 0,
+          "name": "Atom/Status Tag",
+          "reusable": true,
+          "fill": "$--libar-accent-subtle",
+          "padding": [
+            4,
+            10
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "2Lpx9",
+              "name": "Label",
+              "fill": "$--libar-accent",
+              "content": "tagname",
+              "lineHeight": 1.4,
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 14,
+              "fontWeight": "600",
+              "letterSpacing": 0.5
+            }
+          ]
         }
       ]
     },
@@ -6964,6 +6991,300 @@
               "fontWeight": "600"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "qfzUL",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Stat Card",
+          "reusable": true,
+          "width": 300,
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "L0aVm",
+              "name": "Number",
+              "fill": "$--libar-accent",
+              "content": "5x",
+              "lineHeight": 1,
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 56,
+              "fontWeight": "normal",
+              "letterSpacing": -2
+            },
+            {
+              "type": "text",
+              "id": "Qcimq",
+              "name": "Label",
+              "fill": "$--libar-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Session Throughput",
+              "lineHeight": 1.4,
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 14,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "Te206",
+              "name": "Description",
+              "fill": "$--libar-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "3 production sessions, 5x output — one codebase, zero re-prompting.",
+              "lineHeight": 1.5,
+              "fontFamily": "$--libar-font-secondary",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Be3z5",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Section Header",
+          "reusable": true,
+          "width": 640,
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "i5bEe",
+              "name": "Title",
+              "fill": "$--libar-text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "SECTION HEADING.",
+              "lineHeight": 1.1,
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 28,
+              "fontWeight": "normal",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "gzo2k",
+              "name": "Subtitle",
+              "fill": "$--libar-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Section description text that provides context.",
+              "lineHeight": 1.5,
+              "fontFamily": "$--libar-font-secondary",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SFDoA",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Session Card",
+          "reusable": true,
+          "width": 300,
+          "fill": "$--libar-bg-surface",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--libar-border-main"
+          },
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 24,
+          "children": [
+            {
+              "type": "text",
+              "id": "MHNdY",
+              "name": "Number",
+              "fill": "$--libar-accent",
+              "content": "01",
+              "lineHeight": 1,
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 14,
+              "fontWeight": "800",
+              "letterSpacing": -1
+            },
+            {
+              "type": "frame",
+              "id": "yl0U8",
+              "name": "Body",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bSF5w",
+                  "name": "Title",
+                  "fill": "$--libar-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Session Title",
+                  "lineHeight": 1.3,
+                  "fontFamily": "$--libar-font-primary",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "DPL9S",
+                  "name": "Subtitle",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "Subtitle text",
+                  "lineHeight": 1.4,
+                  "fontFamily": "$--libar-font-primary",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "RZFQQ",
+                  "name": "Description",
+                  "fill": "$--libar-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Description text goes here.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "$--libar-font-secondary",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "id": "uQHIQ",
+              "type": "ref",
+              "ref": "FRO0v",
+              "name": "Status Tag"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Zlret",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Pipeline Card",
+          "reusable": true,
+          "width": 200,
+          "height": 240,
+          "fill": "$--libar-bg-code",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--libar-border-subtle"
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "fOSgz",
+              "name": "Title",
+              "fill": "$--libar-text-on-dark",
+              "content": "CONFIG",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "75Nps",
+              "name": "Description",
+              "fill": "$--libar-text-on-dark-2",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Preset selection, log registry, init, path resolution.",
+              "lineHeight": 1.5,
+              "fontFamily": "$--libar-font-secondary",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "wPyy1",
+              "name": "Path",
+              "fill": "$--libar-text-on-dark-2",
+              "content": "src/config/",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "g8Ssu",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Flow Tile Default",
+          "reusable": true,
+          "fill": "$--libar-bg-surface",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--libar-border-main"
+          },
+          "padding": [
+            10,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "nZfLi",
+              "name": "Label",
+              "fill": "$--libar-text-primary",
+              "content": ".ts files",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "rYsFJ",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Flow Tile Feature",
+          "reusable": true,
+          "fill": "$--libar-bg-code",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--libar-border-subtle"
+          },
+          "padding": [
+            10,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "qTWEb",
+              "name": "Label",
+              "fill": "$--libar-text-on-dark",
+              "content": "MasterDataset",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 13,
+              "fontWeight": "600"
+            }
+          ]
         }
       ]
     },
@@ -7037,7 +7358,7 @@
       },
       "clip": true,
       "width": 2000,
-      "height": 3300,
+      "height": 7328,
       "fill": "$--libar-bg-surface",
       "layout": "none",
       "children": [
@@ -7259,8 +7580,8 @@
         {
           "type": "frame",
           "id": "0Ue4C",
-          "x": 40,
-          "y": 980,
+          "x": 80,
+          "y": 1476,
           "name": "Organism/Landing Hero",
           "reusable": true,
           "width": 1200,
@@ -7376,8 +7697,8 @@
         {
           "type": "frame",
           "id": "Ch7Iq",
-          "x": 40,
-          "y": 1800,
+          "x": 80,
+          "y": 2296,
           "name": "Organism/Show Dont Tell",
           "reusable": true,
           "width": 1200,
@@ -7507,9 +7828,128 @@
         },
         {
           "type": "frame",
+          "id": "gn5FK",
+          "x": 40,
+          "y": 724,
+          "name": "Organism/Stats Section",
+          "reusable": true,
+          "width": 1200,
+          "fill": "$--libar-bg-page",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "children": [
+            {
+              "id": "uSjhh",
+              "type": "ref",
+              "ref": "Be3z5",
+              "name": "Section Header",
+              "width": "fill_container",
+              "descendants": {
+                "i5bEe": {
+                  "content": "PROVEN AT MONOREPO SCALE."
+                },
+                "gzo2k": {
+                  "content": "Across an 8.8M-line monorepo — 43,949 files, 422 executable specs."
+                }
+              }
+            },
+            {
+              "type": "rectangle",
+              "id": "fNdyV",
+              "name": "Divider",
+              "fill": "$--libar-border-main",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "KETJ5",
+              "name": "Stat Cards",
+              "width": "fill_container",
+              "children": [
+                {
+                  "id": "xn24s",
+                  "type": "ref",
+                  "ref": "qfzUL",
+                  "name": "stat1",
+                  "padding": [
+                    0,
+                    32,
+                    0,
+                    0
+                  ],
+                  "width": "fill_container"
+                },
+                {
+                  "id": "qREhJ",
+                  "type": "ref",
+                  "ref": "qfzUL",
+                  "name": "stat2",
+                  "padding": [
+                    0,
+                    32
+                  ],
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 1
+                    },
+                    "fill": "$--libar-border-main"
+                  },
+                  "width": "fill_container",
+                  "descendants": {
+                    "L0aVm": {
+                      "content": "50-65%"
+                    },
+                    "Qcimq": {
+                      "content": "Context Efficiency"
+                    },
+                    "Te206": {
+                      "content": "Structured specs consume 50-65% fewer tokens than equivalent prose documentation."
+                    }
+                  }
+                },
+                {
+                  "id": "BrTeO",
+                  "type": "ref",
+                  "ref": "qfzUL",
+                  "name": "stat3",
+                  "padding": [
+                    0,
+                    0,
+                    0,
+                    32
+                  ],
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "left": 1
+                    },
+                    "fill": "$--libar-border-main"
+                  },
+                  "width": "fill_container",
+                  "descendants": {
+                    "L0aVm": {
+                      "content": "0"
+                    },
+                    "Qcimq": {
+                      "content": "Lint Violations"
+                    },
+                    "Te206": {
+                      "content": "Eliminated ESLint violations entirely — structured tags replace error-prone manual rules."
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "RHQQT",
-          "x": 1280,
-          "y": 1800,
+          "x": 1442,
+          "y": 2070,
           "name": "Organism/Show Dont Tell Mobile",
           "reusable": true,
           "width": 430,
@@ -7630,6 +8070,405 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "X5NMd",
+          "x": 0,
+          "y": 0,
+          "name": "Organism/Three Sessions",
+          "reusable": true,
+          "width": 1200,
+          "fill": "$--libar-bg-section-alt",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "children": [
+            {
+              "id": "tQfOv",
+              "type": "ref",
+              "ref": "Be3z5",
+              "name": "Header",
+              "width": "fill_container",
+              "descendants": {
+                "i5bEe": {
+                  "content": "THREE SESSIONS. EVERY PATTERN."
+                },
+                "gzo2k": {
+                  "content": "A structured delivery workflow that turns patterns into production code."
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "ewcaT",
+              "name": "Session Cards",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "id": "B10um",
+                  "type": "ref",
+                  "ref": "SFDoA",
+                  "name": "Card 1",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MHNdY": {
+                      "content": "01"
+                    },
+                    "bSF5w": {
+                      "content": "Planning Session"
+                    },
+                    "DPL9S": {
+                      "content": "Spec before code"
+                    },
+                    "RZFQQ": {
+                      "content": "Turn pattern briefs into Gherkin specs. Define rules, scenarios, and acceptance criteria before writing a single line of implementation."
+                    },
+                    "uQHIQ/2Lpx9": {
+                      "content": "roadmap"
+                    }
+                  }
+                },
+                {
+                  "id": "L5TfD",
+                  "type": "ref",
+                  "ref": "SFDoA",
+                  "name": "Card 2",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MHNdY": {
+                      "content": "02"
+                    },
+                    "bSF5w": {
+                      "content": "Design Session"
+                    },
+                    "DPL9S": {
+                      "content": "Decisions before implementation"
+                    },
+                    "RZFQQ": {
+                      "content": "Document architectural choices, define typed stubs, and lock down interfaces. Every decision gets a structured tag before code begins."
+                    },
+                    "uQHIQ/2Lpx9": {
+                      "content": "figma"
+                    }
+                  }
+                },
+                {
+                  "id": "dzZg8",
+                  "type": "ref",
+                  "ref": "SFDoA",
+                  "name": "Card 3",
+                  "width": "fill_container",
+                  "descendants": {
+                    "MHNdY": {
+                      "content": "03"
+                    },
+                    "bSF5w": {
+                      "content": "Implementation Session"
+                    },
+                    "DPL9S": {
+                      "content": "Code from spec"
+                    },
+                    "RZFQQ": {
+                      "content": "Implement against locked specs, run validations, and mark patterns complete. State progresses roadmap → active → completed automatically."
+                    },
+                    "uQHIQ/2Lpx9": {
+                      "content": "code"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "F0qnF",
+          "x": 0,
+          "y": 0,
+          "name": "Organism/Pipeline Section",
+          "reusable": true,
+          "width": 1200,
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "children": [
+            {
+              "type": "text",
+              "id": "l4YiW",
+              "name": "Pipeline Label",
+              "fill": "$--libar-text-tertiary",
+              "content": "THE PIPELINE",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "ZHpNm",
+              "name": "Pipeline Cards",
+              "width": "fill_container",
+              "height": 280,
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "k7r5B",
+                  "name": "w1",
+                  "children": [
+                    {
+                      "id": "5oZll",
+                      "type": "ref",
+                      "ref": "Zlret",
+                      "name": "c1",
+                      "descendants": {
+                        "fOSgz": {
+                          "content": "CONFIG"
+                        },
+                        "75Nps": {
+                          "content": "Preset selection, log registry, init, path resolution. Supports generic, layer-generic, and DDD-ES-CQRS presets."
+                        },
+                        "wPyy1": {
+                          "content": "src/config/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "br9Ox",
+                  "name": "w2",
+                  "padding": [
+                    10,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "id": "iGzz2",
+                      "type": "ref",
+                      "ref": "Zlret",
+                      "name": "c2",
+                      "descendants": {
+                        "fOSgz": {
+                          "content": "SCANNER"
+                        },
+                        "75Nps": {
+                          "content": "File discovery, AST parsing, opt-in detection. Processes TypeScript JSDoc and Gherkin feature files independently."
+                        },
+                        "wPyy1": {
+                          "content": "src/scanner/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "6bqXZ",
+                  "name": "w3",
+                  "padding": [
+                    20,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "id": "VvWrX",
+                      "type": "ref",
+                      "ref": "Zlret",
+                      "name": "c3",
+                      "descendants": {
+                        "fOSgz": {
+                          "content": "EXTRACTOR"
+                        },
+                        "75Nps": {
+                          "content": "Pattern extraction, shape resolution, and cross-source merging with conflict detection into ExtractedPattern[]."
+                        },
+                        "wPyy1": {
+                          "content": "src/extractor/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XE0Kv",
+                  "name": "w4",
+                  "padding": [
+                    30,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "id": "6CSzu",
+                      "type": "ref",
+                      "ref": "Zlret",
+                      "name": "c4",
+                      "descendants": {
+                        "fOSgz": {
+                          "content": "TRANSFORMER"
+                        },
+                        "75Nps": {
+                          "content": "Builds MasterDataset in a single CLI pass — pre-computed views, relationship index, and architecture data."
+                        },
+                        "wPyy1": {
+                          "content": "src/generators/pipeline/"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cr3fA",
+                  "name": "w5",
+                  "padding": [
+                    40,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "id": "6mVe2",
+                      "type": "ref",
+                      "ref": "Zlret",
+                      "name": "c5",
+                      "descendants": {
+                        "fOSgz": {
+                          "content": "CODEC"
+                        },
+                        "75Nps": {
+                          "content": "20 Zoo codecs transform MasterDataset into RenderableDocument, then to Markdown with progressive disclosure."
+                        },
+                        "wPyy1": {
+                          "content": "src/renderable/"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "elYJ2",
+              "name": "Dual Source Label",
+              "fill": "$--libar-text-tertiary",
+              "content": "DUAL SOURCE INPUT → SINGLE READ MODEL → LIVING DOCS",
+              "textAlign": "center",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 11,
+              "fontWeight": "500",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "ENHiB",
+              "name": "Flow Diagram",
+              "width": "fill_container",
+              "gap": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "L433X",
+                  "name": "Left Sources",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "id": "pGgRw",
+                      "type": "ref",
+                      "ref": "g8Ssu",
+                      "name": "tsRef",
+                      "descendants": {
+                        "nZfLi": {
+                          "content": ".ts files"
+                        }
+                      }
+                    },
+                    {
+                      "id": "nfnc5",
+                      "type": "ref",
+                      "ref": "g8Ssu",
+                      "name": "featRef",
+                      "descendants": {
+                        "nZfLi": {
+                          "content": ".feature files"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "NdWUY",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "  →  ",
+                  "fontFamily": "$--libar-font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "id": "rDBWM",
+                  "type": "ref",
+                  "ref": "rYsFJ"
+                },
+                {
+                  "type": "text",
+                  "id": "3OZQk",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "  →  ",
+                  "fontFamily": "$--libar-font-mono",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "6jXt6",
+                  "name": "Right Outputs",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "id": "YyeUH",
+                      "type": "ref",
+                      "ref": "g8Ssu",
+                      "name": "apiRef",
+                      "descendants": {
+                        "nZfLi": {
+                          "content": "DataAPI"
+                        }
+                      }
+                    },
+                    {
+                      "id": "nHzMa",
+                      "type": "ref",
+                      "ref": "g8Ssu",
+                      "name": "codecRef",
+                      "descendants": {
+                        "nZfLi": {
+                          "content": "Renderable Doc"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -7644,7 +8483,7 @@
       },
       "clip": true,
       "width": 2000,
-      "height": 2745,
+      "height": 7328,
       "fill": "$--libar-bg-page",
       "layout": "none",
       "children": [
@@ -7690,7 +8529,7 @@
       },
       "clip": true,
       "width": 1200,
-      "height": 3300,
+      "height": 3743,
       "fill": "$--libar-bg-page",
       "layout": "none",
       "children": [
@@ -7714,11 +8553,32 @@
               "y": 0
             },
             {
+              "id": "B94Bi",
+              "type": "ref",
+              "ref": "gn5FK",
+              "name": "Stats Section",
+              "width": "fill_container"
+            },
+            {
               "id": "ZoA6G",
               "type": "ref",
               "ref": "Ch7Iq",
               "name": "showDontTell",
               "width": 1200
+            },
+            {
+              "id": "B2vT4",
+              "type": "ref",
+              "ref": "X5NMd",
+              "name": "Three Sessions",
+              "width": "fill_container"
+            },
+            {
+              "id": "GTACT",
+              "type": "ref",
+              "ref": "F0qnF",
+              "name": "Pipeline Section",
+              "width": "fill_container"
             }
           ]
         }
@@ -7735,7 +8595,7 @@
       },
       "clip": true,
       "width": 1200,
-      "height": 3300,
+      "height": 3940,
       "fill": "$--libar-bg-page",
       "layout": "none",
       "children": [
@@ -7805,6 +8665,16 @@
               }
             },
             {
+              "id": "U90fI",
+              "type": "ref",
+              "ref": "gn5FK",
+              "name": "Stats Section",
+              "width": "fill_container",
+              "theme": {
+                "Mode": "Dark"
+              }
+            },
+            {
               "id": "4JiDw",
               "type": "ref",
               "ref": "Ch7Iq",
@@ -7813,6 +8683,26 @@
                 "Mode": "Dark"
               },
               "width": 1200
+            },
+            {
+              "id": "o76Nr",
+              "type": "ref",
+              "ref": "X5NMd",
+              "name": "Three Sessions",
+              "theme": {
+                "Mode": "Dark"
+              },
+              "width": "fill_container"
+            },
+            {
+              "id": "ILKZF",
+              "type": "ref",
+              "ref": "F0qnF",
+              "name": "Pipeline Section",
+              "width": "fill_container",
+              "theme": {
+                "Mode": "Dark"
+              }
             }
           ]
         }
