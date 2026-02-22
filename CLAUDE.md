@@ -90,3 +90,120 @@ Key references within the skill:
 - `references/responsive-breakpoints.md` — Responsive patterns
 
 ---
+
+## Pencil Design
+
+### Design File
+
+```
+design/libar-dev-design.pen   ← single source of design truth
+```
+
+Open with `open_document("/Users/darkomijic/dev-projects/libar-dev-website/design/libar-dev-design.pen")` if not already active.
+
+### This Project's Design System
+
+| Property | Value |
+|---|---|
+| Aesthetic | Swiss Constructivist — functional, typographic, precise |
+| Display font | Bebas Neue |
+| Body font | Outfit |
+| Code font | JetBrains Mono |
+| Accent color | `#e8530e` (warm orange) |
+| CSS token prefix | `--dp-*` (defined in `src/styles/tokens.css`) |
+
+**Token mapping rule:** Pencil variable names must correspond to `--dp-*` CSS custom properties for code generation to be accurate. When generating code, emit `var(--dp-*)` — not hardcoded hex values and not `var(--sl-*)` (those are Starlight internals).
+
+### Session Start Checklist
+
+Run these **before any design work**:
+
+1. `get_editor_state(include_schema: true)` — live .pen schema + active selection context
+2. `batch_get(filePath, patterns: [{reusable: true}])` — discover ALL existing components before inserting anything
+3. `get_variables(filePath)` — read current `--dp-*` token values
+4. `get_guidelines(topic)` — load relevant design rules (`landing-page`, `design-system`, `code`, or `tailwind`)
+5. `get_style_guide_tags()` → `get_style_guide(tags)` — only for new screens or major redesigns
+
+### Token → CSS → Tailwind Pipeline
+
+| Layer | Rule |
+|---|---|
+| Pencil | Use `$variableName` references — never hardcode `#e8530e`, `6`, etc. |
+| Before styling | Run `search_all_unique_properties` to audit for hardcoded values |
+| Bulk migration | Use `replace_all_matching_properties` to swap hardcoded → variable refs |
+| Generated CSS | Emit `var(--dp-*)` custom properties |
+| Generated Tailwind | Use semantic classes (`bg-primary`, `text-foreground`) — never `bg-[#e8530e]` or `text-[var(--dp-accent)]` |
+
+### Landing Page Section Status
+
+| Section | Status | Component File |
+|---|---|---|
+| Hero | **Live** | `src/components/landing/Hero.astro` |
+| Pipeline | Pending | `src/components/landing/delivery-process/Pipeline.astro` |
+| Capabilities / Pillars | Pending | `src/components/landing/delivery-process/Pillars.astro` |
+| Metrics | Pending | `src/components/landing/delivery-process/Metrics.astro` |
+| Code Examples | Pending | `src/components/landing/delivery-process/CodeExamples.astro` |
+| Data API | Pending | `src/components/landing/delivery-process/DataAPI.astro` |
+| MCP Callout | Pending | `src/components/landing/delivery-process/McpCallout.astro` |
+| Workflows | Pending | `src/components/landing/delivery-process/Workflows.astro` |
+| Comparison | Pending | *(no file yet)* |
+| QuickStart | Pending | *(no file yet)* |
+| Footer CTA | Pending | `src/components/landing/delivery-process/FooterCta.astro` |
+
+The original design prototype with all sections is at `../delivery-process/_designs/unified/index.html` (local) — reference it for layout intent.
+
+### Operation Mini-Language Quick Reference
+
+`batch_design` uses a DSL string. Key rules:
+
+| Operation | Syntax | Critical Rule |
+|---|---|---|
+| Insert | `binding=I(parent, {type, ...props})` | Always assign a binding name |
+| Update | `U("nodeId", {...props})` | Cannot change `id`, `type`, or `ref` |
+| Copy | `binding=C("nodeId", parent, {descendants: {...}})` | Use `descendants` for nested overrides — NOT separate `U()` calls on the copy |
+| Replace | `binding=R("nodeId", {...})` | Replaces node entirely |
+| Delete | `D("nodeId")` | Literal node ID only — not a binding |
+| Move | `M("nodeId", parent, index?)` | Literal node ID only |
+| Image | `G(nodeIdOrBinding, "ai"\|"stock", prompt)` | No "image" node type — images are fills on frames/rectangles |
+
+**Hard limits:**
+- Max **25 ops per `batch_design` call** — split larger work into logical sections
+- Binding names are **local to one call** — never reuse across calls
+- All operations in a call **roll back on error** — design atomically
+
+### Most Impactful Tools for This Project
+
+| Tool | When to Use |
+|---|---|
+| `get_editor_state(include_schema: true)` | First call in any session |
+| `batch_get(reusable: true)` | Before inserting any element — check if component exists |
+| `search_all_unique_properties` | Audit hardcoded colors/spacing before token migration |
+| `replace_all_matching_properties` | Bulk swap hardcoded values → variable references |
+| `snapshot_layout(problemsOnly: true)` | After every section — catch overflow/clipping immediately |
+| `get_screenshot` | Visual verification after every section |
+| `set_variables` | Merges by default (safe); pass `replace: true` only when rebuilding tokens entirely |
+
+### Common Mistakes (Project-Specific)
+
+| Mistake | Correct |
+|---|---|
+| Hardcoding `#e8530e` | Use Pencil variable reference (`$accent` or equivalent) |
+| Using Inter or system font | Use Bebas Neue (display), Outfit (body), JetBrains Mono (code) |
+| `U()` on descendant of a just-`C()`-ed node | Put overrides in `descendants` map inside the `C()` call itself |
+| Building full section then checking | Screenshot + `snapshot_layout(problemsOnly: true)` after each section |
+| Generating `rounded-[6px]` in code | Use semantic Tailwind class (`rounded-md`) |
+| Generating `var(--dp-accent)` in className | Use semantic class (`text-accent`, `bg-accent`) |
+| `open_document("new")` when file already exists | Check `get_editor_state` first — file may already be open |
+
+### MCPorter Typed Client (Optional Scripted Work)
+
+If calling Pencil tools from TypeScript scripts (not interactive sessions):
+
+```bash
+npx mcporter list pencil --schema                                    # full typed signatures
+npx mcporter emit-ts pencil --mode client --out scripts/pencil-client.ts  # generate typed proxy
+```
+
+The typed proxy (`createServerProxy`) auto-batches, validates arguments, and provides camelCase method names — significantly more ergonomic than raw MCP SDK for scripted design generation.
+
+---
