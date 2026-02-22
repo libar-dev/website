@@ -6939,7 +6939,7 @@
               "type": "text",
               "id": "r0301",
               "name": "bashC1",
-              "fill": "$--libar-code-plain",
+              "fill": "$--libar-code-comment",
               "content": "# Validate scope before starting a session",
               "lineHeight": 1.7,
               "fontFamily": "JetBrains Mono",
@@ -6972,7 +6972,7 @@
               "type": "text",
               "id": "hgbo4",
               "name": "bashC4",
-              "fill": "$--libar-code-plain",
+              "fill": "$--libar-code-comment",
               "content": "# Pull exact context - zero hallucination, minimal tokens",
               "lineHeight": 1.7,
               "fontFamily": "JetBrains Mono",
@@ -7704,32 +7704,42 @@
           "width": 1200,
           "fill": "$--libar-bg-show-section",
           "layout": "vertical",
-          "gap": 40,
+          "gap": 48,
           "padding": 80,
           "children": [
             {
-              "type": "text",
-              "id": "72iZV",
-              "name": "Show Label",
-              "fill": "$--libar-text-tertiary",
-              "content": "SHOW, DON'T TELL.",
-              "fontFamily": "IBM Plex Sans",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "letterSpacing": 2
-            },
-            {
-              "type": "text",
-              "id": "MehvR",
-              "name": "Show Desc",
-              "fill": "$--libar-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 640,
-              "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. Each source flows through the four-stage pipeline — Scanner → Extractor → Transformer → Codec — into a single queryable MasterDataset. Neither source duplicates the other. The agent queries truth directly instead of reading both.",
-              "lineHeight": 1.6,
-              "fontFamily": "Geist",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "type": "frame",
+              "id": "5vgB5",
+              "name": "Show Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "72iZV",
+                  "name": "Show Label",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "SHOW, DON'T TELL.",
+                  "fontFamily": "IBM Plex Sans",
+                  "fontSize": 12,
+                  "fontWeight": "500",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "MehvR",
+                  "name": "Show Desc",
+                  "fill": "$--libar-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": 640,
+                  "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. Each source flows through the four-stage pipeline — Scanner → Extractor → Transformer → Codec — into a single queryable MasterDataset. Neither source duplicates the other. The agent queries truth directly instead of reading both.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
             },
             {
               "type": "frame",
@@ -7955,35 +7965,45 @@
           "width": 430,
           "fill": "$--libar-bg-show-section",
           "layout": "vertical",
-          "gap": 24,
+          "gap": 40,
           "padding": [
             48,
             20
           ],
           "children": [
             {
-              "type": "text",
-              "id": "zbgsN",
-              "name": "Show Label",
-              "fill": "$--libar-text-tertiary",
-              "content": "SHOW, DON'T TELL.",
-              "fontFamily": "IBM Plex Sans",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "letterSpacing": 2
-            },
-            {
-              "type": "text",
-              "id": "7uIeM",
-              "name": "Show Desc",
-              "fill": "$--libar-text-secondary",
-              "textGrowth": "fixed-width",
+              "type": "frame",
+              "id": "XP8LS",
+              "name": "Show Header",
               "width": "fill_container",
-              "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. The agent queries truth directly from one MasterDataset.",
-              "lineHeight": 1.6,
-              "fontFamily": "Geist",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zbgsN",
+                  "name": "Show Label",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "SHOW, DON'T TELL.",
+                  "fontFamily": "IBM Plex Sans",
+                  "fontSize": 12,
+                  "fontWeight": "500",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "7uIeM",
+                  "name": "Show Desc",
+                  "fill": "$--libar-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "TypeScript owns runtime structure. Gherkin owns planning and behavior. The agent queries truth directly from one MasterDataset.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
             },
             {
               "type": "frame",
@@ -8074,8 +8094,8 @@
         {
           "type": "frame",
           "id": "X5NMd",
-          "x": 0,
-          "y": 0,
+          "x": 80,
+          "y": 3368,
           "name": "Organism/Three Sessions",
           "reusable": true,
           "width": 1200,
@@ -8185,8 +8205,8 @@
         {
           "type": "frame",
           "id": "F0qnF",
-          "x": 0,
-          "y": 0,
+          "x": 40,
+          "y": 3952,
           "name": "Organism/Pipeline Section",
           "reusable": true,
           "width": 1200,
@@ -8195,15 +8215,19 @@
           "padding": 80,
           "children": [
             {
-              "type": "text",
-              "id": "l4YiW",
-              "name": "Pipeline Label",
-              "fill": "$--libar-text-tertiary",
-              "content": "THE PIPELINE",
-              "fontFamily": "$--libar-font-primary",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "letterSpacing": 2
+              "id": "A9B5z",
+              "type": "ref",
+              "ref": "Be3z5",
+              "width": "fill_container",
+              "name": "pipelineHeader",
+              "descendants": {
+                "i5bEe": {
+                  "content": "THE PIPELINE."
+                },
+                "gzo2k": {
+                  "content": "Five stages from source to living docs."
+                }
+              }
             },
             {
               "type": "frame",
@@ -10153,6 +10177,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#F6F5F3",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#161616",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10167,6 +10203,18 @@
         },
         {
           "value": "#222224",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#222222",
           "theme": {
             "Mode": "Dark"
           }
@@ -10187,6 +10235,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#F2F0EC",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#2A2A2A",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10204,6 +10264,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#E1DDD7",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#303030",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10218,6 +10290,18 @@
         },
         {
           "value": "#242426",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#ECE7E2",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#262626",
           "theme": {
             "Mode": "Dark"
           }
@@ -10301,6 +10385,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#121212",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#121212",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10318,6 +10414,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10332,6 +10440,18 @@
         },
         {
           "value": "#1E1E20",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#F2F0EC",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#1E1E1E",
           "theme": {
             "Mode": "Dark"
           }
@@ -10420,6 +10540,18 @@
           "theme": {
             "Mode": "Dark"
           }
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
         }
       ]
     },
@@ -10434,6 +10566,18 @@
         },
         {
           "value": "#1C1C1E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        },
+        {
+          "value": "#EEECE8",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#121212",
           "theme": {
             "Mode": "Dark"
           }
@@ -10596,6 +10740,127 @@
     "--libar-font-size-code": {
       "type": "number",
       "value": 13
+    },
+    "background": {
+      "type": "color",
+      "value": "#fafafa"
+    },
+    "Wait_to_fix": {
+      "type": "number",
+      "value": [
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        },
+        {
+          "value": 0
+        }
+      ]
+    },
+    "ls_bg_code": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1C1C1C"
+        },
+        {
+          "value": "#1C1C1C"
+        },
+        {
+          "value": "#1C1C1C"
+        }
+      ]
+    },
+    "ls_bg_code_block": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#2A2A2A"
+        },
+        {
+          "value": "#2A2A2A"
+        },
+        {
+          "value": "#2A2A2A"
+        }
+      ]
+    },
+    "ls_bg_page": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#161616"
+        },
+        {
+          "value": "#161616"
+        },
+        {
+          "value": "#161616"
+        }
+      ]
+    },
+    "ls_bg_section_alt": {
+      "type": "color",
+      "value": "#202020"
+    },
+    "ls_bg_show_section": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1E1E1E"
+        },
+        {
+          "value": "#1E1E1E"
+        },
+        {
+          "value": "#1E1E1E"
+        }
+      ]
+    },
+    "ls_bg_surface": {
+      "type": "color",
+      "value": "#242424"
+    },
+    "ls_bg_surface_2": {
+      "type": "color",
+      "value": "#2C2C2C"
+    },
+    "ls_border_code": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#303030"
+        },
+        {
+          "value": "#303030"
+        },
+        {
+          "value": "#303030"
+        }
+      ]
+    },
+    "ls_border_main": {
+      "type": "color",
+      "value": "#303030"
+    },
+    "ls_border_subtle": {
+      "type": "color",
+      "value": "#262626"
+    },
+    "ls_code_accent": {
+      "type": "color",
+      "value": "#ce6928"
     }
   }
 }
