@@ -7285,6 +7285,57 @@
               "fontWeight": "600"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "kOXJR",
+          "x": 0,
+          "y": 0,
+          "name": "Molecule/Before After Column",
+          "reusable": true,
+          "width": 560,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "tH5zj",
+              "name": "label",
+              "fill": "$--libar-text-tertiary",
+              "content": "BEFORE",
+              "fontFamily": "$--libar-font-primary",
+              "fontSize": 12,
+              "fontWeight": "700",
+              "letterSpacing": 1.5
+            },
+            {
+              "id": "SVyRa",
+              "type": "ref",
+              "ref": "7vqcw",
+              "name": "codeBlock",
+              "width": "fill_container",
+              "descendants": {
+                "r0301": {
+                  "content": "# Hallucination risk: High"
+                },
+                "0llGP": {
+                  "content": "$ cat ROADMAP.md src/core/*.ts | head -500"
+                },
+                "O2dFF": {
+                  "content": "$ grep -r &quot;EventStore&quot; --include=&quot;*.ts&quot;",
+                  "fill": "$--libar-code-tag",
+                  "fontWeight": "600"
+                },
+                "hgbo4": {
+                  "content": "# 40+ files, ~8,000 tokens, still incomplete"
+                },
+                "fvVWE": {
+                  "content": " ",
+                  "enabled": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -8708,6 +8759,72 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "klha6",
+          "x": 40,
+          "y": 5500,
+          "name": "Organism/Before After Section",
+          "reusable": true,
+          "width": 1200,
+          "fill": "$--libar-bg-section-alt",
+          "layout": "vertical",
+          "gap": 48,
+          "padding": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Rqv6G",
+              "name": "headerRow",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "id": "IQJIv",
+                  "type": "ref",
+                  "ref": "kOXJR",
+                  "name": "beforeCol",
+                  "width": "fill_container"
+                },
+                {
+                  "id": "GXW2X",
+                  "type": "ref",
+                  "ref": "kOXJR",
+                  "name": "afterCol",
+                  "width": "fill_container",
+                  "descendants": {
+                    "tH5zj": {
+                      "content": "AFTER",
+                      "fill": "$--libar-accent"
+                    },
+                    "SVyRa/r0301": {
+                      "content": "# Hallucination risk: Zero"
+                    },
+                    "SVyRa/0llGP": {
+                      "content": "$ pnpm process:query -- \\\\"
+                    },
+                    "SVyRa/O2dFF": {
+                      "content": "  context TransformDataset \\\\",
+                      "fill": "$--libar-code-plain",
+                      "fontWeight": "normal"
+                    },
+                    "SVyRa/hgbo4": {
+                      "content": "  --session implement",
+                      "fill": "$--libar-code-plain",
+                      "fontWeight": "normal"
+                    },
+                    "SVyRa/fvVWE": {
+                      "content": "# 1 call, ~200 tokens, complete & accurate",
+                      "fill": "$--libar-code-comment",
+                      "fontWeight": "normal",
+                      "enabled": true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -8790,6 +8907,13 @@
               "width": 1200,
               "x": 0,
               "y": 0
+            },
+            {
+              "id": "G9PTD",
+              "type": "ref",
+              "ref": "klha6",
+              "name": "Before After Section",
+              "width": "fill_container"
             },
             {
               "id": "B94Bi",
@@ -8908,6 +9032,16 @@
                     "fill": "$--libar-text-primary"
                   }
                 }
+              }
+            },
+            {
+              "id": "8BC5p",
+              "type": "ref",
+              "ref": "klha6",
+              "name": "Before After Section",
+              "width": "fill_container",
+              "theme": {
+                "Mode": "Dark"
               }
             },
             {
