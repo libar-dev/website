@@ -391,7 +391,7 @@ The complete homepage should contain these sections in order:
 | 2 | Hero | YES | Needs bracket clipping fix |
 | 3 | Stats/Metrics | YES | Done |
 | 4 | Pipeline | YES | Needs stagger + dark contrast |
-| 5 | Show Don't Tell | YES | Needs code block fixes |
+| 5 | Show Don't Tell | YES | Migrated in canonical `new-design.pen` with theme-aware TS/Gherkin/Bash code blocks |
 | 6 | **DataAPI** | **NO** | Needs design |
 | 7 | Three Sessions / Workflows | YES | Needs parity fix |
 | 8 | **Four Pillars** | **NO** | Needs design |
@@ -416,8 +416,8 @@ The complete homepage should contain these sections in order:
 | Three Sessions — Dark | `z0Bzq` | A5 (parity), A6 (stale note) | B1, B4 |
 | Pipeline — Light | `xp4Bv` | — | B6 (stagger) |
 | Pipeline — Dark | `djdNg` | A8 (card borders) | B1, B6 |
-| Show Dont Tell — Light | `VhuCT` | A2 (borders), A3 (font sizes) | — |
-| Show Dont Tell — Dark | `kG9VC` | A2 (borders), A3 (font sizes) | B1 |
+| Show Dont Tell — Light | `VhuCT` | Migrated to canonical organism flow (`Ch7Iq`) | — |
+| Show Dont Tell — Dark | `kG9VC` | Migrated to canonical organism flow (`Ch7Iq` + dark theme instance) | B1 |
 | CTA Footer — Light | `8eHO6` | — | — |
 | CTA Footer — Dark | `v5Tjv` | — | B1 |
 
@@ -780,3 +780,53 @@ Critical pending:
 
 - MCP/editor state is authoritative for this execution snapshot.
 - If file-diff parity is required on disk, use a single-writer export/save pass from the active Pencil editor to avoid known desktop/plugin race conditions documented above.
+
+---
+
+## SESSION CONTEXT UPDATE (2026-02-22 — CANONICAL SHOW DONT TELL MIGRATION APPLIED)
+
+### Scope completed
+
+- Target file: `design/new-design.pen`
+- Migrated section: main Show Don't Tell only (light/dark + mobile composition)
+- Out of scope kept unchanged: B2 compare strip
+
+### Canonical component updates
+
+- Added/updated reusable multiline code block molecules:
+  - `oh1Ks` — `Molecule/Code Block/TypeScript` (active, tokenized)
+  - `9U4KF` — `Molecule/Code Block/Gherkin`
+  - `7vqcw` — `Molecule/Code Block/Bash`
+- Kept `dNzrd` as canonical single-line bash command block.
+- Added reusable Show section organisms:
+  - `Ch7Iq` — `Organism/Show Dont Tell`
+  - `RHQQT` — `Organism/Show Dont Tell Mobile`
+
+### Page/reference wiring
+
+- Landing desktop light `97uoV/J5Vib`:
+  - `ZoA6G` (`showDontTell` -> `Ch7Iq`)
+- Landing desktop dark `DogW5/SYdA9`:
+  - `4JiDw` (`showDontTell` -> `Ch7Iq`, `theme: {Mode: "Dark"}`)
+- Landing mobile light `vLqHF/edv8n`:
+  - `GjnQd` (`showDontTellMobile` -> `RHQQT`)
+- Docs path validation:
+  - `wUDp5/docsMainCode` continues to reference `oh1Ks` and `5BO2H` renders migrated code block.
+
+### Token updates (canonical libar-prefixed)
+
+- Added:
+  - `--libar-bg-show-section`, `--libar-bg-code-block`, `--libar-font-size-code`
+  - `--libar-code-comment`, `--libar-code-function`, `--libar-code-gherkin-keyword`, `--libar-code-gherkin-tag`
+  - `--libar-code-keyword`, `--libar-code-plain`, `--libar-code-string`, `--libar-code-tag`, `--libar-code-type`
+- Updated:
+  - `--libar-text-on-dark` Light -> `#FFFFFF` (Dark unchanged `#E6E4E1`)
+  - `--libar-text-on-dark-2` Light -> `#9B98A0`, Dark -> `#6E6A67`
+
+### Validation
+
+- `snapshot_layout(problemsOnly:true)` returns no layout problems for:
+  - `dehK6`, `4jo2u`, `97uoV`, `DogW5`, `vLqHF`, `5BO2H`
+- Screenshot parity check completed against input references:
+  - Light baseline `VhuCT`
+  - Dark baseline `kG9VC`
