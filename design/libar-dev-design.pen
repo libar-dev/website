@@ -4452,7 +4452,7 @@
             {
               "type": "path",
               "id": "Vygs1",
-              "x": -16,
+              "x": 0,
               "y": 0,
               "name": "child11",
               "geometry": "M0 0l20 0m-20 0l0 20",
@@ -4541,7 +4541,7 @@
                           "type": "ref",
                           "ref": "HHCXG",
                           "name": "CTA Hover Current",
-                          "fill": "#95552F",
+                          "fill": "$--accent-hover-current",
                           "descendants": {
                             "hRrUS": {
                               "content": "CTA HOVER CURRENT"
@@ -4565,7 +4565,7 @@
                           "type": "ref",
                           "ref": "HHCXG",
                           "name": "CTA Hover Candidate B",
-                          "fill": "#9D5826",
+                          "fill": "$--accent-hover-candidate-b",
                           "descendants": {
                             "hRrUS": {
                               "content": "CTA HOVER CAND B"
@@ -4589,7 +4589,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "LVqK8": {
-                              "fill": "#95552F",
+                              "fill": "$--accent-hover-current",
                               "content": "5x"
                             },
                             "MlWHh": {
@@ -4621,7 +4621,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "LVqK8": {
-                              "fill": "#9D5826",
+                              "fill": "$--accent-hover-candidate-b",
                               "content": "5x"
                             },
                             "MlWHh": {
@@ -4668,7 +4668,7 @@
                           "type": "ref",
                           "ref": "HHCXG",
                           "name": "CTA Hover Current",
-                          "fill": "#95552F",
+                          "fill": "$--accent-hover-current",
                           "descendants": {
                             "hRrUS": {
                               "content": "CTA HOVER CURRENT"
@@ -4692,7 +4692,7 @@
                           "type": "ref",
                           "ref": "HHCXG",
                           "name": "CTA Hover Candidate B",
-                          "fill": "#9D5826",
+                          "fill": "$--accent-hover-candidate-b",
                           "descendants": {
                             "hRrUS": {
                               "content": "CTA HOVER CAND B"
@@ -4716,7 +4716,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "LVqK8": {
-                              "fill": "#95552F",
+                              "fill": "$--accent-hover-current",
                               "content": "5x"
                             },
                             "MlWHh": {
@@ -4748,7 +4748,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "LVqK8": {
-                              "fill": "#9D5826",
+                              "fill": "$--accent-hover-candidate-b",
                               "content": "5x"
                             },
                             "MlWHh": {
@@ -6651,6 +6651,40 @@
         },
         {
           "value": "#A05A28",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--accent-hover-current": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#95552F",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#95552F",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--accent-hover-candidate-b": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#9D5826",
+          "theme": {
+            "Mode": "Light"
+          }
+        },
+        {
+          "value": "#9D5826",
           "theme": {
             "Mode": "Dark"
           }
