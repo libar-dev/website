@@ -8493,6 +8493,221 @@
               ]
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "i4Dsc",
+          "x": 40,
+          "y": 4800,
+          "name": "Organism/CTA Footer",
+          "reusable": true,
+          "width": 1200,
+          "fill": "$--libar-bg-page",
+          "layout": "vertical",
+          "gap": 64,
+          "padding": [
+            80,
+            80,
+            48,
+            80
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "tVQ5o",
+              "name": "CTA Content",
+              "width": 720,
+              "layout": "vertical",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "3ljuh",
+                  "name": "ctaHeading",
+                  "fill": "$--libar-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "READY TO ENGINEER YOUR CONTEXT?",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
+                  "fontFamily": "IBM Plex Sans",
+                  "fontSize": 32,
+                  "fontWeight": "800",
+                  "letterSpacing": -0.5
+                },
+                {
+                  "type": "text",
+                  "id": "tDDGc",
+                  "name": "ctaSub",
+                  "fill": "$--libar-text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Join the shift from prompt engineering to context engineering.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Geist",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "gHkTT",
+                  "name": "lightInstall",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "$--libar-bg-code-surface",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--libar-border-code"
+                  },
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    20
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sZ4hR",
+                      "name": "Prompt",
+                      "fill": "$--libar-text-tertiary",
+                      "content": "$",
+                      "lineHeight": 1.5,
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ruIrm",
+                      "name": "Command",
+                      "fill": "$--libar-code-accent",
+                      "content": "npm install @libar-dev/delivery-process@pre",
+                      "lineHeight": 1.5,
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IG6yI",
+                  "name": "CTA Buttons",
+                  "gap": 12,
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "id": "VM2um",
+                      "type": "ref",
+                      "ref": "LXgRt",
+                      "name": "btnPrimary",
+                      "descendants": {
+                        "vrSer": {
+                          "content": "GET STARTED"
+                        }
+                      }
+                    },
+                    {
+                      "id": "9xeDr",
+                      "type": "ref",
+                      "ref": "KgJm8",
+                      "name": "btnSecondary",
+                      "descendants": {
+                        "zwgZK": {
+                          "content": "VIEW DOCUMENTATION"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "AVgsk",
+              "name": "lightDivider",
+              "fill": "$--libar-border-main",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "FMKn9",
+              "name": "lightFooter",
+              "width": "fill_container",
+              "padding": [
+                24,
+                0,
+                0,
+                0
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TSKUa",
+                  "name": "Copyright",
+                  "fill": "$--libar-text-tertiary",
+                  "content": "MIT License  ·  © 2026 @libar-dev",
+                  "lineHeight": 1.5,
+                  "fontFamily": "IBM Plex Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "frame",
+                  "id": "PHH7w",
+                  "name": "Links",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WVwQZ",
+                      "name": "npm",
+                      "fill": "$--libar-text-secondary",
+                      "content": "npm",
+                      "lineHeight": 1.5,
+                      "fontFamily": "IBM Plex Sans",
+                      "fontSize": 12,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "KqoEu",
+                      "name": "GitHub",
+                      "fill": "$--libar-text-secondary",
+                      "content": "GitHub",
+                      "lineHeight": 1.5,
+                      "fontFamily": "IBM Plex Sans",
+                      "fontSize": 12,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "rcuvh",
+                      "name": "Docs",
+                      "fill": "$--libar-text-secondary",
+                      "content": "Docs",
+                      "lineHeight": 1.5,
+                      "fontFamily": "IBM Plex Sans",
+                      "fontSize": 12,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -8553,7 +8768,7 @@
       },
       "clip": true,
       "width": 1200,
-      "height": 3743,
+      "height": 4785,
       "fill": "$--libar-bg-page",
       "layout": "none",
       "children": [
@@ -8603,6 +8818,13 @@
               "ref": "F0qnF",
               "name": "Pipeline Section",
               "width": "fill_container"
+            },
+            {
+              "id": "hZgGW",
+              "type": "ref",
+              "ref": "i4Dsc",
+              "width": "fill_container",
+              "name": "lightCtaFooter"
             }
           ]
         }
@@ -8619,7 +8841,7 @@
       },
       "clip": true,
       "width": 1200,
-      "height": 3940,
+      "height": 4646,
       "fill": "$--libar-bg-page",
       "layout": "none",
       "children": [
@@ -8727,6 +8949,16 @@
               "theme": {
                 "Mode": "Dark"
               }
+            },
+            {
+              "id": "xOWTL",
+              "type": "ref",
+              "ref": "i4Dsc",
+              "width": "fill_container",
+              "theme": {
+                "Mode": "Dark"
+              },
+              "name": "darkCtaFooter"
             }
           ]
         }

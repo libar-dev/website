@@ -148,6 +148,7 @@ No separate light preview frames exist — source-light frames serve as both sou
 | Organism/Stats Section | `gn5FK` | Active | Section Header + 3 Stat Cards |
 | Organism/Three Sessions | `X5NMd` | Active | Section Header + 3 Session Cards on `bg-section-alt` |
 | Organism/Pipeline Section | `F0qnF` | Active | Section Header + 5 Pipeline Cards (staggered) + flow diagram |
+| Organism/CTA Footer | `i4Dsc` | Active | CTA heading, buttons, install command, footer bar, divider |
 
 ---
 
@@ -223,7 +224,7 @@ All other sections (Hero, Stats, Three Sessions, Pipeline, B2/Show Don't Tell) h
 | **Three Sessions** | Done ✅ | `Organism/Three Sessions` (`X5NMd`) — 3 session cards with numbered sequence |
 | **Pipeline** | Done ✅ | `Organism/Pipeline Section` (`F0qnF`) — 5 staggered dark cards + flow diagram |
 | **B2 / Show Don't Tell** | Done ✅ | `Organism/Show Dont Tell` (`Ch7Iq`) + Mobile (`RHQQT`) |
-| **CTA Footer** | Not started | Needs: CTA heading, buttons, install command, footer bar, divider |
+| **CTA Footer** | Done ✅ | `Organism/CTA Footer` (`i4Dsc`) — CTA heading, buttons, install command, footer bar, divider |
 | **Docs Overview** | Not started | Needs: top nav, sidebar, explore cards, capabilities table, section heading |
 
 ---
