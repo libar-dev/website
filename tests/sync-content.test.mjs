@@ -54,10 +54,16 @@ test('sync-content strict mode succeeds and generates expected docs structure', 
 		'index.mdx',
 		'getting-started.md',
 		'guides/methodology.md',
-		'reference/architecture.md',
+		'architecture/index.md',
+		'architecture/codecs.md',
 		'product-areas/index.md',
+		'reference/process-api-reference.md',
+		'reference/session-workflow-guide.md',
+		'business-rules/index.md',
+		'taxonomy/index.md',
+		'validation/index.md',
 		'decisions/index.md',
-		'generated/business-rules/index.md',
+		'changelog/index.md',
 		'tutorial/index.md',
 		'tutorial/10-advanced-process-data-api.md',
 	];
@@ -76,14 +82,14 @@ test('sync-content rewrites key links to stable site URLs', () => {
 	);
 	assert.ok(!guide.includes('](../README.md)'), 'Expected no remaining ../README.md links');
 	assert.ok(
-		guide.includes('](/delivery-process/reference/taxonomy/)'),
-		'Expected taxonomy link to be rewritten to /delivery-process/reference/taxonomy/'
+		guide.includes('](/delivery-process/taxonomy/)'),
+		'Expected taxonomy link to be rewritten to /delivery-process/taxonomy/'
 	);
 	assert.ok(!guide.includes('](./TAXONOMY.md)'), 'Expected no remaining ./TAXONOMY.md links');
 
-	const generatedReference = readFileSync(resolve(DOCS_ROOT, 'generated/reference-sample.md'), 'utf8');
+	const referenceSample = readFileSync(resolve(DOCS_ROOT, 'reference/reference-sample.md'), 'utf8');
 	assert.ok(
-		generatedReference.includes('](https://github.com/libar-dev/delivery-process/blob/main/src/config/factory.ts)'),
+		referenceSample.includes('](https://github.com/libar-dev/delivery-process/blob/main/src/config/factory.ts)'),
 		'Expected source code links to be rewritten to GitHub URLs'
 	);
 });

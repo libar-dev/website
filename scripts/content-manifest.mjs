@@ -3,6 +3,9 @@
  *
  * This file is consumed by both the content sync pipeline and Astro/Starlight
  * config so section structure only lives in one place.
+ *
+ * Primary content comes from docs-live/ (auto-generated).
+ * Only 3 manual guides from docs/ remain (no generated equivalent).
  */
 
 export const DELIVERY_PROCESS_DOCS = {
@@ -12,30 +15,29 @@ export const DELIVERY_PROCESS_DOCS = {
 	gettingStartedSlug: 'delivery-process/getting-started',
 };
 
+/**
+ * Manual docs from docs/ that have no generated equivalent in docs-live/.
+ * These are the only files still synced from the manual docs/ directory.
+ */
 export const DELIVERY_PROCESS_MANUAL_DOCS = {
 	guides: [
 		{ source: 'METHODOLOGY.md', slug: 'methodology', order: 1 },
 		{ source: 'CONFIGURATION.md', slug: 'configuration', order: 2 },
-		{ source: 'SESSION-GUIDES.md', slug: 'session-guides', order: 3 },
-		{ source: 'GHERKIN-PATTERNS.md', slug: 'gherkin-patterns', order: 4 },
-		{ source: 'ANNOTATION-GUIDE.md', slug: 'annotation-guide', order: 5 },
-	],
-	reference: [
-		{ source: 'ARCHITECTURE.md', slug: 'architecture', order: 1 },
-		{ source: 'PROCESS-API.md', slug: 'process-api', order: 2 },
-		{ source: 'PROCESS-GUARD.md', slug: 'process-guard', order: 3 },
-		{ source: 'VALIDATION.md', slug: 'validation', order: 4 },
-		{ source: 'TAXONOMY.md', slug: 'taxonomy', order: 5 },
+		{ source: 'GHERKIN-PATTERNS.md', slug: 'gherkin-patterns', order: 3 },
 	],
 };
 
 export const DELIVERY_PROCESS_SECTIONS = [
 	{ label: 'Tutorial', directory: 'tutorial', collapsed: false },
-	{ label: 'Guides', directory: 'guides', collapsed: false },
-	{ label: 'Reference', directory: 'reference', collapsed: false },
+	{ label: 'Architecture', directory: 'architecture', collapsed: false },
 	{ label: 'Product Areas', directory: 'product-areas', collapsed: false },
-	{ label: 'Architecture Decisions', directory: 'decisions', collapsed: true },
-	{ label: 'Generated Reference', directory: 'generated', collapsed: true },
+	{ label: 'Reference', directory: 'reference', collapsed: false },
+	{ label: 'Business Rules', directory: 'business-rules', collapsed: true },
+	{ label: 'Taxonomy', directory: 'taxonomy', collapsed: true },
+	{ label: 'Validation', directory: 'validation', collapsed: true },
+	{ label: 'Decisions', directory: 'decisions', collapsed: true },
+	{ label: 'Guides', directory: 'guides', collapsed: true },
+	{ label: 'Changelog', directory: 'changelog', collapsed: true },
 ];
 
 export const DELIVERY_PROCESS_SYNC_SUBDIRS = DELIVERY_PROCESS_SECTIONS.map(section => section.directory);
@@ -45,13 +47,27 @@ function toSectionUrl(section, slug) {
 }
 
 const MANUAL_LINK_REWRITES = Object.fromEntries(
-	Object.entries(DELIVERY_PROCESS_MANUAL_DOCS).flatMap(([section, files]) =>
-		files.map(file => [`./${file.source}`, toSectionUrl(section, file.slug)])
-	),
+	DELIVERY_PROCESS_MANUAL_DOCS.guides.map(file => [`./${file.source}`, toSectionUrl('guides', file.slug)])
 );
+
+/**
+ * Link rewrites for docs/ files that are no longer synced but may still be
+ * referenced by the 3 remaining manual guides. Points to their docs-live/
+ * generated equivalents on the website.
+ */
+const REPLACED_DOCS_LINK_REWRITES = {
+	'./ARCHITECTURE.md': `/${DELIVERY_PROCESS_DOCS.slug}/architecture/`,
+	'./PROCESS-API.md': `/${DELIVERY_PROCESS_DOCS.slug}/reference/process-api-reference/`,
+	'./PROCESS-GUARD.md': `/${DELIVERY_PROCESS_DOCS.slug}/reference/process-guard-reference/`,
+	'./ANNOTATION-GUIDE.md': `/${DELIVERY_PROCESS_DOCS.slug}/reference/annotation-reference/`,
+	'./SESSION-GUIDES.md': `/${DELIVERY_PROCESS_DOCS.slug}/reference/session-workflow-guide/`,
+	'./TAXONOMY.md': `/${DELIVERY_PROCESS_DOCS.slug}/taxonomy/`,
+	'./VALIDATION.md': `/${DELIVERY_PROCESS_DOCS.slug}/validation/`,
+};
 
 export const DELIVERY_PROCESS_LINK_REWRITES = {
 	...MANUAL_LINK_REWRITES,
+	...REPLACED_DOCS_LINK_REWRITES,
 	'./INDEX.md': `/${DELIVERY_PROCESS_DOCS.slug}/`,
 	'../README.md': `/${DELIVERY_PROCESS_DOCS.slug}/getting-started/`,
 	'../CHANGELOG.md': 'https://github.com/libar-dev/delivery-process/blob/main/CHANGELOG.md',
@@ -90,6 +106,10 @@ export const DELIVERY_PROCESS_LINK_PREFIX_REWRITES = [
 	},
 	{
 		prefix: 'decisions/',
+		targetPrefix: 'https://github.com/libar-dev/delivery-process/blob/main/',
+	},
+	{
+		prefix: 'docs/',
 		targetPrefix: 'https://github.com/libar-dev/delivery-process/blob/main/',
 	},
 ];

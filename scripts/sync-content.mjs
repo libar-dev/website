@@ -5,13 +5,12 @@
  * injects Starlight frontmatter, strips H1, rewrites internal links,
  * and splits the tutorial into 10 parts.
  *
- * Usage:
- *   node scripts/sync-content.mjs
- *   node scripts/sync-content.mjs --verbose
+ * Primary content comes from docs-live/ (auto-generated from source code).
+ * Only 3 manual guides from docs/ remain (METHODOLOGY, CONFIGURATION, GHERKIN-PATTERNS).
  *
  * Sources (local dev):
- *   ../delivery-process/docs/          → manual docs
- *   ../delivery-process/docs-live/     → auto-generated (product areas, decisions, business rules, taxonomy)
+ *   ../delivery-process/docs/          → manual guides (3 files)
+ *   ../delivery-process/docs-live/     → auto-generated (all other sections)
  *   ../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md → tutorial
  *
  * Sources (CI — tutorial repo checked out as sibling; delivery-process via node_modules):
@@ -94,15 +93,12 @@ const REQUIRED_SOURCE_FILES = [
 		relativePath: file.source,
 		label: `delivery-process/docs/${file.source}`,
 	})),
-	...DELIVERY_PROCESS_MANUAL_DOCS.reference.map(file => ({
-		key: 'docs',
-		relativePath: file.source,
-		label: `delivery-process/docs/${file.source}`,
-	})),
+	{ key: 'docsLive', relativePath: 'ARCHITECTURE.md', label: 'delivery-process/docs-live/ARCHITECTURE.md' },
 	{ key: 'docsLive', relativePath: 'PRODUCT-AREAS.md', label: 'delivery-process/docs-live/PRODUCT-AREAS.md' },
 	{ key: 'docsLive', relativePath: 'DECISIONS.md', label: 'delivery-process/docs-live/DECISIONS.md' },
 	{ key: 'docsLive', relativePath: 'BUSINESS-RULES.md', label: 'delivery-process/docs-live/BUSINESS-RULES.md' },
 	{ key: 'docsLive', relativePath: 'TAXONOMY.md', label: 'delivery-process/docs-live/TAXONOMY.md' },
+	{ key: 'docsLive', relativePath: 'VALIDATION-RULES.md', label: 'delivery-process/docs-live/VALIDATION-RULES.md' },
 ];
 const EXPECTED_TUTORIAL_PARTS = Number.parseInt(process.env.TUTORIAL_EXPECTED_PARTS || '10', 10);
 const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkStringify, {
@@ -159,7 +155,6 @@ function toDocsRoute(section, slug) {
 }
 
 const GUIDE_SOURCE_TO_SLUG = new Map(DELIVERY_PROCESS_MANUAL_DOCS.guides.map(file => [file.source, file.slug]));
-const REFERENCE_SOURCE_TO_SLUG = new Map(DELIVERY_PROCESS_MANUAL_DOCS.reference.map(file => [file.source, file.slug]));
 
 function getSyncedRouteForSourceFile(sourceFilePath) {
 	const docsRel = getSourceRelativePath(SOURCES.docs, sourceFilePath);
@@ -167,36 +162,56 @@ function getSyncedRouteForSourceFile(sourceFilePath) {
 		if (docsRel === 'INDEX.md') return `/${DELIVERY_PROCESS_DOCS.slug}/`;
 		if (docsRel === 'README.md') return `/${DELIVERY_PROCESS_DOCS.slug}/getting-started/`;
 		if (GUIDE_SOURCE_TO_SLUG.has(docsRel)) return toDocsRoute('guides', GUIDE_SOURCE_TO_SLUG.get(docsRel));
-		if (REFERENCE_SOURCE_TO_SLUG.has(docsRel)) return toDocsRoute('reference', REFERENCE_SOURCE_TO_SLUG.get(docsRel));
+		// Catch-all: docs/ files not synced to the website → link to GitHub
+		if (docsRel.endsWith('.md'))
+			return `https://github.com/libar-dev/delivery-process/blob/main/docs/${docsRel}`;
 	}
 
 	const docsLiveRel = getSourceRelativePath(SOURCES.docsLive, sourceFilePath);
 	if (docsLiveRel) {
+		// Architecture
+		if (docsLiveRel === 'ARCHITECTURE.md') return toDocsRoute('architecture', '');
+		if (docsLiveRel === 'reference/ARCHITECTURE-CODECS.md') return toDocsRoute('architecture', 'codecs');
+		if (docsLiveRel === 'reference/ARCHITECTURE-TYPES.md') return toDocsRoute('architecture', 'types');
+		// Product areas
 		if (docsLiveRel === 'PRODUCT-AREAS.md') return toDocsRoute('product-areas', '');
-		if (docsLiveRel === 'DECISIONS.md') return toDocsRoute('decisions', '');
 		if (/^product-areas\/.+\.md$/i.test(docsLiveRel)) {
 			const slug = basename(docsLiveRel, '.md').toLowerCase();
 			return toDocsRoute('product-areas', slug);
 		}
+		// Reference (from docs-live/reference/)
+		if (docsLiveRel === 'reference/PROCESS-API-REFERENCE.md') return toDocsRoute('reference', 'process-api-reference');
+		if (docsLiveRel === 'reference/PROCESS-API-RECIPES.md') return toDocsRoute('reference', 'process-api-recipes');
+		if (docsLiveRel === 'reference/PROCESS-GUARD-REFERENCE.md') return toDocsRoute('reference', 'process-guard-reference');
+		if (docsLiveRel === 'reference/ANNOTATION-REFERENCE.md') return toDocsRoute('reference', 'annotation-reference');
+		if (docsLiveRel === 'reference/SESSION-WORKFLOW-GUIDE.md') return toDocsRoute('reference', 'session-workflow-guide');
+		if (docsLiveRel === 'reference/REFERENCE-SAMPLE.md') return toDocsRoute('reference', 'reference-sample');
+		// Business rules
+		if (docsLiveRel === 'BUSINESS-RULES.md') return toDocsRoute('business-rules', '');
+		if (/^business-rules\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
+			return toDocsRoute('business-rules', slug);
+		}
+		// Taxonomy
+		if (docsLiveRel === 'TAXONOMY.md') return toDocsRoute('taxonomy', '');
+		if (/^taxonomy\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
+			return toDocsRoute('taxonomy', slug);
+		}
+		// Validation
+		if (docsLiveRel === 'VALIDATION-RULES.md') return toDocsRoute('validation', '');
+		if (/^validation\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
+			return toDocsRoute('validation', slug);
+		}
+		// Decisions
+		if (docsLiveRel === 'DECISIONS.md') return toDocsRoute('decisions', '');
 		if (/^decisions\/.+\.md$/i.test(docsLiveRel)) {
 			const slug = basename(docsLiveRel, '.md').toLowerCase();
 			return toDocsRoute('decisions', slug);
 		}
-		// Business rules (moved from docs-generated/ in v1.0.0-pre.2)
-		if (docsLiveRel === 'BUSINESS-RULES.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/`;
-		if (/^business-rules\/.+\.md$/i.test(docsLiveRel)) {
-			const slug = basename(docsLiveRel, '.md').toLowerCase();
-			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/${slug}/`;
-		}
-		// Taxonomy (moved from docs-generated/ in v1.0.0-pre.2)
-		if (docsLiveRel === 'TAXONOMY.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/`;
-		if (/^taxonomy\/.+\.md$/i.test(docsLiveRel)) {
-			const slug = basename(docsLiveRel, '.md').toLowerCase();
-			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/${slug}/`;
-		}
-		// Reference sample (moved from docs-generated/docs/ in v1.0.0-pre.2)
-		if (docsLiveRel === 'reference/REFERENCE-SAMPLE.md')
-			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/reference-sample/`;
+		// Changelog
+		if (docsLiveRel === 'CHANGELOG-GENERATED.md') return toDocsRoute('changelog', '');
 		// Catch-all: unsynced docs-live markdown files → link to GitHub
 		if (docsLiveRel.endsWith('.md'))
 			return `https://github.com/libar-dev/delivery-process/blob/main/docs-live/${docsLiveRel}`;
@@ -358,6 +373,42 @@ function validateTutorialParts(parts) {
 	return errors;
 }
 
+// ── Sync: docs-live/ helper ──
+
+/** Sync an index file + subdirectory of .md files from docs-live/ */
+function syncDocsLiveSection(indexFile, subDir, targetDirName, { indexLabel, startOrder = 0 } = {}) {
+	if (!SOURCES.docsLive) return;
+
+	const targetDir = join(DOCS_TARGET, targetDirName);
+	ensureDir(targetDir);
+
+	// Index file
+	const indexSrc = join(SOURCES.docsLive, indexFile);
+	if (existsSync(indexSrc)) {
+		copyAndProcess(indexSrc, join(targetDir, 'index.md'), {
+			sidebarOrder: startOrder,
+			sidebarLabel: indexLabel || 'Overview',
+			editUrl: false,
+			generated: true,
+		});
+	}
+
+	// Subdirectory files
+	if (subDir) {
+		const srcDir = join(SOURCES.docsLive, subDir);
+		if (existsSync(srcDir)) {
+			let order = startOrder + 1;
+			for (const file of readdirSync(srcDir).filter(f => f.endsWith('.md')).sort()) {
+				copyAndProcess(join(srcDir, file), join(targetDir, file.toLowerCase()), {
+					sidebarOrder: order++,
+					editUrl: false,
+					generated: true,
+				});
+			}
+		}
+	}
+}
+
 // ── Sync functions ──
 
 function syncManualDocs() {
@@ -366,9 +417,8 @@ function syncManualDocs() {
 		return;
 	}
 
-	console.log('  [sync] Syncing manual docs...');
+	console.log('  [sync] Syncing manual guides...');
 
-	// Guides
 	const guidesDir = join(DOCS_TARGET, 'guides');
 	ensureDir(guidesDir);
 	for (const file of DELIVERY_PROCESS_MANUAL_DOCS.guides) {
@@ -380,119 +430,110 @@ function syncManualDocs() {
 			console.warn(`  [sync] WARNING: ${file.source} not found`);
 		}
 	}
+}
 
-	// Reference
-	const refDir = join(DOCS_TARGET, 'reference');
-	ensureDir(refDir);
-	for (const file of DELIVERY_PROCESS_MANUAL_DOCS.reference) {
-		const src = join(SOURCES.docs, file.source);
+function syncArchitecture() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing architecture...');
+
+	const targetDir = join(DOCS_TARGET, 'architecture');
+	ensureDir(targetDir);
+
+	// Main architecture overview
+	const archSrc = join(SOURCES.docsLive, 'ARCHITECTURE.md');
+	if (existsSync(archSrc)) {
+		copyAndProcess(archSrc, join(targetDir, 'index.md'), {
+			sidebarOrder: 0,
+			sidebarLabel: 'Overview',
+			editUrl: false,
+			generated: true,
+		});
+	}
+
+	// Architecture sub-docs from reference/
+	const codecs = join(SOURCES.docsLive, 'reference', 'ARCHITECTURE-CODECS.md');
+	if (existsSync(codecs)) {
+		copyAndProcess(codecs, join(targetDir, 'codecs.md'), { sidebarOrder: 1, editUrl: false, generated: true });
+	}
+
+	const types = join(SOURCES.docsLive, 'reference', 'ARCHITECTURE-TYPES.md');
+	if (existsSync(types)) {
+		copyAndProcess(types, join(targetDir, 'types.md'), { sidebarOrder: 2, editUrl: false, generated: true });
+	}
+}
+
+function syncReference() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing reference docs...');
+
+	const targetDir = join(DOCS_TARGET, 'reference');
+	ensureDir(targetDir);
+
+	const refFiles = [
+		{ source: 'PROCESS-API-REFERENCE.md', slug: 'process-api-reference', order: 1 },
+		{ source: 'PROCESS-API-RECIPES.md', slug: 'process-api-recipes', order: 2 },
+		{ source: 'PROCESS-GUARD-REFERENCE.md', slug: 'process-guard-reference', order: 3 },
+		{ source: 'ANNOTATION-REFERENCE.md', slug: 'annotation-reference', order: 4 },
+		{ source: 'SESSION-WORKFLOW-GUIDE.md', slug: 'session-workflow-guide', order: 5 },
+		{ source: 'REFERENCE-SAMPLE.md', slug: 'reference-sample', order: 6 },
+	];
+
+	for (const file of refFiles) {
+		const src = join(SOURCES.docsLive, 'reference', file.source);
 		if (existsSync(src)) {
-			const dest = join(refDir, `${file.slug}.md`);
-			copyAndProcess(src, dest, { sidebarOrder: file.order });
-		} else {
-			console.warn(`  [sync] WARNING: ${file.source} not found`);
+			copyAndProcess(src, join(targetDir, `${file.slug}.md`), {
+				sidebarOrder: file.order,
+				editUrl: false,
+				generated: true,
+			});
 		}
 	}
 }
 
 function syncProductAreas() {
-	if (!SOURCES.docsLive) {
-		console.warn('  [sync] WARNING: delivery-process/docs-live/ not found, skipping product areas');
-		return;
-	}
-
+	if (!SOURCES.docsLive) return;
 	console.log('  [sync] Syncing product areas...');
-	const targetDir = join(DOCS_TARGET, 'product-areas');
-	ensureDir(targetDir);
+	syncDocsLiveSection('PRODUCT-AREAS.md', 'product-areas', 'product-areas');
+}
 
-	// Index file
-	const indexSrc = join(SOURCES.docsLive, 'PRODUCT-AREAS.md');
-	if (existsSync(indexSrc)) {
-		copyAndProcess(indexSrc, join(targetDir, 'index.md'), { sidebarOrder: 0, sidebarLabel: 'Overview', editUrl: false, generated: true });
-	}
+function syncBusinessRules() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing business rules...');
+	syncDocsLiveSection('BUSINESS-RULES.md', 'business-rules', 'business-rules', { indexLabel: 'Business Rules' });
+}
 
-	// Individual product area files
-	const paDir = join(SOURCES.docsLive, 'product-areas');
-	if (existsSync(paDir)) {
-		let order = 1;
-		for (const file of readdirSync(paDir).filter(f => f.endsWith('.md')).sort()) {
-			copyAndProcess(join(paDir, file), join(targetDir, file.toLowerCase()), { sidebarOrder: order++, editUrl: false, generated: true });
-		}
-	}
+function syncTaxonomy() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing taxonomy...');
+	syncDocsLiveSection('TAXONOMY.md', 'taxonomy', 'taxonomy', { indexLabel: 'Taxonomy' });
+}
+
+function syncValidation() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing validation...');
+	syncDocsLiveSection('VALIDATION-RULES.md', 'validation', 'validation', { indexLabel: 'Validation Rules' });
 }
 
 function syncDecisions() {
-	if (!SOURCES.docsLive) {
-		console.warn('  [sync] WARNING: delivery-process/docs-live/ not found, skipping decisions');
-		return;
-	}
-
+	if (!SOURCES.docsLive) return;
 	console.log('  [sync] Syncing architecture decisions...');
-	const targetDir = join(DOCS_TARGET, 'decisions');
-	ensureDir(targetDir);
-
-	// Index file
-	const indexSrc = join(SOURCES.docsLive, 'DECISIONS.md');
-	if (existsSync(indexSrc)) {
-		copyAndProcess(indexSrc, join(targetDir, 'index.md'), { sidebarOrder: 0, sidebarLabel: 'Overview', editUrl: false, generated: true });
-	}
-
-	// Individual ADR files
-	const adrDir = join(SOURCES.docsLive, 'decisions');
-	if (existsSync(adrDir)) {
-		let order = 1;
-		for (const file of readdirSync(adrDir).filter(f => f.endsWith('.md')).sort()) {
-			copyAndProcess(join(adrDir, file), join(targetDir, file), { sidebarOrder: order++, editUrl: false, generated: true });
-		}
-	}
+	syncDocsLiveSection('DECISIONS.md', 'decisions', 'decisions');
 }
 
-function syncGenerated() {
-	if (!SOURCES.docsLive) {
-		console.warn('  [sync] WARNING: delivery-process/docs-live/ not found, skipping generated docs');
-		return;
-	}
+function syncChangelog() {
+	if (!SOURCES.docsLive) return;
+	console.log('  [sync] Syncing changelog...');
 
-	console.log('  [sync] Syncing generated reference docs...');
-	const targetDir = join(DOCS_TARGET, 'generated');
+	const targetDir = join(DOCS_TARGET, 'changelog');
 	ensureDir(targetDir);
 
-	// Business rules index + per-area files (in docs-live/ since v1.0.0-pre.2)
-	const brSrc = join(SOURCES.docsLive, 'BUSINESS-RULES.md');
-	if (existsSync(brSrc)) {
-		const brDir = join(targetDir, 'business-rules');
-		ensureDir(brDir);
-		copyAndProcess(brSrc, join(brDir, 'index.md'), { sidebarOrder: 0, sidebarLabel: 'Business Rules', editUrl: false, generated: true });
-
-		const brSubDir = join(SOURCES.docsLive, 'business-rules');
-		if (existsSync(brSubDir)) {
-			let order = 1;
-			for (const file of readdirSync(brSubDir).filter(f => f.endsWith('.md')).sort()) {
-				copyAndProcess(join(brSubDir, file), join(brDir, file), { sidebarOrder: order++, editUrl: false, generated: true });
-			}
-		}
-	}
-
-	// Taxonomy index + sub-files (in docs-live/ since v1.0.0-pre.2)
-	const taxSrc = join(SOURCES.docsLive, 'TAXONOMY.md');
-	if (existsSync(taxSrc)) {
-		const taxDir = join(targetDir, 'taxonomy');
-		ensureDir(taxDir);
-		copyAndProcess(taxSrc, join(taxDir, 'index.md'), { sidebarOrder: 10, sidebarLabel: 'Taxonomy', editUrl: false, generated: true });
-
-		const taxSubDir = join(SOURCES.docsLive, 'taxonomy');
-		if (existsSync(taxSubDir)) {
-			let order = 11;
-			for (const file of readdirSync(taxSubDir).filter(f => f.endsWith('.md')).sort()) {
-				copyAndProcess(join(taxSubDir, file), join(taxDir, file), { sidebarOrder: order++, editUrl: false, generated: true });
-			}
-		}
-	}
-
-	// Reference sample (at docs-live/reference/ since v1.0.0-pre.2)
-	const refSrc = join(SOURCES.docsLive, 'reference', 'REFERENCE-SAMPLE.md');
-	if (existsSync(refSrc)) {
-		copyAndProcess(refSrc, join(targetDir, 'reference-sample.md'), { sidebarOrder: 20, editUrl: false, generated: true });
+	const src = join(SOURCES.docsLive, 'CHANGELOG-GENERATED.md');
+	if (existsSync(src)) {
+		copyAndProcess(src, join(targetDir, 'index.md'), {
+			sidebarOrder: 0,
+			editUrl: false,
+			generated: true,
+		});
 	}
 }
 
@@ -599,9 +640,14 @@ for (const subdir of DELIVERY_PROCESS_SYNC_SUBDIRS) {
 }
 
 syncManualDocs();
+syncArchitecture();
 syncProductAreas();
+syncReference();
+syncBusinessRules();
+syncTaxonomy();
+syncValidation();
 syncDecisions();
-syncGenerated();
+syncChangelog();
 syncTutorial();
 
 console.log('[sync-content] Done!');
