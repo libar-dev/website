@@ -23,7 +23,7 @@
 		"sharp": "^0.34.2"
 	},
 	"devDependencies": {
-		"@libar-dev/delivery-process": "1.0.0-pre.1",
+		"@libar-dev/delivery-process": "1.0.0-pre.2",
 		"remark-parse": "^11.0.0",
 		"remark-stringify": "^11.0.0",
 		"unified": "^11.0.5",

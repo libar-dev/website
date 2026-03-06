@@ -64,7 +64,7 @@ To add a new package's docs (e.g. `zod-convex-packages`):
 
 ## Deployment
 
-GitHub Actions (`.github/workflows/deploy.yml`) deploys to GitHub Pages on push to `main`. It checks out `libar-dev/delivery-process-tutorials` as a sibling for the tutorial, then runs `pnpm build` (which triggers `prebuild` → sync → Astro build). Docs content (`docs/`, `docs-live/`, `docs-generated/`) comes from `@libar-dev/delivery-process` via `node_modules` (installed by `pnpm install`).
+GitHub Actions (`.github/workflows/deploy.yml`) deploys to GitHub Pages on push to `main`. It checks out `libar-dev/delivery-process-tutorials` as a sibling for the tutorial, then runs `pnpm build` (which triggers `prebuild` → sync → Astro build). Docs content (`docs/`, `docs-live/`) comes from `@libar-dev/delivery-process` via `node_modules` (installed by `pnpm install`).
 
 **Live at `https://libar.dev`** — custom domain is configured; `public/CNAME` and `site` in `astro.config.mjs` are set.
 

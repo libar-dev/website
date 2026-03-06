@@ -11,13 +11,12 @@
  *
  * Sources (local dev):
  *   ../delivery-process/docs/          → manual docs
- *   ../delivery-process/docs-live/     → auto-generated (product areas, decisions)
- *   ../delivery-process/docs-generated/ → auto-generated (business rules, taxonomy)
+ *   ../delivery-process/docs-live/     → auto-generated (product areas, decisions, business rules, taxonomy)
  *   ../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md → tutorial
  *
  * Sources (CI — tutorial repo checked out as sibling; delivery-process via node_modules):
  *   ./delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md
- *   node_modules/@libar-dev/delivery-process/{docs,docs-live,docs-generated}
+ *   node_modules/@libar-dev/delivery-process/{docs,docs-live}
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
@@ -75,12 +74,6 @@ const SOURCES = {
 		'node_modules/@libar-dev/delivery-process/docs-live',
 		'SYNC_SOURCE_DOCS_LIVE',
 	),
-	docsGenerated: resolveSource(
-		'../delivery-process/docs-generated',
-		'./delivery-process/docs-generated',
-		'node_modules/@libar-dev/delivery-process/docs-generated',
-		'SYNC_SOURCE_DOCS_GENERATED',
-	),
 	readme: resolveSource('../delivery-process/README.md', './delivery-process/README.md', null, 'SYNC_SOURCE_README'),
 	tutorial: resolveSource(
 		'../delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md',
@@ -93,7 +86,6 @@ const SOURCES = {
 const REQUIRED_SOURCES = [
 	{ key: 'docs', label: 'delivery-process/docs' },
 	{ key: 'docsLive', label: 'delivery-process/docs-live' },
-	{ key: 'docsGenerated', label: 'delivery-process/docs-generated' },
 	{ key: 'tutorial', label: 'delivery-process-tutorials/TUTORIAL-ARTICLE-v1.md' },
 ];
 const REQUIRED_SOURCE_FILES = [
@@ -109,8 +101,8 @@ const REQUIRED_SOURCE_FILES = [
 	})),
 	{ key: 'docsLive', relativePath: 'PRODUCT-AREAS.md', label: 'delivery-process/docs-live/PRODUCT-AREAS.md' },
 	{ key: 'docsLive', relativePath: 'DECISIONS.md', label: 'delivery-process/docs-live/DECISIONS.md' },
-	{ key: 'docsGenerated', relativePath: 'BUSINESS-RULES.md', label: 'delivery-process/docs-generated/BUSINESS-RULES.md' },
-	{ key: 'docsGenerated', relativePath: 'TAXONOMY.md', label: 'delivery-process/docs-generated/TAXONOMY.md' },
+	{ key: 'docsLive', relativePath: 'BUSINESS-RULES.md', label: 'delivery-process/docs-live/BUSINESS-RULES.md' },
+	{ key: 'docsLive', relativePath: 'TAXONOMY.md', label: 'delivery-process/docs-live/TAXONOMY.md' },
 ];
 const EXPECTED_TUTORIAL_PARTS = Number.parseInt(process.env.TUTORIAL_EXPECTED_PARTS || '10', 10);
 const MARKDOWN_PROCESSOR = unified().use(remarkParse).use(remarkStringify, {
@@ -190,22 +182,24 @@ function getSyncedRouteForSourceFile(sourceFilePath) {
 			const slug = basename(docsLiveRel, '.md').toLowerCase();
 			return toDocsRoute('decisions', slug);
 		}
-	}
-
-	const docsGeneratedRel = getSourceRelativePath(SOURCES.docsGenerated, sourceFilePath);
-	if (docsGeneratedRel) {
-		if (docsGeneratedRel === 'BUSINESS-RULES.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/`;
-		if (docsGeneratedRel === 'TAXONOMY.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/`;
-		if (docsGeneratedRel === 'docs/REFERENCE-SAMPLE.md')
-			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/reference-sample/`;
-		if (/^business-rules\/.+\.md$/i.test(docsGeneratedRel)) {
-			const slug = basename(docsGeneratedRel, '.md').toLowerCase();
+		// Business rules (moved from docs-generated/ in v1.0.0-pre.2)
+		if (docsLiveRel === 'BUSINESS-RULES.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/`;
+		if (/^business-rules\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
 			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/business-rules/${slug}/`;
 		}
-		if (/^taxonomy\/.+\.md$/i.test(docsGeneratedRel)) {
-			const slug = basename(docsGeneratedRel, '.md').toLowerCase();
+		// Taxonomy (moved from docs-generated/ in v1.0.0-pre.2)
+		if (docsLiveRel === 'TAXONOMY.md') return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/`;
+		if (/^taxonomy\/.+\.md$/i.test(docsLiveRel)) {
+			const slug = basename(docsLiveRel, '.md').toLowerCase();
 			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/taxonomy/${slug}/`;
 		}
+		// Reference sample (moved from docs-generated/docs/ in v1.0.0-pre.2)
+		if (docsLiveRel === 'reference/REFERENCE-SAMPLE.md')
+			return `/${DELIVERY_PROCESS_DOCS.slug}/generated/reference-sample/`;
+		// Catch-all: unsynced docs-live markdown files → link to GitHub
+		if (docsLiveRel.endsWith('.md'))
+			return `https://github.com/libar-dev/delivery-process/blob/main/docs-live/${docsLiveRel}`;
 	}
 
 	return null;
@@ -454,8 +448,8 @@ function syncDecisions() {
 }
 
 function syncGenerated() {
-	if (!SOURCES.docsGenerated) {
-		console.warn('  [sync] WARNING: delivery-process/docs-generated/ not found, skipping generated docs');
+	if (!SOURCES.docsLive) {
+		console.warn('  [sync] WARNING: delivery-process/docs-live/ not found, skipping generated docs');
 		return;
 	}
 
@@ -463,14 +457,14 @@ function syncGenerated() {
 	const targetDir = join(DOCS_TARGET, 'generated');
 	ensureDir(targetDir);
 
-	// Business rules index + per-area files
-	const brSrc = join(SOURCES.docsGenerated, 'BUSINESS-RULES.md');
+	// Business rules index + per-area files (in docs-live/ since v1.0.0-pre.2)
+	const brSrc = join(SOURCES.docsLive, 'BUSINESS-RULES.md');
 	if (existsSync(brSrc)) {
 		const brDir = join(targetDir, 'business-rules');
 		ensureDir(brDir);
 		copyAndProcess(brSrc, join(brDir, 'index.md'), { sidebarOrder: 0, sidebarLabel: 'Business Rules', editUrl: false, generated: true });
 
-		const brSubDir = join(SOURCES.docsGenerated, 'business-rules');
+		const brSubDir = join(SOURCES.docsLive, 'business-rules');
 		if (existsSync(brSubDir)) {
 			let order = 1;
 			for (const file of readdirSync(brSubDir).filter(f => f.endsWith('.md')).sort()) {
@@ -479,14 +473,14 @@ function syncGenerated() {
 		}
 	}
 
-	// Taxonomy index + sub-files
-	const taxSrc = join(SOURCES.docsGenerated, 'TAXONOMY.md');
+	// Taxonomy index + sub-files (in docs-live/ since v1.0.0-pre.2)
+	const taxSrc = join(SOURCES.docsLive, 'TAXONOMY.md');
 	if (existsSync(taxSrc)) {
 		const taxDir = join(targetDir, 'taxonomy');
 		ensureDir(taxDir);
 		copyAndProcess(taxSrc, join(taxDir, 'index.md'), { sidebarOrder: 10, sidebarLabel: 'Taxonomy', editUrl: false, generated: true });
 
-		const taxSubDir = join(SOURCES.docsGenerated, 'taxonomy');
+		const taxSubDir = join(SOURCES.docsLive, 'taxonomy');
 		if (existsSync(taxSubDir)) {
 			let order = 11;
 			for (const file of readdirSync(taxSubDir).filter(f => f.endsWith('.md')).sort()) {
@@ -495,8 +489,8 @@ function syncGenerated() {
 		}
 	}
 
-	// Reference sample
-	const refSrc = join(SOURCES.docsGenerated, 'docs', 'REFERENCE-SAMPLE.md');
+	// Reference sample (at docs-live/reference/ since v1.0.0-pre.2)
+	const refSrc = join(SOURCES.docsLive, 'reference', 'REFERENCE-SAMPLE.md');
 	if (existsSync(refSrc)) {
 		copyAndProcess(refSrc, join(targetDir, 'reference-sample.md'), { sidebarOrder: 20, editUrl: false, generated: true });
 	}

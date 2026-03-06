@@ -127,12 +127,10 @@ test('sync-content strict mode fails when required source files are missing', ()
 	try {
 		const docs = join(fixtureRoot, 'docs');
 		const docsLive = join(fixtureRoot, 'docs-live');
-		const docsGenerated = join(fixtureRoot, 'docs-generated');
 		const tutorial = join(fixtureRoot, 'TUTORIAL-ARTICLE-v1.md');
 
 		mkdirSync(docs, { recursive: true });
 		mkdirSync(docsLive, { recursive: true });
-		mkdirSync(docsGenerated, { recursive: true });
 		writeFileSync(tutorial, '# Tutorial\n\n## Part 1: Start\n');
 
 		const sync = spawnSync('node', ['scripts/sync-content.mjs', '--strict'], {
@@ -142,7 +140,6 @@ test('sync-content strict mode fails when required source files are missing', ()
 				CI: 'true',
 				SYNC_SOURCE_DOCS: docs,
 				SYNC_SOURCE_DOCS_LIVE: docsLive,
-				SYNC_SOURCE_DOCS_GENERATED: docsGenerated,
 				SYNC_SOURCE_TUTORIAL: tutorial,
 			},
 			encoding: 'utf8',

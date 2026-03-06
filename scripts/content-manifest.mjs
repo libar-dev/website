@@ -19,7 +19,6 @@ export const DELIVERY_PROCESS_MANUAL_DOCS = {
 		{ source: 'SESSION-GUIDES.md', slug: 'session-guides', order: 3 },
 		{ source: 'GHERKIN-PATTERNS.md', slug: 'gherkin-patterns', order: 4 },
 		{ source: 'ANNOTATION-GUIDE.md', slug: 'annotation-guide', order: 5 },
-		{ source: 'PUBLISHING.md', slug: 'publishing', order: 6 },
 	],
 	reference: [
 		{ source: 'ARCHITECTURE.md', slug: 'architecture', order: 1 },
@@ -57,6 +56,7 @@ export const DELIVERY_PROCESS_LINK_REWRITES = {
 	'../README.md': `/${DELIVERY_PROCESS_DOCS.slug}/getting-started/`,
 	'../CHANGELOG.md': 'https://github.com/libar-dev/delivery-process/blob/main/CHANGELOG.md',
 	'../SECURITY.md': 'https://github.com/libar-dev/delivery-process/blob/main/SECURITY.md',
+	'./PUBLISHING.md': 'https://github.com/libar-dev/delivery-process/blob/main/MAINTAINERS.md',
 	'../CLAUDE.md': 'https://github.com/libar-dev/delivery-process/blob/main/CLAUDE.md',
 	'../src/taxonomy/': 'https://github.com/libar-dev/delivery-process/tree/main/src/taxonomy/',
 	'../tests/features/validation/fsm-validator.feature':

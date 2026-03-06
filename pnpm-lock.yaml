@@ -25,8 +25,8 @@ importers:
         version: 0.34.5
     devDependencies:
       '@libar-dev/delivery-process':
-        specifier: 1.0.0-pre.1
-        version: 1.0.0-pre.1(typescript@5.9.3)
+        specifier: 1.0.0-pre.2
+        version: 1.0.0-pre.2(typescript@5.9.3)
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -606,8 +606,8 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@libar-dev/delivery-process@1.0.0-pre.1':
-    resolution: {integrity: sha512-rFMede1eueYDM7f1HzA0ZXvAnOZoENQImDAdeAKOr6N6P7HQ1HsOeGvggZbMwc3OrqcherhHQNZ24EwfpJiAHg==}
+  '@libar-dev/delivery-process@1.0.0-pre.2':
+    resolution: {integrity: sha512-LuUJwuPFdZbtJc1UoDbukk38du7tdhT+smvLm1uTRoiYW/adwVjtfSu1RKSCaIAAHN1wk4XgUA5wVRHtyKa9yw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -3050,7 +3050,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@libar-dev/delivery-process@1.0.0-pre.1(typescript@5.9.3)':
+  '@libar-dev/delivery-process@1.0.0-pre.2(typescript@5.9.3)':
     dependencies:
       '@cucumber/gherkin': 29.0.0
       '@cucumber/messages': 25.0.1
